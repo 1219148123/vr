@@ -6,6 +6,8 @@ import  axios  from  'axios'
 import  ElementUI  from  'element-ui'
 import  'element-ui/lib/theme-chalk/index.css'
 import qs from 'qs'
+import 'bootstrap'
+import $ from 'jquery'
 
 axios.defaults.withCredentials = true;
 Vue.prototype.$qs = qs
