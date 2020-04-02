@@ -7,7 +7,9 @@ import  ElementUI  from  'element-ui'
 import  'element-ui/lib/theme-chalk/index.css'
 import qs from 'qs'
 import 'bootstrap'
-import $ from 'jquery'
+
+import layer from 'vue-layer'
+Vue.prototype.$layer = layer(Vue);
 
 axios.defaults.withCredentials = true;
 Vue.prototype.$qs = qs

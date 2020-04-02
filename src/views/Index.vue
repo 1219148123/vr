@@ -31,13 +31,27 @@
 							<span class="fa fa-phone" aria-hidden="true"></span> 001 234 5678
 						</li>
 						<li>
-							<a data-toggle="modal" data-target="#myModal1">
+							<a v-if="User==''" data-toggle="modal" data-target="#myModal1">
 								<span class="fa fa-unlock-alt" aria-hidden="true"></span> 登录
+							</a>
+							<a
+								v-else-if="User.userName==''||User.userPlanSpent==0"
+								data-toggle="modal"
+								data-target="#myModal3"
+							>
+								<span class="fa fa-grav" aria-hidden="true"></span> 点击完善信息
+							</a>
+							<a v-else data-toggle="modal" data-target="#myModal1">
+								<span class="fa fa-address-book-o" aria-hidden="true"></span>
+								欢迎{{User.userName}}
 							</a>
 						</li>
 						<li>
-							<a href="#" data-toggle="modal" data-target="#myModal2">
+							<a v-if="User==''" data-toggle="modal" data-target="#myModal2">
 								<span class="fa fa-pencil-square-o" aria-hidden="true"></span> 注册
+							</a>
+							<a v-else-if="User!='' && User.openStore==0" data-toggle="modal" data-target="#myModal4">
+								<span class="fa fa-pencil-square-o" aria-hidden="true"></span> 点击开店
 							</a>
 						</li>
 					</ul>
@@ -98,10 +112,10 @@
 								<a href="#" data-toggle="modal" data-target="#myModal2">马上注册</a>
 							</p>
 							<div class="styled-input agile-styled-input-top">
-								<input type="text" placeholder="账号"  v-model="User.userAccount" required />
+								<input type="text" placeholder="账号" v-model="Login.userAccount" required />
 							</div>
 							<div class="styled-input">
-								<input type="password" placeholder="密码" v-model="User.userPassword" required />
+								<input type="password" placeholder="密码" v-model="Login.userPassword" required />
 							</div>
 							<input type="submit" value="登录" @click="login()" data-dismiss="modal" />
 							<div class="clearfix"></div>
@@ -130,18 +144,16 @@
 						<div class="modal_body_left modal_body_left1">
 							<h3 class="agileinfo_sign">快速注册</h3>
 							<p>欢迎加入hzs在线商城!</p>
-							<form action="#" method="post">
-								<div class="styled-input agile-styled-input-top">
-									<input type="text" placeholder="账号" name="Name" required />
-								</div>
-								<div class="styled-input">
-									<input type="password" placeholder="密码" name="password" id="password1" required />
-								</div>
-								<div class="styled-input">
-									<input type="password" placeholder="确认密码" name="password" id="password2" required />
-								</div>
-								<input type="submit" value="注册" />
-							</form>
+							<div class="styled-input agile-styled-input-top">
+								<input type="text" placeholder="账号" v-model="Register.userAccount" required />
+							</div>
+							<div class="styled-input">
+								<input type="password" placeholder="密码" v-model="Register.userPassword" required />
+							</div>
+							<div class="styled-input">
+								<input type="password" placeholder="确认密码" v-model="Register.userRePassword" required />
+							</div>
+							<input type="submit" value="注册" @click="register()" data-dismiss="modal" />
 						</div>
 					</div>
 				</div>
@@ -152,6 +164,93 @@
 		<!-- //signup Model -->
 		<!-- //header-bot -->
 
+		<!-- Modal3 -->
+		<div class="modal fade" id="myModal3" tabindex="-1" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body modal-body-sub_agile">
+						<div class="main-mailposi">
+							<span class="fa fa-envelope-o" aria-hidden="true"></span>
+						</div>
+						<div class="modal_body_left modal_body_left1">
+							<h3 class="agileinfo_sign">完善信息,规划本月计划消费额度</h3>
+							<p>欢迎加入hzs在线商城!</p>
+							<div class="styled-input">
+								<label>
+									<input type="radio" value="男" aria-label="男" v-model="Update.sex" />男
+								</label>
+								<label>
+									<input type="radio" value="女" aria-label="女" v-model="Update.sex" />女
+								</label>
+							</div>
+							<div class="styled-input agile-styled-input-top">
+								<input type="text" placeholder="姓名" v-model="Update.userName" required />
+							</div>
+							<div class="styled-input">
+								<input type="text" placeholder="电话" v-model="Update.userPhone" required />
+							</div>
+							<div class="styled-input">
+								<input type="email" placeholder="E-mail" name="Email" v-model="Update.userEmail" />
+							</div>
+							<div class="styled-input">
+								<input type="text" placeholder="本月消费额度$" v-model="Update.userPlanSpent" required />
+							</div>
+							<br />
+							<input type="submit" value="提交" @click="update()" data-dismiss="modal" />
+						</div>
+					</div>
+				</div>
+				<!-- //Modal content-->
+			</div>
+		</div>
+		<!-- //Modal3 -->
+		<!-- Modal4 -->
+		<div class="modal fade" id="myModal4" tabindex="-1" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body modal-body-sub_agile">
+						<div class="main-mailposi">
+							<span class="fa fa-envelope-o" aria-hidden="true"></span>
+						</div>
+						<div class="modal_body_left modal_body_left1">
+							<h3 class="agileinfo_sign">开店</h3>
+							<p>输入店铺信息</p>
+							<div class="styled-input agile-styled-input-top">
+								<input type="text" placeholder="姓名" v-model="OpenStore.storeName" required />
+							</div>
+							<div class="styled-input">
+								<input type="text" placeholder="电话" v-model="OpenStore.storeDesc" required />
+							</div>
+							<div class="styled-input">
+								<input type="email" placeholder="E-mail" name="Email" v-model="OpenStore.storeCate" />
+							</div>
+							<select class="form-control">
+								<option>1</option>
+								<option>2</option>
+								<option>3</option>
+								<option>4</option>
+								<option>5</option>
+							</select>
+							<div class="styled-input">
+								<input type="file" placeholder="本月消费额度$" v-on:change="OpenStore.file" required />
+							</div>
+							<br />
+							<input type="submit" value="提交" @click="openStore()" data-dismiss="modal" />
+						</div>
+					</div>
+				</div>
+				<!-- //Modal content-->
+			</div>
+		</div>
+		<!-- //Modal4 -->
 		<!-- navigation -->
 		<div class="ban-top">
 			<div class="container">
@@ -1216,24 +1315,57 @@
 export default {
 	data() {
 		return {
-			User: {
+			User: {},
+			Update: {
+				sex: '',
+				userEmail: '',
+				userId: '',
+				userName: '',
+				userPhone: '',
+				userPlanSpent: 0
+			},
+			layer: {},
+			Login: {
 				userAccount: '',
 				userPassword: ''
+			},
+			Register: {
+				userAccount: '',
+				userPassword: '',
+				userRePassword: ''
+			},
+			OpenStore: {
+				ownerId: '',
+				storeId: '',
+				storeName: '',
+				storeDesc: '',
+				storeCate: '',
+				file: {}
 			}
 		}
 	},
 	mounted: function() {
+		var _this = this
+		layui.use('layer', function() {
+			_this.layer = layui.layer
+		})
 		this.getUser()
 	},
 	methods: {
+		uploadFile(e) {
+			var _this = this
+		},
 		getUser() {
-			this.$axios
+			var _this = this
+			_this.$axios
 				.post('http://localhost:8081/api/user/getUser', {
 					emulateJSON: true,
 					withCredentials: true
 				})
 				.then(res => {
 					console.log(res)
+					_this.User = res.data
+					console.log(_this.User)
 				})
 				.catch(err => {
 					console.log(err.data)
@@ -1242,14 +1374,122 @@ export default {
 		login() {
 			// this.User = this.$qs.stringify(this.User);
 			// console.log(this.User);
-			this.$axios
-				.post('http://localhost:8081/api/user/login', this.User, {
+			var _this = this
+			var loading = _this.layer.load(0, {
+				shade: false,
+				time: 30 * 1000
+			})
+			_this.$axios
+				.post('http://localhost:8081/api/user/login', _this.Login, {
 					emulateJSON: true,
 					withCredentials: true
 				})
 				.then(res => {
+					console.log(res.data)
+					if (res.data == 1) {
+						_this.layer.close(loading)
+						_this.layer.msg('登录成功!')
+						_this.getUser()
+					} else if (res.data == 0) {
+						_this.layer.close(loading)
+						_this.layer.msg('账号不存在!')
+					} else {
+						_this.layer.close(loading)
+						_this.layer.msg('密码错误!')
+					}
+				})
+				.catch(err => {
+					console.log(err.data)
+				})
+		},
+		register() {
+			var _this = this
+			var loading = _this.layer.load(0, {
+				shade: false,
+				time: 30 * 1000
+			})
+			if (_this.Register.userPassword != _this.Register.userRePassword) {
+				_this.layer.msg('两次密码不匹配')
+				_this.layer.close(loading)
+				;(_this.Register.userPassword = ''),
+					(_this.Register.userRePassword = '')
+			} else {
+				_this.$axios
+					.post(
+						'http://localhost:8081/api/user/userSignUp',
+						_this.Register,
+						{
+							emulateJSON: true,
+							withCredentials: true
+						}
+					)
+					.then(res => {
+						console.log(res)
+						if (res.data == 1) {
+							_this.Register = {}
+							_this.layer.close(loading)
+							_this.layer.msg('注册成功!,快登录享受购物吧')
+						}
+					})
+					.catch(err => {
+						console.log(err.data)
+					})
+			}
+		},
+		openStore() {
+			var _this = this
+			_this.OpenStore.ownerId = _this.User.id
+			console.log(_this.OpenStore)
+			// var loading = _this.layer.load(0, {
+			// 	shade: false,
+			// 	time: 30 * 1000
+			// })
+			// _this.$axios
+			// 	.post(
+			// 		'http://localhost:8081/api/store/addStore',
+			// 		_this.OpenStore,
+			// 		{
+			// 			emulateJSON: true,
+			// 			withCredentials: true
+			// 		}
+			// 	)
+			// 	.then(res => {
+			// 		console.log(res)
+			// 		_this.layer.close(loading)
+			// 		// if (res.statusText == 'OK') {
+			// 		// 	_this.layer.close(loading)
+			// 		// 	_this.layer.msg('修改成功!')
+			// 		// 	_this.getUser()
+			// 		// }
+			// 	})
+			// 	.catch(err => {
+			// 		console.log(err.data)
+			// 	})
+		},
+		update() {
+			var _this = this
+			_this.Update.userId = _this.User.id
+			console.log(_this.Update)
+			var loading = _this.layer.load(0, {
+				shade: false,
+				time: 30 * 1000
+			})
+			_this.$axios
+				.post(
+					'http://localhost:8081/api/user/updateUser',
+					_this.Update,
+					{
+						emulateJSON: true,
+						withCredentials: true
+					}
+				)
+				.then(res => {
 					console.log(res)
-					this.getUser()
+					if (res.statusText == 'OK') {
+						_this.layer.close(loading)
+						_this.layer.msg('修改成功!')
+						_this.getUser()
+					}
 				})
 				.catch(err => {
 					console.log(err.data)
@@ -1262,7 +1502,11 @@ export default {
 
 <style lang="scss" scoped>
 @import '../css/bootstrap.css';
-@import '../css/style.css';
+@import '../css/creditly.css';
+@import '../css/easy-responsive-tabs.css';
+@import '../css/flexslider.css';
 @import '../css/font-awesome.css';
+@import '../css/jquery-ui1.css';
 @import '../css/popuo-box.css';
+@import '../css/style.css';
 </style>
