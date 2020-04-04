@@ -7,7 +7,7 @@ import  ElementUI  from  'element-ui'
 import  'element-ui/lib/theme-chalk/index.css'
 import qs from 'qs'
 import 'bootstrap'
-
+import vRegion from 'v-region'
 import layer from 'vue-layer'
 Vue.prototype.$layer = layer(Vue);
 
@@ -16,7 +16,7 @@ Vue.prototype.$qs = qs
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.prototype.$axios  =  axios
-
+Vue.use(vRegion);
 new Vue({
     router,
     store,
