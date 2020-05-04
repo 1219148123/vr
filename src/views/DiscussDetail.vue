@@ -23,7 +23,7 @@
 					<!-- header lists -->
 					<ul>
 						<li>
-							<a @click="toCheckout()">
+							<a href="#" data-toggle="modal" data-target="#myModal1">
 								<span class="fa fa-truck" aria-hidden="true"></span>订单
 							</a>
 						</li>
@@ -53,9 +53,9 @@
 							<a v-else-if="User!='' && User.openStore==0" data-toggle="modal" data-target="#myModal4">
 								<span class="fa fa-pencil-square-o" aria-hidden="true"></span> 点击开店
 							</a>
-							<a v-else-if="User!='' && User.openStore==1" @click="toMyStore()">
-								<span class="fa fa-pencil-square-o" aria-hidden="true"></span> 店铺管理
-							</a>
+							<!-- <a v-else-if="User!='' && User.openStore==1" data-toggle="modal" data-target="#myModal4">
+								<span class="fa fa-pencil-square-o" aria-hidden="true"></span> 新增商品
+							</a>-->
 						</li>
 					</ul>
 					<!-- //header lists -->
@@ -336,7 +336,7 @@
 									</table>
 								</div>
 							</div>
-							<input type="submit" value="下单" @click="toCheckout()" data-dismiss="modal" />
+							<input type="submit" value="提交" @click="openStore()" data-dismiss="modal" />
 						</div>
 					</div>
 				</div>
@@ -344,6 +344,70 @@
 			</div>
 		</div>
 		<!-- //Modal5 -->
+
+		<!-- Modal6 -->
+		<div class="modal fade" id="myModal6" tabindex="-1" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body modal-body-sub_agile">
+						<div class="main-mailposi">
+							<span class="fa fa-envelope-o" aria-hidden="true"></span>
+						</div>
+						<div class="modal_body_left modal_body_left1">
+							<h3 class="agileinfo_sign">新增商品</h3>
+							<p>输入店铺信息</p>
+							<div class="styled-input agile-styled-input-top">
+								<input type="text" placeholder="商品名" v-model="Good.goodName" required />
+							</div>
+							<div class="styled-input">
+								<textarea
+									class="form-control"
+									rows="3"
+									placeholder="商品描述"
+									v-model="Good.description"
+									required
+								/>
+							</div>
+							<div class="styled-input agile-styled-input-top">
+								<input type="text" placeholder="商品价格" v-model="Good.price" required />
+							</div>
+							<div class="styled-input agile-styled-input-top">
+								<input type="text" placeholder="商品库存" v-model="Good.num" required />
+							</div>
+							<div class="styled-input agile-styled-input-top">
+								<input type="text" placeholder="商品优先级" v-model="Good.priority" required />
+							</div>
+							<label for="type">类型选择</label>
+							<select class="form-control" id="type" v-model="Good.category" placeholder="店铺类型">
+								<option
+									selected
+									v-for="TypeList in TypeList"
+									:key="TypeList.cateId"
+									:value="TypeList.cateId"
+								>{{TypeList.cateName}}</option>
+							</select>
+							<div class="styled-input">
+								<input type="file" placeholder="上传图片1" id="file" v-on:change="uploadGoodFile" />
+							</div>
+							<div class="styled-input">
+								<input type="file" placeholder="上传图片2" id="file" v-on:change="uploadGoodFile" />
+							</div>
+							<div class="styled-input">
+								<input type="file" placeholder="上传图片3" id="file" v-on:change="uploadGoodFile" />
+							</div>
+							<br />
+							<input type="submit" value="提交" @click="addGoods()" data-dismiss="modal" />
+						</div>
+					</div>
+				</div>
+				<!-- //Modal content-->
+			</div>
+		</div>
+		<!-- //Modal6 -->
 
 		<!-- navigation -->
 		<div class="ban-top">
@@ -486,666 +550,167 @@
 			</div>
 		</div>
 		<!-- //navigation -->
-		<!-- banner -->
-		<div id="myCarousel" class="carousel slide" data-ride="carousel">
-			<!-- Indicators-->
-			<ol class="carousel-indicators">
-				<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-				<li data-target="#myCarousel" data-slide-to="1" class></li>
-				<li data-target="#myCarousel" data-slide-to="2" class></li>
-				<li data-target="#myCarousel" data-slide-to="3" class></li>
-			</ol>
-			<div class="carousel-inner" role="listbox">
-				<div class="item active">
-					<div class="container">
-						<div class="carousel-caption">
-							<h3>
-								大
-								<span>甩卖</span>
-							</h3>
-							<p>
-								Get flat
-								<span>10%</span> Cashback
-							</p>
-							<a class="button2" href="product.html">Shop Now</a>
-						</div>
-					</div>
-				</div>
-				<div class="item item2">
-					<div class="container">
-						<div class="carousel-caption">
-							<h3>
-								Healthy
-								<span>Saving</span>
-							</h3>
-							<p>
-								Get Upto
-								<span>30%</span> Off
-							</p>
-							<a class="button2" href="product.html">Shop Now</a>
-						</div>
-					</div>
-				</div>
-				<div class="item item3">
-					<div class="container">
-						<div class="carousel-caption">
-							<h3>
-								Big
-								<span>Deal</span>
-							</h3>
-							<p>
-								Get Best Offer Upto
-								<span>20%</span>
-							</p>
-							<a class="button2" href="product.html">Shop Now</a>
-						</div>
-					</div>
-				</div>
-				<div class="item item4">
-					<div class="container">
-						<div class="carousel-caption">
-							<h3>
-								Today
-								<span>Discount</span>
-							</h3>
-							<p>
-								Get Now
-								<span>40%</span> Discount
-							</p>
-							<a class="button2" href="product.html">Shop Now</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-				<span class="sr-only">Previous</span>
-			</a>
-			<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-				<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-				<span class="sr-only">Next</span>
-			</a>
-		</div>
-		<!-- //banner -->
 
-		<!-- top Products -->
-		<div class="ads-grid">
-			<div class="container">
-				<!-- tittle heading -->
-				<h3 class="tittle-w3l">
-					推荐的产品
-					<span class="heading-style">
-						<i></i>
-						<i></i>
-						<i></i>
-					</span>
-				</h3>
-				<!-- //tittle heading -->
-				<!-- 左边栏目 -->
-				<div class="side-bar col-md-3">
-					<div class="search-hotel">
-						<h3 class="agileits-sear-head">Search Here..</h3>
-						<form action="#" method="post">
-							<input type="search" placeholder="Product name..." name="search" required />
-							<input type="submit" value=" " />
-						</form>
-					</div>
-					<!-- 广告位 -->
-					<div class="range">
-						<h3 class="agileits-sear-head">广告位</h3>
-					</div>
-					<!-- //广告位 -->
-					<!-- food preference -->
-					<div class="left-side">
-						<h3 class="agileits-sear-head">Food Preference</h3>
-						<ul>
-							<li>
-								<input type="checkbox" class="checked" />
-								<span class="span">Vegetarian</span>
-							</li>
-							<li>
-								<input type="checkbox" class="checked" />
-								<span class="span">Non-Vegetarian</span>
-							</li>
-						</ul>
-					</div>
-					<!-- //food preference -->
-					<!-- discounts -->
-					<div class="left-side">
-						<h3 class="agileits-sear-head">Discount</h3>
-						<ul>
-							<li>
-								<input type="checkbox" class="checked" />
-								<span class="span">5% or More</span>
-							</li>
-							<li>
-								<input type="checkbox" class="checked" />
-								<span class="span">10% or More</span>
-							</li>
-							<li>
-								<input type="checkbox" class="checked" />
-								<span class="span">20% or More</span>
-							</li>
-							<li>
-								<input type="checkbox" class="checked" />
-								<span class="span">30% or More</span>
-							</li>
-							<li>
-								<input type="checkbox" class="checked" />
-								<span class="span">50% or More</span>
-							</li>
-							<li>
-								<input type="checkbox" class="checked" />
-								<span class="span">60% or More</span>
-							</li>
-						</ul>
-					</div>
-					<!-- //discounts -->
-					<!-- reviews -->
-					<div class="customer-rev left-side">
-						<h3 class="agileits-sear-head">Customer Review</h3>
-						<ul>
-							<li>
-								<a href="#">
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<span>5.0</span>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star-o" aria-hidden="true"></i>
-									<span>4.0</span>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star-half-o" aria-hidden="true"></i>
-									<i class="fa fa-star-o" aria-hidden="true"></i>
-									<span>3.5</span>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star-o" aria-hidden="true"></i>
-									<i class="fa fa-star-o" aria-hidden="true"></i>
-									<span>3.0</span>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star-half-o" aria-hidden="true"></i>
-									<i class="fa fa-star-o" aria-hidden="true"></i>
-									<i class="fa fa-star-o" aria-hidden="true"></i>
-									<span>2.5</span>
-								</a>
-							</li>
-						</ul>
-					</div>
-					<!-- //reviews -->
-
-					<!-- deals -->
-					<div class="deal-leftmk left-side">
-						<h3 class="agileits-sear-head">Special Deals</h3>
-						<div class="special-sec1">
-							<div class="col-xs-4 img-deals">
-								<img src="../images/d2.jpg" alt />
-							</div>
-							<div class="col-xs-8 img-deal1">
-								<h3>Lay's Potato Chips</h3>
-								<a href="single.html">$18.00</a>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-						<div class="special-sec1">
-							<div class="col-xs-4 img-deals">
-								<img src="../images/d1.jpg" alt />
-							</div>
-							<div class="col-xs-8 img-deal1">
-								<h3>Bingo Mad Angles</h3>
-								<a href="single.html">$9.00</a>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-						<div class="special-sec1">
-							<div class="col-xs-4 img-deals">
-								<img src="../images/d4.jpg" alt />
-							</div>
-							<div class="col-xs-8 img-deal1">
-								<h3>Tata Salt</h3>
-								<a href="single.html">$15.00</a>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-						<div class="special-sec1">
-							<div class="col-xs-4 img-deals">
-								<img src="../images/d5.jpg" alt />
-							</div>
-							<div class="col-xs-8 img-deal1">
-								<h3>Gujarat Dry Fruit</h3>
-								<a href="single.html">$525.00</a>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-						<div class="special-sec1">
-							<div class="col-xs-4 img-deals">
-								<img src="../images/d3.jpg" alt />
-							</div>
-							<div class="col-xs-8 img-deal1">
-								<h3>Cadbury Dairy Milk</h3>
-								<a href="single.html">$149.00</a>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-					</div>
-					<!-- //deals -->
-				</div>
-				<!-- //product left -->
-				<!-- product right -->
-				<div class="agileinfo-ads-display col-md-9">
-					<div class="wrapper">
-						<!-- first section (nuts) -->
-						<div class="product-sec1" v-for="item in StoreGoodsList" :key="item.storeId">
-							<h3 class="heading-tittle">{{item.storeName}}</h3>
-							<div class="col-md-4 product-men" v-for="goods in item.storeGoods" :key="goods.goodId">
-								<div class="men-pro-item simpleCart_shelfItem">
-									<div class="men-thumb-item">
-										<!-- <img :src="goods.imgAddr.split(',')[0]" alt /> -->
-										<img :src="imgAddr" />
-										<div class="men-cart-pro">
-											<div class="inner-men-cart-pro">
-												<a href="single.html" class="link-product-add-cart">Quick View</a>
-											</div>
-										</div>
-										<span class="product-new-top">New</span>
-									</div>
-									<div class="item-info-product">
-										<h4>
-											<a href="single.html">{{goods.goodName}}</a>
-										</h4>
-										<div class="info-product-price">
-											<span class="item_price">${{goods.price}}</span>
-											<del>$280.00</del>
-										</div>
-										<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-											<input
-												type="submit"
-												data-toggle="modal"
-												data-target="#myModal5"
-												@click="addCart(goods.goodId)"
-												value="加入购物车"
-												class="button"
-											/>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<div class="clearfix"></div>
-						</div>
-						<!-- //first section (nuts) -->
-						<!-- second section (nuts special) -->
-						<div class="product-sec1 product-sec2">
-							<div class="col-xs-7 effect-bg">
-								<h3 class>Pure Energy</h3>
-								<h6>Enjoy our all healthy Products</h6>
-								<p>Get Extra 10% Off</p>
-							</div>
-							<h3 class="w3l-nut-middle">Nuts & Dry Fruits</h3>
-							<div class="col-xs-5 bg-right-nut">
-								<img src="../images/nut1.png" alt />
-							</div>
-							<div class="clearfix"></div>
-						</div>
-						<!-- //second section (nuts special) -->
-						<!-- third section (oils) -->
-						<div class="product-sec1">
-							<h3 class="heading-tittle">第二个店铺</h3>
-							<div class="col-md-4 product-men">
-								<div class="men-pro-item simpleCart_shelfItem">
-									<div class="men-thumb-item">
-										<img src="../images/mk4.jpg" alt />
-										<div class="men-cart-pro">
-											<div class="inner-men-cart-pro">
-												<a href="single.html" class="link-product-add-cart">Quick View</a>
-											</div>
-										</div>
-										<span class="product-new-top">New</span>
-									</div>
-									<div class="item-info-product">
-										<h4>
-											<a href="single.html">Freedom Oil, 1L</a>
-										</h4>
-										<div class="info-product-price">
-											<span class="item_price">$78.00</span>
-											<del>$110.00</del>
-										</div>
-										<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-											<form action="#" method="post">
-												<fieldset>
-													<input type="hidden" name="cmd" value="_cart" />
-													<input type="hidden" name="add" value="1" />
-													<input type="hidden" name="business" value=" " />
-													<input type="hidden" name="item_name" value="Freedom Sunflower Oil, 1L" />
-													<input type="hidden" name="amount" value="78.00" />
-													<input type="hidden" name="discount_amount" value="1.00" />
-													<input type="hidden" name="currency_code" value="USD" />
-													<input type="hidden" name="return" value=" " />
-													<input type="hidden" name="cancel_return" value=" " />
-													<input type="submit" name="submit" value="Add to cart" class="button" />
-												</fieldset>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-4 product-men">
-								<div class="men-pro-item simpleCart_shelfItem">
-									<div class="men-thumb-item">
-										<img src="../images/mk5.jpg" alt />
-										<div class="men-cart-pro">
-											<div class="inner-men-cart-pro">
-												<a href="single.html" class="link-product-add-cart">Quick View</a>
-											</div>
-										</div>
-										<span class="product-new-top">New</span>
-									</div>
-									<div class="item-info-product">
-										<h4>
-											<a href="single.html">Saffola Gold, 1L</a>
-										</h4>
-										<div class="info-product-price">
-											<span class="item_price">$130.00</span>
-											<del>$150.00</del>
-										</div>
-										<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-											<form action="#" method="post">
-												<fieldset>
-													<input type="hidden" name="cmd" value="_cart" />
-													<input type="hidden" name="add" value="1" />
-													<input type="hidden" name="business" value=" " />
-													<input type="hidden" name="item_name" value="Saffola Gold, 1L" />
-													<input type="hidden" name="amount" value="130.00" />
-													<input type="hidden" name="discount_amount" value="1.00" />
-													<input type="hidden" name="currency_code" value="USD" />
-													<input type="hidden" name="return" value=" " />
-													<input type="hidden" name="cancel_return" value=" " />
-													<input type="submit" name="submit" value="Add to cart" class="button" />
-												</fieldset>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-4 product-men">
-								<div class="men-pro-item simpleCart_shelfItem">
-									<div class="men-thumb-item">
-										<img src="../images/mk6.jpg" alt />
-										<div class="men-cart-pro">
-											<div class="inner-men-cart-pro">
-												<a href="single.html" class="link-product-add-cart">Quick View</a>
-											</div>
-										</div>
-										<span class="product-new-top">New</span>
-									</div>
-									<div class="item-info-product">
-										<h4>
-											<a href="single.html">Fortune Oil, 5L</a>
-										</h4>
-										<div class="info-product-price">
-											<span class="item_price">$399.99</span>
-											<del>$500.00</del>
-										</div>
-										<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-											<form action="#" method="post">
-												<fieldset>
-													<input type="hidden" name="cmd" value="_cart" />
-													<input type="hidden" name="add" value="1" />
-													<input type="hidden" name="business" value=" " />
-													<input type="hidden" name="item_name" value="Fortune Oil, 5L" />
-													<input type="hidden" name="amount" value="399.99" />
-													<input type="hidden" name="discount_amount" value="1.00" />
-													<input type="hidden" name="currency_code" value="USD" />
-													<input type="hidden" name="return" value=" " />
-													<input type="hidden" name="cancel_return" value=" " />
-													<input type="submit" name="submit" value="Add to cart" class="button" />
-												</fieldset>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-						<!-- //third section (oils) -->
-						<!-- fourth section (noodles) -->
-						<div class="product-sec1">
-							<h3 class="heading-tittle">Pasta & Noodles</h3>
-							<div class="col-md-4 product-men">
-								<div class="men-pro-item simpleCart_shelfItem">
-									<div class="men-thumb-item">
-										<img src="../images/mk7.jpg" alt />
-										<div class="men-cart-pro">
-											<div class="inner-men-cart-pro">
-												<a href="single.html" class="link-product-add-cart">Quick View</a>
-											</div>
-										</div>
-									</div>
-									<div class="item-info-product">
-										<h4>
-											<a href="single.html">Yippee Noodles, 65g</a>
-										</h4>
-										<div class="info-product-price">
-											<span class="item_price">$15.00</span>
-											<del>$25.00</del>
-										</div>
-										<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-											<form action="#" method="post">
-												<fieldset>
-													<input type="hidden" name="cmd" value="_cart" />
-													<input type="hidden" name="add" value="1" />
-													<input type="hidden" name="business" value=" " />
-													<input type="hidden" name="item_name" value="YiPPee Noodles, 65g" />
-													<input type="hidden" name="amount" value="15.00" />
-													<input type="hidden" name="discount_amount" value="1.00" />
-													<input type="hidden" name="currency_code" value="USD" />
-													<input type="hidden" name="return" value=" " />
-													<input type="hidden" name="cancel_return" value=" " />
-													<input type="submit" name="submit" value="Add to cart" class="button" />
-												</fieldset>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-4 product-men">
-								<div class="men-pro-item simpleCart_shelfItem">
-									<div class="men-thumb-item">
-										<img src="../images/mk8.jpg" alt />
-										<div class="men-cart-pro">
-											<div class="inner-men-cart-pro">
-												<a href="single.html" class="link-product-add-cart">Quick View</a>
-											</div>
-										</div>
-										<span class="product-new-top">New</span>
-									</div>
-									<div class="item-info-product">
-										<h4>
-											<a href="single.html">Wheat Pasta, 500g</a>
-										</h4>
-										<div class="info-product-price">
-											<span class="item_price">$98.00</span>
-											<del>$120.00</del>
-										</div>
-										<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-											<form action="#" method="post">
-												<fieldset>
-													<input type="hidden" name="cmd" value="_cart" />
-													<input type="hidden" name="add" value="1" />
-													<input type="hidden" name="business" value=" " />
-													<input type="hidden" name="item_name" value="Wheat Pasta, 500g" />
-													<input type="hidden" name="amount" value="98.00" />
-													<input type="hidden" name="discount_amount" value="1.00" />
-													<input type="hidden" name="currency_code" value="USD" />
-													<input type="hidden" name="return" value=" " />
-													<input type="hidden" name="cancel_return" value=" " />
-													<input type="submit" name="submit" value="Add to cart" class="button" />
-												</fieldset>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-4 product-men">
-								<div class="men-pro-item simpleCart_shelfItem">
-									<div class="men-thumb-item">
-										<img src="../images/mk9.jpg" alt />
-										<div class="men-cart-pro">
-											<div class="inner-men-cart-pro">
-												<a href="single.html" class="link-product-add-cart">Quick View</a>
-											</div>
-										</div>
-										<span class="product-new-top">New</span>
-									</div>
-									<div class="item-info-product">
-										<h4>
-											<a href="single.html">Chinese Noodles, 68g</a>
-										</h4>
-										<div class="info-product-price">
-											<span class="item_price">$11.99</span>
-											<del>$15.00</del>
-										</div>
-										<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-											<form action="#" method="post">
-												<fieldset>
-													<input type="hidden" name="cmd" value="_cart" />
-													<input type="hidden" name="add" value="1" />
-													<input type="hidden" name="business" value=" " />
-													<input type="hidden" name="item_name" value="Chinese Noodles, 68g" />
-													<input type="hidden" name="amount" value="11.99" />
-													<input type="hidden" name="discount_amount" value="1.00" />
-													<input type="hidden" name="currency_code" value="USD" />
-													<input type="hidden" name="return" value=" " />
-													<input type="hidden" name="cancel_return" value=" " />
-													<input type="submit" name="submit" value="Add to cart" class="button" />
-												</fieldset>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-						<!-- //fourth section (noodles) -->
-					</div>
-				</div>
-				<!-- //product right -->
-			</div>
-		</div>
-		<!-- //top products -->
-		<!-- special offers -->
-		<div class="featured-section" id="projects">
-			<div class="container">
-				<!-- tittle heading -->
-				<h3 class="tittle-w3l">
-					推荐商品
-					<span class="heading-style">
-						<i></i>
-						<i></i>
-						<i></i>
-					</span>
-				</h3>
-				<!-- //tittle heading -->
-				<div class="content-bottom-in">
-					<ul id="flexiselDemo1">
+		<!-- page -->
+		<div class="services-breadcrumb">
+			<div class="agile_inner_breadcrumb">
+				<div class="container">
+					<ul class="w3_short">
 						<li>
-							<div class="w3l-specilamk">
-								<div class="speioffer-agile">
-									<a href="single.html">
-										<img src="../images/s1.jpg" alt />
-									</a>
-								</div>
-								<div class="product-name-w3l">
-									<h4>
-										<a href="single.html">Aashirvaad, 5g</a>
-									</h4>
-									<div class="w3l-pricehkj">
-										<h6>$220.00</h6>
-										<p>Save $40.00</p>
-									</div>
-									<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-										<form action="#" method="post">
-											<fieldset>
-												<input type="hidden" name="cmd" value="_cart" />
-												<input type="hidden" name="add" value="1" />
-												<input type="hidden" name="business" value=" " />
-												<input type="hidden" name="item_name" value="Aashirvaad, 5g" />
-												<input type="hidden" name="amount" value="220.00" />
-												<input type="hidden" name="discount_amount" value="1.00" />
-												<input type="hidden" name="currency_code" value="USD" />
-												<input type="hidden" name="return" value=" " />
-												<input type="hidden" name="cancel_return" value=" " />
-												<input type="submit" name="submit" value="Add to cart" class="button" />
-											</fieldset>
-										</form>
-									</div>
-								</div>
-							</div>
+							<a href="index.html">首页</a>
+							<i>|</i>
 						</li>
-						<li>
-							<div class="w3l-specilamk">
-								<div class="speioffer-agile">
-									<a href="single.html">
-										<img src="../images/s4.jpg" alt />
-									</a>
-								</div>
-								<div class="product-name-w3l">
-									<h4>
-										<a href="single.html">Kissan Tomato Ketchup, 950g</a>
-									</h4>
-									<div class="w3l-pricehkj">
-										<h6>$99.00</h6>
-										<p>Save $20.00</p>
-									</div>
-									<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-										<form action="#" method="post">
-											<fieldset>
-												<input type="hidden" name="cmd" value="_cart" />
-												<input type="hidden" name="add" value="1" />
-												<input type="hidden" name="business" value=" " />
-												<input type="hidden" name="item_name" value="Kissan Tomato Ketchup, 950g" />
-												<input type="hidden" name="amount" value="99.00" />
-												<input type="hidden" name="discount_amount" value="1.00" />
-												<input type="hidden" name="currency_code" value="USD" />
-												<input type="hidden" name="return" value=" " />
-												<input type="hidden" name="cancel_return" value=" " />
-												<input type="submit" name="submit" value="Add to cart" class="button" />
-											</fieldset>
-										</form>
-									</div>
-								</div>
-							</div>
-						</li>
+						<li>您的店铺:</li>
 					</ul>
 				</div>
 			</div>
 		</div>
-		<!-- //special offers -->
+
+		<!-- 帖子详情-->
+		<div class="container-fluid main profile">
+			<div class="row">
+				<!--左边主要内容-->
+				<div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+					<!--正文-->
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<h4 class="question-title">
+							<span>{{Discuss.title}}</span>
+						</h4>
+						<span class="text-desc">
+							作者：
+							<span>{{Discuss.userDetail.userName}}</span> |
+							发布时间：
+							<span>{{Discuss.gmtCreate}}</span> |
+							阅读数：
+							<span>{{Discuss.viewCount}}</span>
+						</span>
+						<hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
+
+						<!--内容-->
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="question-view">
+							<p>{{Discuss.description}}</p>
+						</div>
+
+						<!--标签-->
+						<hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<span class="question-tag" th:each="tag : ${question.tag.split(',')}">
+								<a class="community-tag">{{Discuss.tag}}</a>
+							</span>
+						</div>
+
+						<!--编辑-->
+						<hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<a class="community-menu" v-if="User.id == Discuss.userDetail.userId">
+								<span class="glyphicon glyphicon-pencil" aria-hidden="true">编辑</span>
+							</a>
+						</div>
+						<hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
+					</div>
+
+					<!--回复-->
+					<!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<h4>
+							<span th:text="${question.commentCount}"></span> 个回复
+						</h4>
+						<hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-sp" />
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comments" th:each="comment : ${comments}">
+							<div class="media">
+								<div class="media-left">
+									<a href="#">
+										<img class="media-object img-rounded" th:src="${comment.user.avatarUrl}" />
+									</a>
+								</div>
+								<div class="media-body" th:id="${'comment-body-'+comment.id}">
+									<h5 class="media-heading">
+										<span th:text="${comment.user.name}"></span>
+									</h5>
+									<div th:text="${comment.content}"></div>
+									<div class="menu">
+										<span class="glyphicon glyphicon-thumbs-up icon"></span>
+										<span th:data-id="${comment.id}" onclick="collapseComments(this)" class="comment-icon">
+											<span class="glyphicon glyphicon-comment"></span>
+											<span th:text="${comment.commentCount}"></span>
+										</span>
+										<span class="pull-right" th:text="${#dates.format(comment.gmtCreate,'yyyy-MM-dd')}"></span>
+									</div>
+
+
+									<div
+										class="col-lg-12 col-md-12 col-sm-12 col-xs-12 collapse sub-comments"
+										th:id="${'comment-'+comment.id}"
+									>
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<input
+												type="text"
+												class="form-control"
+												placeholder="评论一下……"
+												th:id="${'input-'+comment.id}"
+											/>
+											<button
+												type="button"
+												class="btn btn-success pull-right"
+												onclick="comment(this)"
+												th:data-id="${comment.id}"
+											>评论</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>-->
+
+					<!--回复输入框-->
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<h4>提交回复</h4>
+						<hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-sp" />
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="comment_section">
+							<div class="media">
+								<div class="media-body">
+									<h5 class="media-heading">
+										<span>用户评论</span>
+									</h5>
+								</div>
+							</div>
+							<textarea class="form-control comment" rows="6" id="comment_content"></textarea>
+							<button type="button" class="btn btn-success btn-comment" @click="comment()">评论</button>
+						</div>
+					</div>
+				</div>
+
+				<!--右边信息块-->
+				<div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<h4>发起人</h4>
+						<!-- <div class="media">
+							<div class="media-left">
+								<a href="#">
+									<img class="media-object img-rounded" th:src="${question.user.avatarUrl}" />
+								</a>
+							</div>
+							<div class="media-body">
+								<h5 class="media-heading">
+									<span th:text="${question.user.name}"></span>
+								</h5>
+							</div>
+						</div>-->
+					</div>
+					<!--相关问题-->
+					<hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<h4>相关问题</h4>
+						<ul class="question-related">
+							<!-- <li th:each="related : ${relatedQuestions}">
+								<a>11</a>
+							</li>-->
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- //帖子详情 -->
 
 		<!-- footer -->
 		<footer>
@@ -1330,8 +895,6 @@ export default {
 	data() {
 		return {
 			TypeList: [],
-			imgAddr:
-				'https://hzsfile.oss-cn-beijing.aliyuncs.com/images/2020/04/09/15864355211077425.jpg',
 			User: {},
 			Update: {
 				sex: '',
@@ -1341,10 +904,14 @@ export default {
 				userPhone: '',
 				userPlanSpent: 0
 			},
+			OrderInpayList: {},
 			layer: {},
 			isAllChecked: 0,
 			totalPrice: 0,
+			selectedTotalPrice: 0, //下单时候的总价
+			address: {},
 			Cart: {},
+			Checkout: {},
 			Login: {
 				userAccount: '',
 				userPassword: ''
@@ -1362,6 +929,36 @@ export default {
 				storeDesc: '',
 				storeCate: ''
 			},
+			Store: {
+				storeId: '',
+				ownerId: '',
+				createTime: '',
+				stateCode: '',
+				storeCate: '',
+				storeName: '',
+				storePhoto: '',
+				storeDesc: ''
+			},
+			storeId: '',
+			Good: {
+				goodId: '',
+				storeId: '',
+				goodName: '',
+				price: '',
+				num: '',
+				category: '',
+				description: '',
+				priority: ''
+			},
+			Publish: {
+				id: '',
+				author: '',
+				title: '',
+				tag: '',
+				description: ''
+			},
+			Pagination: {},
+			Discuss: {}
 		}
 	},
 	mounted: function() {
@@ -1369,27 +966,130 @@ export default {
 		layui.use('layer', function() {
 			_this.layer = layui.layer
 		})
-		//钩子函数页面加载后获取用户 分类 店铺商品信息
-		_this.getStoreGoodsList()
 		_this.getUser()
 		_this.getCate()
+		_this.getDiscussDetail()
 	},
 	methods: {
-		//去结账页面
-		toCheckout() {
+		getDiscussDetail() {
+			var _this = this
+			_this.$axios
+				.get(
+					'http://localhost:8081/api/discuss/select?id=' +
+						this.$route.query.id,
+					{
+						emulateJSON: true,
+						withCredentials: true
+					}
+				)
+				.then(res => {
+					_this.Discuss = res.data
+                    console.log(_this.Discuss)
+				})
+				.catch(err => {
+					console.log(err.data)
+				})
+		},
+		toDiscuss(id) {
 			this.$router.push({
-				path: '/checkout',
-				query: { userId: this.User.id }
+				path: '/discussDetail',
+				query: { id: id }
 			})
 		},
-		//去店铺管理页面
-		toMyStore() {
-			this.$router.push({
-				path: '/myStore',
-				query: { userId: this.User.id }
-			})
+		getDiscussList(p, s) {
+			var _this = this
+			console.log(p)
+			console.log(s)
+			let formData = new FormData()
+			formData.append('page', p)
+			formData.append('size', s)
+			_this
+				.$axios({
+					url: 'http://localhost:8081/api/discuss/list', //****: 你的ip地址
+					data: formData,
+					method: 'post'
+				})
+				.then(res => {
+					_this.Pagination = res.data
+					console.log(res.data)
+				}) // 发送请求
 		},
-		//数据格式化只显示小数点后两位
+		publish() {
+			var _this = this
+			_this.Publish.author = _this.User.id
+			console.log(_this.Publish)
+			var loading = _this.layer.load(0, {
+				shade: false,
+				time: 30 * 1000
+			})
+			_this.$axios
+				.post(
+					'http://localhost:8081/api/discuss/insert',
+					_this.Publish,
+					{
+						emulateJSON: true,
+						withCredentials: true
+					}
+				)
+				.then(res => {
+					_this.layer.close(loading)
+					_this.Publish = {}
+					_this.layer.msg('帖子发表成功')
+				})
+				.catch(err => {
+					console.log(err.data)
+				})
+		},
+		setStoreId(id) {
+			var _this = this
+			_this.storeId = id
+		},
+		addGoods() {
+			var _this = this
+			_this.Good.storeId = _this.storeId
+			console.log(_this.Good)
+			var loading = _this.layer.load(0, {
+				shade: false,
+				time: 30 * 1000
+			})
+			_this.$axios
+				.post('http://localhost:8081/api/good/add', _this.Good, {
+					emulateJSON: true,
+					withCredentials: true
+				})
+				.then(res => {
+					_this.layer.close(loading)
+					console.log(res)
+				})
+				.catch(err => {
+					console.log(err.data)
+				})
+		},
+		uploadGoodFile: function() {
+			var _this = this
+			let files = event.target.files
+			let formData = new FormData()
+			formData.append('file', files[0])
+			//'userfile'是formData这个对象的键名
+			var loading = _this.layer.load(0, {
+				shade: false,
+				time: 30 * 1000
+			})
+			_this
+				.$axios({
+					url: 'http://localhost:8081/api/good/test', //****: 你的ip地址
+					data: formData,
+					method: 'post',
+					headers: {
+						'Content-Type': 'multipart/form-data'
+					}
+				})
+				.then(res => {
+					console.log(res.data)
+					_this.layer.close(loading)
+					_this.layer.msg('图片上传成功')
+				}) // 发送请求
+		},
 		numFilter(value) {
 			let realVal = ''
 			if (!isNaN(value) && value !== '') {
@@ -1400,7 +1100,41 @@ export default {
 			}
 			return realVal
 		},
-		//登录接口
+		pay(orderId, orderSpent) {
+			var _this = this
+			if (
+				_this.User.userCurrentSpent + orderSpent >
+				_this.User.userPlanSpent
+			) {
+				_this.layer.msg('本月消费额度已经到了,建议克制消费')
+			}
+
+			let formData = new FormData()
+			formData.append('orderId', orderId)
+			formData.append('userId', _this.User.id)
+			formData.append('spent', _this.User.userCurrentSpent + orderSpent)
+			var loading = _this.layer.load(0, {
+				shade: false,
+				time: 30 * 1000
+			})
+			_this
+				.$axios({
+					url: 'http://localhost:8081/api/order/updatePayStatus', //****: 你的ip地址
+					data: formData,
+					method: 'post',
+					headers: {
+						'Content-Type': 'multipart/form-data'
+					}
+				})
+				.then(res => {
+					_this.layer.close(loading)
+					_this.layer.msg('付款成功')
+					_this.getUser()
+					_this.getCart()
+					_this.getInpay()
+					_this.getSelectedGoods()
+				}) // 发送请求
+		},
 		login() {
 			// this.User = this.$qs.stringify(this.User);
 			// console.log(this.User);
@@ -1431,7 +1165,6 @@ export default {
 					console.log(err.data)
 				})
 		},
-		//获取用户
 		getUser() {
 			var _this = this
 			_this.$axios
@@ -1446,7 +1179,6 @@ export default {
 					console.log(err.data)
 				})
 		},
-		//获取分类
 		getCate() {
 			var _this = this
 			_this.$axios
@@ -1461,7 +1193,48 @@ export default {
 					console.log(err.data)
 				})
 		},
-		//获取店铺商品列表
+		insertOrder() {
+			var _this = this
+			var loading = _this.layer.load(0, {
+				shade: false,
+				time: 30 * 1000
+			})
+			var OrderDTO = {
+				addressId: _this.address.id,
+				userId: _this.User.id
+			}
+			_this
+				.$axios({
+					url: 'http://localhost:8081/api/order/insert', //****: 你的ip地址
+					data: OrderDTO,
+					method: 'post'
+				})
+				.then(res => {
+					_this.layer.close(loading)
+					_this.layer.msg('订单生成,请付款')
+					_this.getCart()
+					_this.getSelectedGoods()
+				}) // 发送请求
+		},
+		getAddress() {
+			var _this = this
+			_this.$axios
+				.get(
+					'http://localhost:8081/api/address/addressMng?userId=' +
+						this.$route.query.userId,
+					{
+						emulateJSON: true,
+						withCredentials: true
+					}
+				)
+				.then(res => {
+					console.log(res)
+					_this.address = res.data
+				})
+				.catch(err => {
+					console.log(err.data)
+				})
+		},
 		getStoreGoodsList() {
 			var _this = this
 			_this.$axios
@@ -1471,12 +1244,12 @@ export default {
 				})
 				.then(res => {
 					_this.StoreGoodsList = res.data
+					console.log(_this.StoreGoodsList)
 				})
 				.catch(err => {
 					console.log(err.data)
 				})
 		},
-		//购物车列表获取
 		getCart() {
 			// this.User = this.$qs.stringify(this.User);
 			var _this = this
@@ -1517,7 +1290,59 @@ export default {
 					console.log(err.data)
 				})
 		},
-		//加入购物车
+		getSelectedGoods() {
+			// this.User = this.$qs.stringify(this.User);
+			var _this = this
+			if (_this.User == '') {
+				_this.layer.msg('请先登录')
+				return
+			}
+			_this.$axios
+				.get(
+					'http://localhost:8081/api/cart/getAllCheckedCartGood?userId=' +
+						this.$route.query.userId,
+					{
+						emulateJSON: true,
+						withCredentials: true
+					}
+				)
+				.then(res => {
+					var allPrice = 0
+					for (let index = 0; index < res.data.length; index++) {
+						allPrice +=
+							res.data[index].quantity *
+							res.data[index].goodsVO.price
+					}
+					_this.selectedTotalPrice = allPrice
+					_this.Checkout = res.data
+				})
+				.catch(err => {
+					console.log(err.data)
+				})
+		},
+		getInpay() {
+			// this.User = this.$qs.stringify(this.User);
+			var _this = this
+			if (_this.User == '') {
+				_this.layer.msg('请先登录')
+				return
+			}
+			_this.$axios
+				.get(
+					'http://localhost:8081/api/order/getInpay?userId=' +
+						this.$route.query.userId,
+					{
+						emulateJSON: true,
+						withCredentials: true
+					}
+				)
+				.then(res => {
+					_this.OrderInpayList = res.data
+				})
+				.catch(err => {
+					console.log(err.data)
+				})
+		},
 		addCart(goodId) {
 			var _this = this
 			var loading = _this.layer.load(0, {
@@ -1535,9 +1360,6 @@ export default {
 					url: 'http://localhost:8081/api/cart/insert', //****: 你的ip地址
 					data: addCart,
 					method: 'post'
-					// headers: {
-					// 	'Content-Type': 'multipart/form-data'
-					// }
 				})
 				.then(res => {
 					_this.layer.close(loading)
@@ -1545,7 +1367,6 @@ export default {
 					_this.getCart()
 				}) // 发送请求
 		},
-		//购物车商品全选
 		checkAll() {
 			var _this = this
 			let formData = new FormData()
@@ -1568,6 +1389,7 @@ export default {
 						_this.layer.close(loading)
 						_this.layer.msg('全选')
 						_this.getCart()
+						_this.getSelectedGoods()
 					}) // 发送请求
 			} else {
 				_this
@@ -1583,10 +1405,10 @@ export default {
 						_this.layer.close(loading)
 						_this.layer.msg('全不选')
 						_this.getCart()
+						_this.getSelectedGoods()
 					}) // 发送请求
 			}
 		},
-		//购物车商品选中一个
 		checkOne(cartId, isChecked) {
 			var _this = this
 			let formData = new FormData()
@@ -1610,6 +1432,7 @@ export default {
 						_this.layer.close(loading)
 						_this.layer.msg('成功选择')
 						_this.getCart()
+						_this.getSelectedGoods()
 					}) // 发送请求
 			} else {
 				_this
@@ -1625,10 +1448,10 @@ export default {
 						_this.layer.close(loading)
 						_this.layer.msg('取消选择')
 						_this.getCart()
+						_this.getSelectedGoods()
 					}) // 发送请求
 			}
 		},
-		//购物车数量-1
 		handleReduce(id, num) {
 			var _this = this
 			var loading = _this.layer.load(0, {
@@ -1637,6 +1460,7 @@ export default {
 			})
 			if (num == 1) {
 				_this.layer.msg('已经为1了减什么减?')
+				_this.layer.close(loading)
 			} else {
 				let formData = new FormData()
 				formData.append('id', id)
@@ -1654,10 +1478,10 @@ export default {
 						_this.layer.close(loading)
 						_this.layer.msg('数量减一')
 						_this.getCart()
+						_this.getSelectedGoods()
 					}) // 发送请求
 			}
 		},
-		//购物车数量+1
 		handleAdd(id, num) {
 			var _this = this
 			var loading = _this.layer.load(0, {
@@ -1680,9 +1504,9 @@ export default {
 					_this.layer.close(loading)
 					_this.layer.msg('数量加一')
 					_this.getCart()
+					_this.getSelectedGoods()
 				}) // 发送请求
 		},
-		//购物车商品删除
 		handleRemove(id) {
 			var _this = this
 			var loading = _this.layer.load(0, {
@@ -1704,9 +1528,10 @@ export default {
 					_this.layer.close(loading)
 					_this.layer.msg('移除成功')
 					_this.getCart()
+					_this.getSelectedGoods()
 				}) // 发送请求
 		},
-		//用户注册接口
+
 		register() {
 			var _this = this
 			var loading = _this.layer.load(0, {
@@ -1741,7 +1566,6 @@ export default {
 					})
 			}
 		},
-		//开店接口
 		openStore() {
 			var _this = this
 			_this.OpenStore.ownerId = _this.User.id
@@ -1818,6 +1642,32 @@ export default {
 				.catch(err => {
 					console.log(err.data)
 				})
+		},
+		storeList() {
+			var _this = this
+			let formData = new FormData()
+			var loading = _this.layer.load(0, {
+				shade: false,
+				time: 30 * 1000
+			})
+			_this.$axios
+				.get(
+					'http://localhost:8081/api/sto/getStoreList?userId=' +
+						this.$route.query.userId,
+					{
+						emulateJSON: true,
+						withCredentials: true
+					}
+				)
+				.then(res => {
+					_this.layer.close(loading)
+					_this.Store = res.data
+					console.log(_this.Store)
+				})
+				.catch(err => {
+					_this.layer.close(loading)
+					console.log(err.data)
+				})
 		}
 	}
 }
@@ -1834,4 +1684,5 @@ export default {
 @import '../css/popuo-box.css';
 @import '../css/style.css';
 @import '../css/table.css';
+@import '../css/discuss.css';
 </style>
