@@ -610,56 +610,37 @@
 					</div>
 
 					<!--回复-->
-					<!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<h4>
-							<span th:text="${question.commentCount}"></span> 个回复
+							<span>{{CommentList.length}}</span> 个回复
 						</h4>
 						<hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-sp" />
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comments" th:each="comment : ${comments}">
+						<div
+							class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comments"
+							v-for="item in CommentList"
+							:key="item.id"
+						>
 							<div class="media">
 								<div class="media-left">
-									<a href="#">
-										<img class="media-object img-rounded" th:src="${comment.user.avatarUrl}" />
-									</a>
+									<a href="#">{{item.commentatorVO.commentatorId}}</a>
 								</div>
-								<div class="media-body" th:id="${'comment-body-'+comment.id}">
+								<div class="media-body">
 									<h5 class="media-heading">
-										<span th:text="${comment.user.name}"></span>
+										<span>{{item.commentatorVO.commentatorName}}</span>
 									</h5>
-									<div th:text="${comment.content}"></div>
+									<div>{{item.content}}</div>
 									<div class="menu">
 										<span class="glyphicon glyphicon-thumbs-up icon"></span>
-										<span th:data-id="${comment.id}" onclick="collapseComments(this)" class="comment-icon">
+										<span class="comment-icon">
+											<span>{{item.likeCount}}</span>
 											<span class="glyphicon glyphicon-comment"></span>
-											<span th:text="${comment.commentCount}"></span>
 										</span>
-										<span class="pull-right" th:text="${#dates.format(comment.gmtCreate,'yyyy-MM-dd')}"></span>
-									</div>
-
-
-									<div
-										class="col-lg-12 col-md-12 col-sm-12 col-xs-12 collapse sub-comments"
-										th:id="${'comment-'+comment.id}"
-									>
-										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-											<input
-												type="text"
-												class="form-control"
-												placeholder="评论一下……"
-												th:id="${'input-'+comment.id}"
-											/>
-											<button
-												type="button"
-												class="btn btn-success pull-right"
-												onclick="comment(this)"
-												th:data-id="${comment.id}"
-											>评论</button>
-										</div>
+										<span class="pull-right">{{item.createTime}}</span>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>-->
+					</div>
 
 					<!--回复输入框-->
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -673,7 +654,7 @@
 									</h5>
 								</div>
 							</div>
-							<textarea class="form-control comment" rows="6" id="comment_content"></textarea>
+							<textarea class="form-control comment" rows="6" v-model="commentContent"></textarea>
 							<button type="button" class="btn btn-success btn-comment" @click="comment()">评论</button>
 						</div>
 					</div>
@@ -958,7 +939,9 @@ export default {
 				description: ''
 			},
 			Pagination: {},
-			Discuss: {}
+			Discuss: {},
+			CommentList: {},
+			commentContent:''
 		}
 	},
 	mounted: function() {
@@ -969,8 +952,55 @@ export default {
 		_this.getUser()
 		_this.getCate()
 		_this.getDiscussDetail()
+		_this.getComment()
 	},
 	methods: {
+		comment() {
+			var _this = this
+			var loading = _this.layer.load(0, {
+				shade: false,
+				time: 30 * 1000
+			})
+			var commentDTO = {
+				commentator: _this.User.id,
+				content: _this.commentContent,
+				id: 0,
+				parentId: this.$route.query.id,
+				type: 1
+			}
+			console.log(commentDTO)
+			_this
+				.$axios({
+					url: 'http://localhost:8081/api/comment/insert', //****: 你的ip地址
+					data: commentDTO,
+					method: 'post'
+				})
+				.then(res => {
+					_this.layer.close(loading)
+					_this.layer.msg('评论成功')
+					_this.commentContent= ''
+					_this.getComment()
+				}) // 发送请求
+		},
+		getComment() {
+			var _this = this
+			_this.$axios
+				.get(
+					'http://localhost:8081/api/comment/list?id=' +
+						this.$route.query.id,
+					{
+						emulateJSON: true,
+						withCredentials: true
+					}
+				)
+				.then(res => {
+					_this.CommentList = res.data
+					console.log(_this.CommentList)
+				})
+				.catch(err => {
+					console.log(err.data)
+				})
+		},
 		getDiscussDetail() {
 			var _this = this
 			_this.$axios
@@ -984,7 +1014,6 @@ export default {
 				)
 				.then(res => {
 					_this.Discuss = res.data
-                    console.log(_this.Discuss)
 				})
 				.catch(err => {
 					console.log(err.data)
