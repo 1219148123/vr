@@ -23,7 +23,7 @@
 					<!-- header lists -->
 					<ul>
 						<li>
-							<a href="#" data-toggle="modal" data-target="#myModal1">
+							<a @click="toCheckout()">
 								<span class="fa fa-truck" aria-hidden="true"></span>订单
 							</a>
 						</li>
@@ -53,9 +53,9 @@
 							<a v-else-if="User!='' && User.openStore==0" data-toggle="modal" data-target="#myModal4">
 								<span class="fa fa-pencil-square-o" aria-hidden="true"></span> 点击开店
 							</a>
-							<!-- <a v-else-if="User!='' && User.openStore==1" data-toggle="modal" data-target="#myModal4">
-								<span class="fa fa-pencil-square-o" aria-hidden="true"></span> 新增商品
-							</a>-->
+							<a v-else-if="User!='' && User.openStore==1" @click="toMyStore()">
+								<span class="fa fa-pencil-square-o" aria-hidden="true"></span> 店铺管理
+							</a>
 						</li>
 					</ul>
 					<!-- //header lists -->
@@ -336,7 +336,7 @@
 									</table>
 								</div>
 							</div>
-							<input type="submit" value="提交" @click="openStore()" data-dismiss="modal" />
+							<input type="submit" value="下单" @click="toCheckout()" data-dismiss="modal" />
 						</div>
 					</div>
 				</div>
@@ -344,70 +344,6 @@
 			</div>
 		</div>
 		<!-- //Modal5 -->
-
-		<!-- Modal6 -->
-		<div class="modal fade" id="myModal6" tabindex="-1" role="dialog">
-			<div class="modal-dialog">
-				<!-- Modal content-->
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<div class="modal-body modal-body-sub_agile">
-						<div class="main-mailposi">
-							<span class="fa fa-envelope-o" aria-hidden="true"></span>
-						</div>
-						<div class="modal_body_left modal_body_left1">
-							<h3 class="agileinfo_sign">	新增商品</h3>
-							<p>输入店铺信息</p>
-							<div class="styled-input agile-styled-input-top">
-								<input type="text" placeholder="商品名" v-model="Good.goodName" required />
-							</div>
-							<div class="styled-input">
-								<textarea
-									class="form-control"
-									rows="3"
-									placeholder="商品描述"
-									v-model="Good.description"
-									required
-								/>
-							</div>
-							<div class="styled-input agile-styled-input-top">
-								<input type="text" placeholder="商品价格" v-model="Good.price" required />
-							</div>
-							<div class="styled-input agile-styled-input-top">
-								<input type="text" placeholder="商品库存" v-model="Good.num" required />
-							</div>
-							<div class="styled-input agile-styled-input-top">
-								<input type="text" placeholder="商品优先级" v-model="Good.priority" required />
-							</div>
-							<label for="type">类型选择</label>
-							<select class="form-control" id="type" v-model="Good.category" placeholder="店铺类型">
-								<option
-									selected
-									v-for="TypeList in TypeList"
-									:key="TypeList.cateId"
-									:value="TypeList.cateId"
-								>{{TypeList.cateName}}</option>
-							</select>
-							<div class="styled-input">
-								<input type="file" placeholder="上传图片1" id="file" v-on:change="uploadGoodFile" />
-							</div>
-							<div class="styled-input">
-								<input type="file" placeholder="上传图片2" id="file" v-on:change="uploadGoodFile" />
-							</div>
-							<div class="styled-input">
-								<input type="file" placeholder="上传图片3" id="file" v-on:change="uploadGoodFile" />
-							</div>
-							<br />
-							<input type="submit" value="提交" @click="addGoods()" data-dismiss="modal" />
-						</div>
-					</div>
-				</div>
-				<!-- //Modal content-->
-			</div>
-		</div>
-		<!-- //Modal6 -->
 
 		<!-- navigation -->
 		<div class="ban-top">
@@ -550,50 +486,130 @@
 			</div>
 		</div>
 		<!-- //navigation -->
+		<!-- banner -->
+		<div id="myCarousel" class="carousel slide" data-ride="carousel">
+			<!-- Indicators-->
+			<ol class="carousel-indicators">
+				<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+				<li data-target="#myCarousel" data-slide-to="1" class></li>
+				<li data-target="#myCarousel" data-slide-to="2" class></li>
+				<li data-target="#myCarousel" data-slide-to="3" class></li>
+			</ol>
+			<div class="carousel-inner" role="listbox">
+				<div class="item active">
+					<div class="container">
+						<div class="carousel-caption">
+							<h3>
+								大
+								<span>甩卖</span>
+							</h3>
+							<p>
+								Get flat
+								<span>10%</span> Cashback
+							</p>
+							<a class="button2" href="product.html">Shop Now</a>
+						</div>
+					</div>
+				</div>
+				<div class="item item2">
+					<div class="container">
+						<div class="carousel-caption">
+							<h3>
+								Healthy
+								<span>Saving</span>
+							</h3>
+							<p>
+								Get Upto
+								<span>30%</span> Off
+							</p>
+							<a class="button2" href="product.html">Shop Now</a>
+						</div>
+					</div>
+				</div>
+				<div class="item item3">
+					<div class="container">
+						<div class="carousel-caption">
+							<h3>
+								Big
+								<span>Deal</span>
+							</h3>
+							<p>
+								Get Best Offer Upto
+								<span>20%</span>
+							</p>
+							<a class="button2" href="product.html">Shop Now</a>
+						</div>
+					</div>
+				</div>
+				<div class="item item4">
+					<div class="container">
+						<div class="carousel-caption">
+							<h3>
+								Today
+								<span>Discount</span>
+							</h3>
+							<p>
+								Get Now
+								<span>40%</span> Discount
+							</p>
+							<a class="button2" href="product.html">Shop Now</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+				<span class="sr-only">Previous</span>
+			</a>
+			<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+				<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+				<span class="sr-only">Next</span>
+			</a>
+		</div>
+		<!-- //banner -->
 
-		<!-- page -->
-		<div class="services-breadcrumb">
-			<div class="agile_inner_breadcrumb">
-				<div class="container">
-					<ul class="w3_short">
-						<li>
-							<a href="index.html">首页</a>
-							<i>|</i>
+
+		<!-- special offers -->
+		<div class="featured-section" id="projects">
+			<div class="container">
+				<!-- tittle heading -->
+				<h3 class="tittle-w3l">
+					推荐商品
+					<span class="heading-style">
+						<i></i>
+						<i></i>
+						<i></i>
+					</span>
+				</h3>
+				<!-- //tittle heading -->
+				<div class="content-bottom-in">
+					<ul id="flexiselDemo1">
+						<li  v-for="(item, index) in StoreGood" :key="item.goodId">
+							<div class="w3l-specilamk">
+								<div class="speioffer-agile">
+									<a href="single.html">
+										<img src="../images/s1.jpg" alt />
+									</a>
+								</div>
+								<div class="product-name-w3l">
+									<h4>
+										<a href="single.html">{{item.goodName}}</a>
+									</h4>
+									<div class="w3l-pricehkj">
+										<h6>${{item.price}}</h6>
+										<p>Save $20.00</p>
+									</div>
+									<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+									</div>
+								</div>
+							</div>
 						</li>
-						<li>您的店铺:</li>
+						
 					</ul>
 				</div>
 			</div>
 		</div>
-		<!-- 店铺展示-->
-		<div class="row">
-			<div class="col-sm-6 col-md-4" v-for="(item, index) in Store" :key="item.storeId">
-				<div class="thumbnail">
-					<img
-						src="https://hzsfile.oss-cn-beijing.aliyuncs.com/images/2020/05/04/15885621341534735.jpg"
-						alt="..."
-					/>
-					<div class="caption">
-						<h3>{{index+1 + ":" + item.storeName}}</h3>
-						<p>{{item.storeDesc}}</p>
-						<p>
-							<a
-								href="#"
-								class="btn btn-primary"
-								role="button"
-								data-toggle="modal"
-								data-target="#myModal6"
-								@click="setStoreId(item.storeId)"
-							>新增商品</a>
-							
-							<a class="btn btn-default" @click="toStoreGood(item.storeId)">详情查看</a>
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- //店铺展示 -->
+		<!-- //special offers -->
 
 		<!-- footer -->
 		<footer>
@@ -778,6 +794,8 @@ export default {
 	data() {
 		return {
 			TypeList: [],
+			imgAddr:
+				'https://hzsfile.oss-cn-beijing.aliyuncs.com/images/2020/04/09/15864355211077425.jpg',
 			User: {},
 			Update: {
 				sex: '',
@@ -787,14 +805,10 @@ export default {
 				userPhone: '',
 				userPlanSpent: 0
 			},
-			OrderInpayList: {},
 			layer: {},
 			isAllChecked: 0,
 			totalPrice: 0,
-			selectedTotalPrice: 0, //下单时候的总价
-			address: {},
 			Cart: {},
-			Checkout: {},
 			Login: {
 				userAccount: '',
 				userPassword: ''
@@ -812,28 +826,7 @@ export default {
 				storeDesc: '',
 				storeCate: ''
 			},
-			Store: {
-				storeId: '',
-				ownerId: '',
-				createTime: '',
-				stateCode: '',
-				storeCate: '',
-				storeName: '',
-				storePhoto: '',
-				storeDesc: ''
-			},
-			storeId: '',
-			Good:{
-				goodId:'',
-				storeId:'',
-				goodName:'',
-				price:'',
-				num:'',
-				category:'',
-				description:'',
-				priority:'',
-			},
-
+			StoreGood:{}
 		}
 	},
 	mounted: function() {
@@ -841,67 +834,34 @@ export default {
 		layui.use('layer', function() {
 			_this.layer = layui.layer
 		})
+		//钩子函数页面加载后获取用户 分类 店铺商品信息
+		_this.getStoreGoodsList()
 		_this.getUser()
-		_this.storeList()
 		_this.getCate()
+		_this.getStoreGood()
 	},
 	methods: {
-		toStoreGood(id) {
-			this.$router.push({
-				path: '/storeGood',
-				query: { storeId: id }
-			})
-		},
-		setStoreId(id) {
-			var _this = this;
-			_this.storeId = id;
-		},
-		addGoods() {
+		//查询该店铺的商品
+		getStoreGood() {
 			var _this = this
-			_this.Good.storeId = _this.storeId
-			console.log(_this.Good)
-			var loading = _this.layer.load(0, {
-				shade: false,
-				time: 30 * 1000
-			})
 			_this.$axios
-				.post('http://localhost:8081/api/good/add', _this.Good, {
-					emulateJSON: true,
-					withCredentials: true
-				})
+				.get(
+					'http://localhost:8081/api/good/getList?storeId=' +
+						this.$route.query.storeId,
+					{
+						emulateJSON: true,
+						withCredentials: true
+					}
+				)
 				.then(res => {
-					_this.layer.close(loading)
 					console.log(res)
+					_this.StoreGood = res.data
 				})
 				.catch(err => {
 					console.log(err.data)
 				})
 		},
-		uploadGoodFile: function() {
-			var _this = this
-			let files = event.target.files
-			let formData = new FormData()
-			formData.append('file', files[0])
-			//'userfile'是formData这个对象的键名
-			var loading = _this.layer.load(0, {
-				shade: false,
-				time: 30 * 1000
-			})
-			_this
-				.$axios({
-					url: 'http://localhost:8081/api/good/test', //****: 你的ip地址
-					data: formData,
-					method: 'post',
-					headers: {
-						'Content-Type': 'multipart/form-data'
-					}
-				})
-				.then(res => {
-					console.log(res.data)
-					_this.layer.close(loading)
-					_this.layer.msg('图片上传成功')
-				}) // 发送请求
-		},
+		//数据格式化只显示小数点后两位
 		numFilter(value) {
 			let realVal = ''
 			if (!isNaN(value) && value !== '') {
@@ -912,41 +872,7 @@ export default {
 			}
 			return realVal
 		},
-		pay(orderId, orderSpent) {
-			var _this = this
-			if (
-				_this.User.userCurrentSpent + orderSpent >
-				_this.User.userPlanSpent
-			) {
-				_this.layer.msg('本月消费额度已经到了,建议克制消费')
-			}
-
-			let formData = new FormData()
-			formData.append('orderId', orderId)
-			formData.append('userId', _this.User.id)
-			formData.append('spent', _this.User.userCurrentSpent + orderSpent)
-			var loading = _this.layer.load(0, {
-				shade: false,
-				time: 30 * 1000
-			})
-			_this
-				.$axios({
-					url: 'http://localhost:8081/api/order/updatePayStatus', //****: 你的ip地址
-					data: formData,
-					method: 'post',
-					headers: {
-						'Content-Type': 'multipart/form-data'
-					}
-				})
-				.then(res => {
-					_this.layer.close(loading)
-					_this.layer.msg('付款成功')
-					_this.getUser()
-					_this.getCart()
-					_this.getInpay()
-					_this.getSelectedGoods()
-				}) // 发送请求
-		},
+		//登录接口
 		login() {
 			// this.User = this.$qs.stringify(this.User);
 			// console.log(this.User);
@@ -977,6 +903,7 @@ export default {
 					console.log(err.data)
 				})
 		},
+		//获取用户
 		getUser() {
 			var _this = this
 			_this.$axios
@@ -991,6 +918,7 @@ export default {
 					console.log(err.data)
 				})
 		},
+		//获取分类
 		getCate() {
 			var _this = this
 			_this.$axios
@@ -1005,48 +933,7 @@ export default {
 					console.log(err.data)
 				})
 		},
-		insertOrder() {
-			var _this = this
-			var loading = _this.layer.load(0, {
-				shade: false,
-				time: 30 * 1000
-			})
-			var OrderDTO = {
-				addressId: _this.address.id,
-				userId: _this.User.id
-			}
-			_this
-				.$axios({
-					url: 'http://localhost:8081/api/order/insert', //****: 你的ip地址
-					data: OrderDTO,
-					method: 'post'
-				})
-				.then(res => {
-					_this.layer.close(loading)
-					_this.layer.msg('订单生成,请付款')
-					_this.getCart()
-					_this.getSelectedGoods()
-				}) // 发送请求
-		},
-		getAddress() {
-			var _this = this
-			_this.$axios
-				.get(
-					'http://localhost:8081/api/address/addressMng?userId=' +
-						this.$route.query.userId,
-					{
-						emulateJSON: true,
-						withCredentials: true
-					}
-				)
-				.then(res => {
-					console.log(res)
-					_this.address = res.data
-				})
-				.catch(err => {
-					console.log(err.data)
-				})
-		},
+		//获取店铺商品列表
 		getStoreGoodsList() {
 			var _this = this
 			_this.$axios
@@ -1056,12 +943,12 @@ export default {
 				})
 				.then(res => {
 					_this.StoreGoodsList = res.data
-					console.log(_this.StoreGoodsList)
 				})
 				.catch(err => {
 					console.log(err.data)
 				})
 		},
+		//购物车列表获取
 		getCart() {
 			// this.User = this.$qs.stringify(this.User);
 			var _this = this
@@ -1102,59 +989,7 @@ export default {
 					console.log(err.data)
 				})
 		},
-		getSelectedGoods() {
-			// this.User = this.$qs.stringify(this.User);
-			var _this = this
-			if (_this.User == '') {
-				_this.layer.msg('请先登录')
-				return
-			}
-			_this.$axios
-				.get(
-					'http://localhost:8081/api/cart/getAllCheckedCartGood?userId=' +
-						this.$route.query.userId,
-					{
-						emulateJSON: true,
-						withCredentials: true
-					}
-				)
-				.then(res => {
-					var allPrice = 0
-					for (let index = 0; index < res.data.length; index++) {
-						allPrice +=
-							res.data[index].quantity *
-							res.data[index].goodsVO.price
-					}
-					_this.selectedTotalPrice = allPrice
-					_this.Checkout = res.data
-				})
-				.catch(err => {
-					console.log(err.data)
-				})
-		},
-		getInpay() {
-			// this.User = this.$qs.stringify(this.User);
-			var _this = this
-			if (_this.User == '') {
-				_this.layer.msg('请先登录')
-				return
-			}
-			_this.$axios
-				.get(
-					'http://localhost:8081/api/order/getInpay?userId=' +
-						this.$route.query.userId,
-					{
-						emulateJSON: true,
-						withCredentials: true
-					}
-				)
-				.then(res => {
-					_this.OrderInpayList = res.data
-				})
-				.catch(err => {
-					console.log(err.data)
-				})
-		},
+		//加入购物车
 		addCart(goodId) {
 			var _this = this
 			var loading = _this.layer.load(0, {
@@ -1172,6 +1007,9 @@ export default {
 					url: 'http://localhost:8081/api/cart/insert', //****: 你的ip地址
 					data: addCart,
 					method: 'post'
+					// headers: {
+					// 	'Content-Type': 'multipart/form-data'
+					// }
 				})
 				.then(res => {
 					_this.layer.close(loading)
@@ -1179,6 +1017,7 @@ export default {
 					_this.getCart()
 				}) // 发送请求
 		},
+		//购物车商品全选
 		checkAll() {
 			var _this = this
 			let formData = new FormData()
@@ -1201,7 +1040,6 @@ export default {
 						_this.layer.close(loading)
 						_this.layer.msg('全选')
 						_this.getCart()
-						_this.getSelectedGoods()
 					}) // 发送请求
 			} else {
 				_this
@@ -1217,10 +1055,10 @@ export default {
 						_this.layer.close(loading)
 						_this.layer.msg('全不选')
 						_this.getCart()
-						_this.getSelectedGoods()
 					}) // 发送请求
 			}
 		},
+		//购物车商品选中一个
 		checkOne(cartId, isChecked) {
 			var _this = this
 			let formData = new FormData()
@@ -1244,7 +1082,6 @@ export default {
 						_this.layer.close(loading)
 						_this.layer.msg('成功选择')
 						_this.getCart()
-						_this.getSelectedGoods()
 					}) // 发送请求
 			} else {
 				_this
@@ -1260,10 +1097,10 @@ export default {
 						_this.layer.close(loading)
 						_this.layer.msg('取消选择')
 						_this.getCart()
-						_this.getSelectedGoods()
 					}) // 发送请求
 			}
 		},
+		//购物车数量-1
 		handleReduce(id, num) {
 			var _this = this
 			var loading = _this.layer.load(0, {
@@ -1272,7 +1109,6 @@ export default {
 			})
 			if (num == 1) {
 				_this.layer.msg('已经为1了减什么减?')
-				_this.layer.close(loading)
 			} else {
 				let formData = new FormData()
 				formData.append('id', id)
@@ -1290,10 +1126,10 @@ export default {
 						_this.layer.close(loading)
 						_this.layer.msg('数量减一')
 						_this.getCart()
-						_this.getSelectedGoods()
 					}) // 发送请求
 			}
 		},
+		//购物车数量+1
 		handleAdd(id, num) {
 			var _this = this
 			var loading = _this.layer.load(0, {
@@ -1316,9 +1152,9 @@ export default {
 					_this.layer.close(loading)
 					_this.layer.msg('数量加一')
 					_this.getCart()
-					_this.getSelectedGoods()
 				}) // 发送请求
 		},
+		//购物车商品删除
 		handleRemove(id) {
 			var _this = this
 			var loading = _this.layer.load(0, {
@@ -1340,10 +1176,9 @@ export default {
 					_this.layer.close(loading)
 					_this.layer.msg('移除成功')
 					_this.getCart()
-					_this.getSelectedGoods()
 				}) // 发送请求
 		},
-
+		//用户注册接口
 		register() {
 			var _this = this
 			var loading = _this.layer.load(0, {
@@ -1378,6 +1213,7 @@ export default {
 					})
 			}
 		},
+		//开店接口
 		openStore() {
 			var _this = this
 			_this.OpenStore.ownerId = _this.User.id
@@ -1452,31 +1288,6 @@ export default {
 					}
 				})
 				.catch(err => {
-					console.log(err.data)
-				})
-		},
-		storeList() {
-			var _this = this
-			let formData = new FormData()
-			var loading = _this.layer.load(0, {
-				shade: false,
-				time: 30 * 1000
-			})
-			_this.$axios
-				.get(
-					'http://localhost:8081/api/sto/getStoreList?userId=' +
-						this.$route.query.userId,
-					{
-						emulateJSON: true,
-						withCredentials: true
-					}
-				)
-				.then(res => {
-					_this.layer.close(loading)
-					_this.Store = res.data
-				})
-				.catch(err => {
-					_this.layer.close(loading)
 					console.log(err.data)
 				})
 		}
