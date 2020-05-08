@@ -15,7 +15,7 @@ export default {
   },
   mounted() {
     this.$axios
-      .get("http://localhost:8081/api/address/addressMng")
+      .get("/api/address/addressMng")
       .then(res => {
         console.log(res);
       })

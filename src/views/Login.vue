@@ -24,7 +24,7 @@ export default {
 	methods: {
 		getUser() {
 			this.$axios
-				.post('http://localhost:8081/api/user/getUser', {
+				.post('/api/user/getUser', {
 					emulateJSON: true,
 					withCredentials: true
 				})
@@ -39,7 +39,7 @@ export default {
 			// this.User = this.$qs.stringify(this.User);
 			// console.log(this.User);
 			this.$axios
-				.post('http://localhost:8081/api/user/login', this.User, {
+				.post('/api/user/login', this.User, {
 					emulateJSON: true,
 					withCredentials: true
 				})

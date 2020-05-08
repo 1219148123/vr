@@ -971,7 +971,7 @@ export default {
 			console.log(commentDTO)
 			_this
 				.$axios({
-					url: 'http://localhost:8081/api/comment/insert', //****: 你的ip地址
+					url: '/api/comment/insert', //****: 你的ip地址
 					data: commentDTO,
 					method: 'post'
 				})
@@ -986,7 +986,7 @@ export default {
 			var _this = this
 			_this.$axios
 				.get(
-					'http://localhost:8081/api/comment/list?id=' +
+					'/api/comment/list?id=' +
 						this.$route.query.id,
 					{
 						emulateJSON: true,
@@ -1005,7 +1005,7 @@ export default {
 			var _this = this
 			_this.$axios
 				.get(
-					'http://localhost:8081/api/discuss/select?id=' +
+					'/api/discuss/select?id=' +
 						this.$route.query.id,
 					{
 						emulateJSON: true,
@@ -1034,7 +1034,7 @@ export default {
 			formData.append('size', s)
 			_this
 				.$axios({
-					url: 'http://localhost:8081/api/discuss/list', //****: 你的ip地址
+					url: '/api/discuss/list', //****: 你的ip地址
 					data: formData,
 					method: 'post'
 				})
@@ -1053,7 +1053,7 @@ export default {
 			})
 			_this.$axios
 				.post(
-					'http://localhost:8081/api/discuss/insert',
+					'/api/discuss/insert',
 					_this.Publish,
 					{
 						emulateJSON: true,
@@ -1082,7 +1082,7 @@ export default {
 				time: 30 * 1000
 			})
 			_this.$axios
-				.post('http://localhost:8081/api/good/add', _this.Good, {
+				.post('/api/good/add', _this.Good, {
 					emulateJSON: true,
 					withCredentials: true
 				})
@@ -1106,7 +1106,7 @@ export default {
 			})
 			_this
 				.$axios({
-					url: 'http://localhost:8081/api/good/test', //****: 你的ip地址
+					url: '/api/good/test', //****: 你的ip地址
 					data: formData,
 					method: 'post',
 					headers: {
@@ -1148,7 +1148,7 @@ export default {
 			})
 			_this
 				.$axios({
-					url: 'http://localhost:8081/api/order/updatePayStatus', //****: 你的ip地址
+					url: '/api/order/updatePayStatus', //****: 你的ip地址
 					data: formData,
 					method: 'post',
 					headers: {
@@ -1173,7 +1173,7 @@ export default {
 				time: 30 * 1000
 			})
 			_this.$axios
-				.post('http://localhost:8081/api/user/login', _this.Login, {
+				.post('/api/user/login', _this.Login, {
 					emulateJSON: true,
 					withCredentials: true
 				})
@@ -1197,7 +1197,7 @@ export default {
 		getUser() {
 			var _this = this
 			_this.$axios
-				.post('http://localhost:8081/api/user/getUser', {
+				.post('/api/user/getUser', {
 					emulateJSON: true,
 					withCredentials: true
 				})
@@ -1211,7 +1211,7 @@ export default {
 		getCate() {
 			var _this = this
 			_this.$axios
-				.get('http://localhost:8081/api/category/get', {
+				.get('/api/category/get', {
 					emulateJSON: true,
 					withCredentials: true
 				})
@@ -1234,7 +1234,7 @@ export default {
 			}
 			_this
 				.$axios({
-					url: 'http://localhost:8081/api/order/insert', //****: 你的ip地址
+					url: '/api/order/insert', //****: 你的ip地址
 					data: OrderDTO,
 					method: 'post'
 				})
@@ -1249,7 +1249,7 @@ export default {
 			var _this = this
 			_this.$axios
 				.get(
-					'http://localhost:8081/api/address/addressMng?userId=' +
+					'/api/address/addressMng?userId=' +
 						this.$route.query.userId,
 					{
 						emulateJSON: true,
@@ -1267,7 +1267,7 @@ export default {
 		getStoreGoodsList() {
 			var _this = this
 			_this.$axios
-				.get('http://localhost:8081/api/sto/getStoreGoodsList', {
+				.get('/api/sto/getStoreGoodsList', {
 					emulateJSON: true,
 					withCredentials: true
 				})
@@ -1292,7 +1292,7 @@ export default {
 			})
 			_this.$axios
 				.get(
-					'http://localhost:8081/api/cart/getAllCartGood?userId=' +
+					'/api/cart/getAllCartGood?userId=' +
 						_this.User.id,
 					{
 						emulateJSON: true,
@@ -1328,7 +1328,7 @@ export default {
 			}
 			_this.$axios
 				.get(
-					'http://localhost:8081/api/cart/getAllCheckedCartGood?userId=' +
+					'/api/cart/getAllCheckedCartGood?userId=' +
 						this.$route.query.userId,
 					{
 						emulateJSON: true,
@@ -1358,7 +1358,7 @@ export default {
 			}
 			_this.$axios
 				.get(
-					'http://localhost:8081/api/order/getInpay?userId=' +
+					'/api/order/getInpay?userId=' +
 						this.$route.query.userId,
 					{
 						emulateJSON: true,
@@ -1386,7 +1386,7 @@ export default {
 			}
 			_this
 				.$axios({
-					url: 'http://localhost:8081/api/cart/insert', //****: 你的ip地址
+					url: '/api/cart/insert', //****: 你的ip地址
 					data: addCart,
 					method: 'post'
 				})
@@ -1407,7 +1407,7 @@ export default {
 			if (_this.isAllChecked == 0) {
 				_this
 					.$axios({
-						url: 'http://localhost:8081/api/cart/checkAll', //****: 你的ip地址
+						url: '/api/cart/checkAll', //****: 你的ip地址
 						data: formData,
 						method: 'post',
 						headers: {
@@ -1423,7 +1423,7 @@ export default {
 			} else {
 				_this
 					.$axios({
-						url: 'http://localhost:8081/api/cart/inCheckAll', //****: 你的ip地址
+						url: '/api/cart/inCheckAll', //****: 你的ip地址
 						data: formData,
 						method: 'post',
 						headers: {
@@ -1450,7 +1450,7 @@ export default {
 			if (isChecked == 0) {
 				_this
 					.$axios({
-						url: 'http://localhost:8081/api/cart/checkGood', //****: 你的ip地址
+						url: '/api/cart/checkGood', //****: 你的ip地址
 						data: formData,
 						method: 'post',
 						headers: {
@@ -1466,7 +1466,7 @@ export default {
 			} else {
 				_this
 					.$axios({
-						url: 'http://localhost:8081/api/cart/inCheckGood', //****: 你的ip地址
+						url: '/api/cart/inCheckGood', //****: 你的ip地址
 						data: formData,
 						method: 'post',
 						headers: {
@@ -1496,7 +1496,7 @@ export default {
 				formData.append('num', num - 1)
 				_this
 					.$axios({
-						url: 'http://localhost:8081/api/cart/changeNum', //****: 你的ip地址
+						url: '/api/cart/changeNum', //****: 你的ip地址
 						data: formData,
 						method: 'post',
 						headers: {
@@ -1522,7 +1522,7 @@ export default {
 			formData.append('num', num + 1)
 			_this
 				.$axios({
-					url: 'http://localhost:8081/api/cart/changeNum', //****: 你的ip地址
+					url: '/api/cart/changeNum', //****: 你的ip地址
 					data: formData,
 					method: 'post',
 					headers: {
@@ -1546,7 +1546,7 @@ export default {
 			formData.append('id', id)
 			_this
 				.$axios({
-					url: 'http://localhost:8081/api/cart/deleteCartGood', //****: 你的ip地址
+					url: '/api/cart/deleteCartGood', //****: 你的ip地址
 					data: formData,
 					method: 'delete',
 					headers: {
@@ -1575,7 +1575,7 @@ export default {
 			} else {
 				_this.$axios
 					.post(
-						'http://localhost:8081/api/user/userSignUp',
+						'/api/user/userSignUp',
 						_this.Register,
 						{
 							emulateJSON: true,
@@ -1605,7 +1605,7 @@ export default {
 				time: 30 * 1000
 			})
 			_this.$axios
-				.post('http://localhost:8081/api/sto/add', _this.OpenStore, {
+				.post('/api/sto/add', _this.OpenStore, {
 					emulateJSON: true,
 					withCredentials: true
 				})
@@ -1630,7 +1630,7 @@ export default {
 			})
 			_this
 				.$axios({
-					url: 'http://localhost:8081/api/sto/test', //****: 你的ip地址
+					url: '/api/sto/test', //****: 你的ip地址
 					data: formData,
 					method: 'post',
 					headers: {
@@ -1653,7 +1653,7 @@ export default {
 			})
 			_this.$axios
 				.post(
-					'http://localhost:8081/api/user/updateUser',
+					'/api/user/updateUser',
 					_this.Update,
 					{
 						emulateJSON: true,
@@ -1681,7 +1681,7 @@ export default {
 			})
 			_this.$axios
 				.get(
-					'http://localhost:8081/api/sto/getStoreList?userId=' +
+					'/api/sto/getStoreList?userId=' +
 						this.$route.query.userId,
 					{
 						emulateJSON: true,
