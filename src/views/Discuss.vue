@@ -577,7 +577,7 @@
 					<div class="media" v-for="item in Pagination.discussVOList" :key="item.id">
 						<div class="media-body">
 							<h4 class="media-heading">
-								<a @click="toDiscuss(item.id)">{{item.title}}</a>
+								<a class="title" @click="toDiscuss(item.id)">{{item.title}}</a>
 							</h4>
 							<span class="text-desc">
 								<span>{{item.userDetail.userName}}</span> 发表 •
@@ -1586,4 +1586,7 @@ export default {
 @import '../css/style.css';
 @import '../css/table.css';
 @import '../css/discuss.css';
+.title{
+	padding-right: 305px;
+}
 </style>

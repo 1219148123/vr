@@ -6,7 +6,11 @@ export default {
 	data() {
 		return {
 			layer: {},
-			element: {}
+			element: {},
+			addr:'',
+			provice:'',
+			city:'',
+			country:''
 		}
 	},
 	mounted() {
@@ -14,7 +18,12 @@ export default {
 	},
 	methods: {
 		regionChange(data) {
+			var _this = this
 			console.log(data)
+			_this.provice = data.province.value;
+			_this.city = data.city.value;
+			_this.country = data.area.value;
+			console.log(_this.provice + _this.city+ _this.country)
 		},
 		
 	}

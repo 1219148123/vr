@@ -429,7 +429,7 @@
 							<div class="collapse navbar-collapse menu--shylock" id="bs-example-navbar-collapse-1">
 								<ul class="nav navbar-nav menu__list">
 									<li class="active">
-										<a class="nav-stylehead" href="index.html">
+										<a class="nav-stylehead" @click="toIndex()">
 											首页
 											<span class="sr-only">(current)</span>
 										</a>
@@ -570,7 +570,7 @@
 		<div class="container-fluid main profile">
 			<div class="row">
 				<!--左边主要内容-->
-				<div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+				<div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 shadow">
 					<!--正文-->
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<h4 class="question-title">
@@ -578,7 +578,7 @@
 						</h4>
 						<span class="text-desc">
 							作者：
-							<span>{{Discuss.userDetail.userName}}</span> |
+							<span>{{Discuss.userDetail.userName|| ''}}</span> |
 							发布时间：
 							<span>{{Discuss.gmtCreate}}</span> |
 							阅读数：
@@ -588,14 +588,14 @@
 
 						<!--内容-->
 						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="question-view">
-							<p>{{Discuss.description}}</p>
+							<pre class="artical">{{Discuss.description}}</pre>
 						</div>
 
 						<!--标签-->
 						<hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
 						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<span class="question-tag" th:each="tag : ${question.tag.split(',')}">
-								<a class="community-tag">{{Discuss.tag}}</a>
+							<span class="question-tag" v-for="(item, index) in Discuss.tag.split(',')" :key="index">
+								<a class="community-tag">{{item}}</a>
 							</span>
 						</div>
 
@@ -610,8 +610,8 @@
 					</div>
 
 					<!--回复-->
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<h4>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 shadow">
+						<h4 class="textBox">
 							<span>{{CommentList.length}}</span> 个回复
 						</h4>
 						<hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-sp" />
@@ -622,19 +622,34 @@
 						>
 							<div class="media">
 								<div class="media-left">
-									<a href="#">{{item.commentatorVO.commentatorId}}</a>
+									<h5 class="media-heading">
+										<span>评论人:{{item.commentatorVO.commentatorName|| ''}}</span>
+									</h5>
 								</div>
 								<div class="media-body">
-									<h5 class="media-heading">
-										<span>{{item.commentatorVO.commentatorName}}</span>
-									</h5>
-									<div>{{item.content}}</div>
+									<div class="contentBox">{{item.content}}</div>
 									<div class="menu">
-										<span class="glyphicon glyphicon-thumbs-up icon"></span>
 										<span class="comment-icon">
-											<span>{{item.likeCount}}</span>
-											<span class="glyphicon glyphicon-comment"></span>
+											<span @click="showArtical(item,item.id)" class="glyphicon glyphicon-comment"></span>
 										</span>
+										<div v-if="!item.id" class="pinglunBox">
+											<input type="text" class="form-control" v-model="lowCommentContent" />
+											<button type="button" class="btn btn-success btn-comment"  @click="lowComment(lowId)">评论</button>
+											<hr>
+											<div v-for="comment in item.lowCommentVOList" :key="comment.id"> 
+												<div class="media">
+													<div class="media-left">
+														<h5 class="media-heading">
+															<span>回复人:{{comment.lowCommentatorVO.lowCommentatorName|| ''}}</span>
+														</h5>
+													</div>
+													<div class="media-body">
+														<p>{{comment.content}}</p>
+													</div>
+												</div>
+												<br>
+											</div>
+										</div>
 										<span class="pull-right">{{item.createTime}}</span>
 									</div>
 								</div>
@@ -643,16 +658,14 @@
 					</div>
 
 					<!--回复输入框-->
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 shadow">
 						<h4>提交回复</h4>
 						<hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-sp" />
 						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="comment_section">
 							<div class="media">
-								<div class="media-body">
-									<h5 class="media-heading">
-										<span>用户评论</span>
-									</h5>
-								</div>
+								<h5 class="media-heading">
+									<span>用户评论</span>
+								</h5>
 							</div>
 							<textarea class="form-control comment" rows="6" v-model="commentContent"></textarea>
 							<button type="button" class="btn btn-success btn-comment" @click="comment()">评论</button>
@@ -941,7 +954,9 @@ export default {
 			Pagination: {},
 			Discuss: {},
 			CommentList: {},
-			commentContent:''
+			commentContent: '',
+			lowCommentContent: '',
+			lowId:''
 		}
 	},
 	mounted: function() {
@@ -955,6 +970,37 @@ export default {
 		_this.getComment()
 	},
 	methods: {
+		toIndex() {
+			this.$router.push({
+				path: '/index',
+			})
+		},
+		lowComment(id) {
+			var _this = this
+			var loading = _this.layer.load(0, {
+				shade: false,
+				time: 30 * 1000
+			})
+			var commentDTO = {
+				commentator: _this.User.id,
+				content: _this.lowCommentContent,
+				id: 0,
+				parentId: id,
+				type: 2
+			}
+			_this
+				.$axios({
+					url: '/api/comment/insert', //****: 你的ip地址
+					data: commentDTO,
+					method: 'post'
+				})
+				.then(res => {
+					_this.layer.close(loading)
+					_this.layer.msg('回复成功')
+					_this.lowCommentContent = ''
+					_this.getComment()
+				}) // 发送请求
+		},
 		comment() {
 			var _this = this
 			var loading = _this.layer.load(0, {
@@ -968,7 +1014,6 @@ export default {
 				parentId: this.$route.query.id,
 				type: 1
 			}
-			console.log(commentDTO)
 			_this
 				.$axios({
 					url: '/api/comment/insert', //****: 你的ip地址
@@ -978,21 +1023,17 @@ export default {
 				.then(res => {
 					_this.layer.close(loading)
 					_this.layer.msg('评论成功')
-					_this.commentContent= ''
+					_this.commentContent = ''
 					_this.getComment()
 				}) // 发送请求
 		},
 		getComment() {
 			var _this = this
 			_this.$axios
-				.get(
-					'/api/comment/list?id=' +
-						this.$route.query.id,
-					{
-						emulateJSON: true,
-						withCredentials: true
-					}
-				)
+				.get('/api/comment/list?id=' + this.$route.query.id, {
+					emulateJSON: true,
+					withCredentials: true
+				})
 				.then(res => {
 					_this.CommentList = res.data
 					console.log(_this.CommentList)
@@ -1004,14 +1045,10 @@ export default {
 		getDiscussDetail() {
 			var _this = this
 			_this.$axios
-				.get(
-					'/api/discuss/select?id=' +
-						this.$route.query.id,
-					{
-						emulateJSON: true,
-						withCredentials: true
-					}
-				)
+				.get('/api/discuss/select?id=' + this.$route.query.id, {
+					emulateJSON: true,
+					withCredentials: true
+				})
 				.then(res => {
 					_this.Discuss = res.data
 				})
@@ -1052,14 +1089,10 @@ export default {
 				time: 30 * 1000
 			})
 			_this.$axios
-				.post(
-					'/api/discuss/insert',
-					_this.Publish,
-					{
-						emulateJSON: true,
-						withCredentials: true
-					}
-				)
+				.post('/api/discuss/insert', _this.Publish, {
+					emulateJSON: true,
+					withCredentials: true
+				})
 				.then(res => {
 					_this.layer.close(loading)
 					_this.Publish = {}
@@ -1291,14 +1324,10 @@ export default {
 				time: 30 * 1000
 			})
 			_this.$axios
-				.get(
-					'/api/cart/getAllCartGood?userId=' +
-						_this.User.id,
-					{
-						emulateJSON: true,
-						withCredentials: true
-					}
-				)
+				.get('/api/cart/getAllCartGood?userId=' + _this.User.id, {
+					emulateJSON: true,
+					withCredentials: true
+				})
 				.then(res => {
 					_this.layer.close(loading)
 					var sum = 0
@@ -1357,14 +1386,10 @@ export default {
 				return
 			}
 			_this.$axios
-				.get(
-					'/api/order/getInpay?userId=' +
-						this.$route.query.userId,
-					{
-						emulateJSON: true,
-						withCredentials: true
-					}
-				)
+				.get('/api/order/getInpay?userId=' + this.$route.query.userId, {
+					emulateJSON: true,
+					withCredentials: true
+				})
 				.then(res => {
 					_this.OrderInpayList = res.data
 				})
@@ -1574,14 +1599,10 @@ export default {
 					(_this.Register.userRePassword = '')
 			} else {
 				_this.$axios
-					.post(
-						'/api/user/userSignUp',
-						_this.Register,
-						{
-							emulateJSON: true,
-							withCredentials: true
-						}
-					)
+					.post('/api/user/userSignUp', _this.Register, {
+						emulateJSON: true,
+						withCredentials: true
+					})
 					.then(res => {
 						console.log(res)
 						if (res.data == 1) {
@@ -1652,14 +1673,10 @@ export default {
 				time: 30 * 1000
 			})
 			_this.$axios
-				.post(
-					'/api/user/updateUser',
-					_this.Update,
-					{
-						emulateJSON: true,
-						withCredentials: true
-					}
-				)
+				.post('/api/user/updateUser', _this.Update, {
+					emulateJSON: true,
+					withCredentials: true
+				})
 				.then(res => {
 					console.log(res)
 					if (res.statusText == 'OK') {
@@ -1681,8 +1698,7 @@ export default {
 			})
 			_this.$axios
 				.get(
-					'/api/sto/getStoreList?userId=' +
-						this.$route.query.userId,
+					'/api/sto/getStoreList?userId=' + this.$route.query.userId,
 					{
 						emulateJSON: true,
 						withCredentials: true
@@ -1697,6 +1713,10 @@ export default {
 					_this.layer.close(loading)
 					console.log(err.data)
 				})
+		},
+		showArtical(item,id) {
+			this.lowId = id
+			item.id = !item.id
 		}
 	}
 }
@@ -1714,4 +1734,30 @@ export default {
 @import '../css/style.css';
 @import '../css/table.css';
 @import '../css/discuss.css';
+.artical {
+	width: 100%;
+}
+.shadow {
+	box-shadow: 0px 0px 15px 0px #d6d6d6;
+}
+.textBox {
+	text-align: left;
+	padding-left: 2 0px;
+}
+.media-heading {
+	width: 100px;
+}
+.community-tag {
+	float: left;
+}
+.pinglunBox {
+	display: flex;
+	justify-content: space-around;
+}
+.pinglunBox input {
+	width: 600px;
+}
+.contentBox {
+	text-align: left;
+}
 </style>

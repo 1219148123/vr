@@ -239,7 +239,8 @@
 									required
 								/>
 							</div>
-							<label for="type">类型选择</label>
+							<div class="box">
+								<label  for="type">类型选择:</label>
 							<select class="form-control" id="type" v-model="OpenStore.storeCate" placeholder="店铺类型">
 								<option
 									selected
@@ -248,6 +249,8 @@
 									:value="TypeList.cateId"
 								>{{TypeList.cateName}}</option>
 							</select>
+							</div>
+							
 							<div class="styled-input">
 								<input type="file" placeholder="上传图片" id="file" v-on:change="uploadFile" />
 							</div>
@@ -1422,6 +1425,9 @@ export default {
 					} else if (res.data == 0) {
 						_this.layer.close(loading)
 						_this.layer.msg('账号不存在!')
+					}else if (res.data == -2) {
+						_this.layer.close(loading)
+						_this.layer.msg('账号已经失效!')
 					} else {
 						_this.layer.close(loading)
 						_this.layer.msg('密码错误!')
@@ -1834,4 +1840,13 @@ export default {
 @import '../css/popuo-box.css';
 @import '../css/style.css';
 @import '../css/table.css';
+.box{
+	display: flex;
+	justify-content: space-around;
+}
+.box label{
+	width: 100px;
+	line-height: 34px;
+	font-size:15px;
+}
 </style>

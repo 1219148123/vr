@@ -5,11 +5,6 @@ import Home from '../views/Home.vue'
 Vue.use(VueRouter)
 
 const routes = [{
-        path: '/',
-        name: 'Home',
-        component: Home
-    },
-    {
         path: '/about',
         name: 'About',
         // route level code-splitting
@@ -25,7 +20,7 @@ const routes = [{
             import ( /* webpackChunkName: "about" */ '../views/Login.vue')
     },
     {
-        path: '/index',
+        path: '/',
         name: 'Index',
         component: () =>
             import ( /* webpackChunkName: "about" */ '../views/Index.vue')
@@ -71,6 +66,42 @@ const routes = [{
         name: 'StoreGood',
         component: () =>
             import ( /* webpackChunkName: "about" */ '../views/StoreGood.vue')
+    }, {
+        path: '/admin',
+        name: 'Admin',
+        component: () =>
+            import ( /* webpackChunkName: "about" */ '../views/Admin.vue'),
+        children: [{
+                path: 'discussMng',
+                name: '/admin/discussMng',
+                component: () =>
+                    import ( /* webpackChunkName: "about" */ '../views/DiscussMng.vue')
+            },
+            {
+                path: 'commentMng',
+                name: '/admin/commentMng',
+                component: () =>
+                    import ( /* webpackChunkName: "about" */ '../views/CommentMng.vue')
+            },
+            {
+                path: 'userMng',
+                name: '/admin/userMng',
+                component: () =>
+                    import ( /* webpackChunkName: "about" */ '../views/UserMng.vue')
+            },
+            {
+                path: 'storeMng',
+                name: '/admin/storeMng',
+                component: () =>
+                    import ( /* webpackChunkName: "about" */ '../views/StoreMng.vue')
+            },
+            {
+                path: 'goodsMng',
+                name: '/admin/goodsMng',
+                component: () =>
+                    import ( /* webpackChunkName: "about" */ '../views/GoodsMng.vue')
+            },
+        ]
     },
     {
         path: '/test',
