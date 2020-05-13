@@ -633,11 +633,14 @@
 											<span @click="showArtical(item,item.id)" class="glyphicon glyphicon-comment"></span>
 										</span>
 										<div v-if="!item.id" class="pinglunBox">
+											
 											<input type="text" class="form-control" v-model="lowCommentContent" />
 											<button type="button" class="btn btn-success btn-comment"  @click="lowComment(lowId)">评论</button>
 											<hr>
-											<div v-for="comment in item.lowCommentVOList" :key="comment.id"> 
-												<div class="media">
+											
+										</div>
+										<div  v-for="comment in item.lowCommentVOList" :key="comment.id"> 
+												<div class="media beautifulBox" v-if="!item.id">
 													<div class="media-left">
 														<h5 class="media-heading">
 															<span>回复人:{{comment.lowCommentatorVO.lowCommentatorName|| ''}}</span>
@@ -646,11 +649,11 @@
 													<div class="media-body">
 														<p>{{comment.content}}</p>
 													</div>
+													<p class="ppp">{{comment.createTime}}</p>
 												</div>
 												<br>
 											</div>
-										</div>
-										<span class="pull-right">{{item.createTime}}</span>
+										<span class="pull-right ppp">{{item.createTime}}</span>
 									</div>
 								</div>
 							</div>
@@ -1757,7 +1760,16 @@ export default {
 .pinglunBox input {
 	width: 600px;
 }
+.ppp{
+	text-align: right;
+    font-size: 5px;
+}
 .contentBox {
 	text-align: left;
+}
+.beautifulBox{
+	padding-top: 2px;
+	margin-bottom: 1px;
+	box-shadow: 0px 0px 8px 0px #d6d6d6;
 }
 </style>

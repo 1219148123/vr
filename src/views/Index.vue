@@ -35,11 +35,20 @@
 								<span class="fa fa-unlock-alt" aria-hidden="true"></span> 登录
 							</a>
 							<a
-								v-else-if="User.userName==''||User.userPlanSpent==0"
+								v-else-if="User.userName==null"
 								data-toggle="modal"
 								data-target="#myModal3"
+								ref="update"
 							>
 								<span class="fa fa-grav" aria-hidden="true"></span> 点击完善信息
+							</a>
+							<a
+								v-else-if="User.userPlanSpent==0"
+								data-toggle="modal"
+								data-target="#myModal6"
+								ref="update"
+							>
+								<span class="fa fa-grav" aria-hidden="true"></span> 设置本月消费额度
 							</a>
 							<a v-else data-toggle="modal" data-target="#myModal4">
 								<span class="fa fa-address-book-o" aria-hidden="true"></span>
@@ -50,7 +59,11 @@
 							<a v-if="User==''" data-toggle="modal" data-target="#myModal2">
 								<span class="fa fa-pencil-square-o" aria-hidden="true"></span> 注册
 							</a>
-							<a v-else-if="User!='' && User.openStore==0" data-toggle="modal" data-target="#myModal4">
+							<a
+								v-else-if="User!='' && User.openStore==0 && User.userName!=null"
+								data-toggle="modal"
+								data-target="#myModal4"
+							>
 								<span class="fa fa-pencil-square-o" aria-hidden="true"></span> 点击开店
 							</a>
 							<a v-else-if="User!='' && User.openStore==1" @click="toMyStore()">
@@ -240,17 +253,17 @@
 								/>
 							</div>
 							<div class="box">
-								<label  for="type">类型选择:</label>
-							<select class="form-control" id="type" v-model="OpenStore.storeCate" placeholder="店铺类型">
-								<option
-									selected
-									v-for="TypeList in TypeList"
-									:key="TypeList.cateId"
-									:value="TypeList.cateId"
-								>{{TypeList.cateName}}</option>
-							</select>
+								<label for="type">类型选择:</label>
+								<select class="form-control" id="type" v-model="OpenStore.storeCate" placeholder="店铺类型">
+									<option
+										selected
+										v-for="TypeList in TypeList"
+										:key="TypeList.cateId"
+										:value="TypeList.cateId"
+									>{{TypeList.cateName}}</option>
+								</select>
 							</div>
-							
+
 							<div class="styled-input">
 								<input type="file" placeholder="上传图片" id="file" v-on:change="uploadFile" />
 							</div>
@@ -270,7 +283,7 @@
 				<!-- Modal content-->
 				<div class="modal-content">
 					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<a  class="close"  ref="banca" data-dismiss="modal">&times;</a>
 					</div>
 					<div class="modal-body modal-body-sub_agile">
 						<div class="main-mailposi">
@@ -347,6 +360,34 @@
 			</div>
 		</div>
 		<!-- //Modal5 -->
+
+<!-- Modal6 -->
+		<div class="modal fade" id="myModal6" tabindex="-1" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body modal-body-sub_agile">
+						<div class="main-mailposi">
+							<span class="fa fa-envelope-o" aria-hidden="true"></span>
+						</div>
+						<div class="modal_body_left modal_body_left1">
+							<h3 class="agileinfo_sign">完善信息,规划本月计划消费额度</h3>
+							<p>欢迎加入hzs在线商城!</p>
+							<div class="styled-input">
+								<input type="text" placeholder="本月消费额度$" v-model="Update.userPlanSpent" required />
+							</div>
+							<br />
+							<input type="submit" value="提交" @click="updateSpent()" data-dismiss="modal" />
+						</div>
+					</div>
+				</div>
+				<!-- //Modal content-->
+			</div>
+		</div>
+		<!-- //Modal6 -->
 
 		<!-- navigation -->
 		<div class="ban-top">
@@ -1425,13 +1466,14 @@ export default {
 					} else if (res.data == 0) {
 						_this.layer.close(loading)
 						_this.layer.msg('账号不存在!')
-					}else if (res.data == -2) {
+					} else if (res.data == -2) {
 						_this.layer.close(loading)
 						_this.layer.msg('账号已经失效!')
 					} else {
 						_this.layer.close(loading)
 						_this.layer.msg('密码错误!')
 					}
+					_this.Login = {}
 				})
 				.catch(err => {
 					console.log(err.data)
@@ -1495,14 +1537,10 @@ export default {
 				time: 30 * 1000
 			})
 			_this.$axios
-				.get(
-					'/api/cart/getAllCartGood?userId=' +
-						_this.User.id,
-					{
-						emulateJSON: true,
-						withCredentials: true
-					}
-				)
+				.get('/api/cart/getAllCartGood?userId=' + _this.User.id, {
+					emulateJSON: true,
+					withCredentials: true
+				})
 				.then(res => {
 					_this.layer.close(loading)
 					var sum = 0
@@ -1526,6 +1564,15 @@ export default {
 		//加入购物车
 		addCart(goodId) {
 			var _this = this
+			if (_this.User == '') {
+				_this.layer.msg('加入失败，请先登录')
+				return
+			}
+			if (_this.User.userPlanSpent == 0) {
+				_this.layer.msg('加入失败,请先完善信息设置消费额度')
+				//console.log(_this.$refs.update.click())
+				return
+			}
 			var loading = _this.layer.load(0, {
 				shade: false,
 				time: 30 * 1000
@@ -1722,24 +1769,26 @@ export default {
 			if (_this.Register.userPassword != _this.Register.userRePassword) {
 				_this.layer.msg('两次密码不匹配')
 				_this.layer.close(loading)
-				;(_this.Register.userPassword = ''),
-					(_this.Register.userRePassword = '')
+				_this.Register.userPassword = ''
+				_this.Register.userRePassword = ''
 			} else {
 				_this.$axios
-					.post(
-						'/api/user/userSignUp',
-						_this.Register,
-						{
-							emulateJSON: true,
-							withCredentials: true
-						}
-					)
+					.post('/api/user/userSignUp', _this.Register, {
+						emulateJSON: true,
+						withCredentials: true
+					})
 					.then(res => {
-						console.log(res)
 						if (res.data == 1) {
 							_this.Register = {}
 							_this.layer.close(loading)
 							_this.layer.msg('注册成功!,快登录享受购物吧')
+						} else if (res.data == -2) {
+							_this.Register = {}
+							_this.layer.close(loading)
+							this.$message({
+								message: '注册失败，账号已经被使用',
+								type: 'warning'
+							})
 						}
 					})
 					.catch(err => {
@@ -1798,21 +1847,40 @@ export default {
 		},
 		update() {
 			var _this = this
-			_this.Update.userId = _this.User.id
-			console.log(_this.Update)
+			_this.Update.userId = _this.User.userId
 			var loading = _this.layer.load(0, {
 				shade: false,
 				time: 30 * 1000
 			})
 			_this.$axios
-				.post(
-					'/api/user/updateUser',
-					_this.Update,
-					{
-						emulateJSON: true,
-						withCredentials: true
+				.post('/api/user/updateUser', _this.Update, {
+					emulateJSON: true,
+					withCredentials: true
+				})
+				.then(res => {
+					console.log(res)
+					if (res.statusText == 'OK') {
+						_this.layer.close(loading)
+						_this.layer.msg('修改成功!')
+						_this.getUser()
 					}
-				)
+				})
+				.catch(err => {
+					console.log(err.data)
+				})
+		},
+		updateSpent() {
+			var _this = this
+			_this.Update.userId = _this.User.userId
+			var loading = _this.layer.load(0, {
+				shade: false,
+				time: 30 * 1000
+			})
+			_this.$axios
+				.post('/api/user/updateUserSpent', _this.Update, {
+					emulateJSON: true,
+					withCredentials: true
+				})
 				.then(res => {
 					console.log(res)
 					if (res.statusText == 'OK') {
@@ -1840,13 +1908,13 @@ export default {
 @import '../css/popuo-box.css';
 @import '../css/style.css';
 @import '../css/table.css';
-.box{
+.box {
 	display: flex;
 	justify-content: space-around;
 }
-.box label{
+.box label {
 	width: 100px;
 	line-height: 34px;
-	font-size:15px;
+	font-size: 15px;
 }
 </style>
