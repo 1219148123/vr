@@ -11,11 +11,6 @@ export default {
   name: 'ManagerIndex',
   components: {Left},
   data () {
-    const item = {
-      date: '2020-02-12',
-      name: '张子扬',
-      address: '山西'
-    }
     return {
       tableData: Array(20).fill(item)
     }

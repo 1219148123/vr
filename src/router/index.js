@@ -104,6 +104,18 @@ const routes = [{
         ]
     },
     {
+        path: '/addressMng',
+        name: 'AddressMng',
+        component: () =>
+            import ( /* webpackChunkName: "about" */ '../views/AddressMng.vue')
+    },
+    {
+        path: '/addressEdit',
+        name: 'AddressEdit',
+        component: () =>
+            import ( /* webpackChunkName: "about" */ '../views/AddressEdit.vue')
+    },
+    {
         path: '/test',
         name: 'Test',
         component: () =>
