@@ -67,7 +67,7 @@
 								<span class="fa fa-search" aria-hidden="true"></span>
 							</button>
 						</form>
-					</div> -->
+					</div>-->
 					<!-- //顶部搜索栏 -->
 					<!-- cart details -->
 					<div class="top_nav_right">
@@ -429,22 +429,20 @@
 							<div class="collapse navbar-collapse menu--shylock" id="bs-example-navbar-collapse-1">
 								<ul class="nav navbar-nav menu__list">
 									<li class="active">
-										<a class="nav-stylehead" @click="toIndex()">
-											首页
-											
-										</a>
+										<a class="nav-stylehead" @click="toIndex()">首页</a>
 									</li>
 									<li class>
 										<a class="nav-stylehead" @click="toAddressMng()">地址管理</a>
 									</li>
 									<li class>
-										<a class="nav-stylehead" href="about.html">信息管理</a>
+										<a class="nav-stylehead" @click="toUserDetail()">信息管理</a>
 									</li>
 									<li class>
 										<a class="nav-stylehead" @click="toPublish()">发表帖子</a>
 									</li>
 									<li class>
-										<a class="nav-stylehead" @click="toDiscuss1()">论坛
+										<a class="nav-stylehead" @click="toDiscuss1()">
+											论坛
 											<span class="sr-only">(current)</span>
 										</a>
 									</li>
@@ -466,10 +464,10 @@
 				<div class="container">
 					<ul class="w3_short">
 						<li>
-							<a href="index.html">首页</a>
+							<a  @click="toIndex()">首页</a>
 							<i>|</i>
 						</li>
-						<li>您的店铺:</li>
+						<li>文章列表:</li>
 					</ul>
 				</div>
 			</div>
@@ -480,7 +478,7 @@
 			<div class="row">
 				<div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
 					<h3>
-						<span class="glyphicon glyphicon-list" aria-hidden="true"></span> 发现
+						<span class="glyphicon glyphicon-list" aria-hidden="true"></span> 文章
 					</h3>
 
 					<div class="media" v-for="item in Pagination.discussVOList" :key="item.id">
@@ -492,7 +490,7 @@
 								<span>{{item.userDetail.userName}}</span> 发表 •
 								<span>{{item.commentCount}}</span> 个回复 •
 								<span>{{item.viewCount}}</span> 次浏览 •
-								<span>{{item.gmtCreate}}</span> 次浏览 •
+								<span>{{item.gmtCreate}}</span> •
 							</span>
 						</div>
 					</div>
@@ -800,6 +798,12 @@ export default {
 		_this.getDiscussList(1, 5)
 	},
 	methods: {
+		toUserDetail() {
+			this.$router.push({
+				path: '/userDetail',
+				query: { userId: this.User.userId }
+			})
+		},
 		//去商品详情
 		toGoodDetail(id) {
 			this.$router.push({
@@ -832,12 +836,12 @@ export default {
 				query: { userId: this.User.id }
 			})
 		},
-        toDiscuss(id) {
-            this.$router.push({
+		toDiscuss(id) {
+			this.$router.push({
 				path: '/discussDetail',
 				query: { id: id }
 			})
-        },
+		},
 		getDiscussList(p, s) {
 			var _this = this
 			console.log(p)
@@ -865,14 +869,10 @@ export default {
 				time: 30 * 1000
 			})
 			_this.$axios
-				.post(
-					'/api/discuss/insert',
-					_this.Publish,
-					{
-						emulateJSON: true,
-						withCredentials: true
-					}
-				)
+				.post('/api/discuss/insert', _this.Publish, {
+					emulateJSON: true,
+					withCredentials: true
+				})
 				.then(res => {
 					_this.layer.close(loading)
 					_this.Publish = {}
@@ -1104,14 +1104,10 @@ export default {
 				time: 30 * 1000
 			})
 			_this.$axios
-				.get(
-					'/api/cart/getAllCartGood?userId=' +
-						_this.User.id,
-					{
-						emulateJSON: true,
-						withCredentials: true
-					}
-				)
+				.get('/api/cart/getAllCartGood?userId=' + _this.User.id, {
+					emulateJSON: true,
+					withCredentials: true
+				})
 				.then(res => {
 					_this.layer.close(loading)
 					var sum = 0
@@ -1170,14 +1166,10 @@ export default {
 				return
 			}
 			_this.$axios
-				.get(
-					'/api/order/getInpay?userId=' +
-						this.$route.query.userId,
-					{
-						emulateJSON: true,
-						withCredentials: true
-					}
-				)
+				.get('/api/order/getInpay?userId=' + this.$route.query.userId, {
+					emulateJSON: true,
+					withCredentials: true
+				})
 				.then(res => {
 					_this.OrderInpayList = res.data
 				})
@@ -1387,14 +1379,10 @@ export default {
 					(_this.Register.userRePassword = '')
 			} else {
 				_this.$axios
-					.post(
-						'/api/user/userSignUp',
-						_this.Register,
-						{
-							emulateJSON: true,
-							withCredentials: true
-						}
-					)
+					.post('/api/user/userSignUp', _this.Register, {
+						emulateJSON: true,
+						withCredentials: true
+					})
 					.then(res => {
 						console.log(res)
 						if (res.data == 1) {
@@ -1465,14 +1453,10 @@ export default {
 				time: 30 * 1000
 			})
 			_this.$axios
-				.post(
-					'/api/user/updateUser',
-					_this.Update,
-					{
-						emulateJSON: true,
-						withCredentials: true
-					}
-				)
+				.post('/api/user/updateUser', _this.Update, {
+					emulateJSON: true,
+					withCredentials: true
+				})
 				.then(res => {
 					console.log(res)
 					if (res.statusText == 'OK') {
@@ -1494,8 +1478,7 @@ export default {
 			})
 			_this.$axios
 				.get(
-					'/api/sto/getStoreList?userId=' +
-						this.$route.query.userId,
+					'/api/sto/getStoreList?userId=' + this.$route.query.userId,
 					{
 						emulateJSON: true,
 						withCredentials: true
@@ -1527,7 +1510,7 @@ export default {
 @import '../css/style.css';
 @import '../css/table.css';
 @import '../css/discuss.css';
-.title{
+.title {
 	padding-right: 305px;
 }
 </style>

@@ -23,7 +23,7 @@
 					<!-- header lists -->
 					<ul>
 						<li>
-							<a @click="toOrderMng()">
+							<a @click="toCheckout()">
 								<span class="fa fa-truck" aria-hidden="true"></span>订单
 							</a>
 						</li>
@@ -31,7 +31,7 @@
 							<span class="fa fa-phone" aria-hidden="true"></span> 001 234 5678
 						</li>
 						<li>
-							<a v-if="User==''" data-toggle="modal" data-target="#myModal1" ref="login">
+							<a v-if="User==''" data-toggle="modal" data-target="#myModal1">
 								<span class="fa fa-unlock-alt" aria-hidden="true"></span> 登录
 							</a>
 							<a v-else-if="User.userName==null" data-toggle="modal" data-target="#myModal3" ref="update">
@@ -432,640 +432,76 @@
 			</div>
 		</div>
 		<!-- //navigation -->
-		<!-- banner -->
-		<div id="myCarousel" class="carousel slide" data-ride="carousel">
-			<!-- Indicators-->
-			<ol class="carousel-indicators">
-				<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-				<li data-target="#myCarousel" data-slide-to="1" class></li>
-				<li data-target="#myCarousel" data-slide-to="2" class></li>
-				<li data-target="#myCarousel" data-slide-to="3" class></li>
-			</ol>
-			<div class="carousel-inner" role="listbox">
-				<div class="item active">
-					<div class="container">
-						<div class="carousel-caption">
-							<h3>
-								大
-								<span>甩卖</span>
-							</h3>
-							<p>
-								理性消费
-								<span>10%</span> 节约
-							</p>
-							<!-- <a class="button2" href="product.html">Shop Now</a> -->
-						</div>
-					</div>
-				</div>
-				<div class="item item2">
-					<div class="container">
-						<div class="carousel-caption">
-							<h3>
-								理性
-								<span>消费</span>
-							</h3>
-							<p>
-								节约
-								<span>30%</span> 省价
-							</p>
-							<!-- <a class="button2" href="product.html">Shop Now</a> -->
-						</div>
-					</div>
-				</div>
-				<div class="item item3">
-					<div class="container">
-						<div class="carousel-caption">
-							<h3>
-								大
-								<span>减价</span>
-							</h3>
-							<p>
-								减少
-								<span>20%</span>
-							</p>
-							<!-- <a class="button2" href="product.html">Shop Now</a> -->
-						</div>
-					</div>
-				</div>
-				<div class="item item4">
-					<div class="container">
-						<div class="carousel-caption">
-							<h3>
-								论坛
-								<span>查折扣</span>
-							</h3>
-							<p>
-								获取
-								<span>40%</span> 折扣
-							</p>
-							<!-- <a class="button2" href="product.html">Shop Now</a> -->
-						</div>
-					</div>
-				</div>
-			</div>
-			<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-				<span class="sr-only">Previous</span>
-			</a>
-			<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-				<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-				<span class="sr-only">Next</span>
-			</a>
-		</div>
-		<!-- //banner -->
 
-		<!-- top Products -->
-		<div class="ads-grid">
-			<div class="container">
-				<!-- tittle heading -->
-				<h3 class="tittle-w3l">
-					推荐的产品
-					<span class="heading-style">
-						<i></i>
-						<i></i>
-						<i></i>
-					</span>
-				</h3>
-				<!-- //tittle heading -->
-				<!-- 左边栏目 -->
-				<div class="side-bar col-md-3">
-					<div class="search-hotel">
-						<h3 class="agileits-sear-head">广告位</h3>
-						<!-- <form action="#" method="post">
-							<input type="search" placeholder="Product name..." name="search" required />
-							<input type="submit" value=" " />
-						</form>-->
-					</div>
-					<!-- 广告位 -->
-					<div class="range">
-						<h3 class="agileits-sear-head">广告位</h3>
-					</div>
-					<!-- //广告位 -->
-					<!-- food preference -->
-					<div class="left-side">
-						<h3 class="agileits-sear-head">广告位</h3>
-						<ul>
-							<!-- <li>
-								<input type="checkbox" class="checked" />
-								<span class="span">Vegetarian</span>
-							</li>
-							<li>
-								<input type="checkbox" class="checked" />
-								<span class="span">Non-Vegetarian</span>
-							</li>-->
-						</ul>
-					</div>
-					<!-- //food preference -->
-					<!-- discounts -->
-					<!-- <div class="left-side">
-						<h3 class="agileits-sear-head">Discount</h3>
-						<ul>
-							<li>
-								<input type="checkbox" class="checked" />
-								<span class="span">5% or More</span>
-							</li>
-							<li>
-								<input type="checkbox" class="checked" />
-								<span class="span">10% or More</span>
-							</li>
-							<li>
-								<input type="checkbox" class="checked" />
-								<span class="span">20% or More</span>
-							</li>
-							<li>
-								<input type="checkbox" class="checked" />
-								<span class="span">30% or More</span>
-							</li>
-							<li>
-								<input type="checkbox" class="checked" />
-								<span class="span">50% or More</span>
-							</li>
-							<li>
-								<input type="checkbox" class="checked" />
-								<span class="span">60% or More</span>
-							</li>
-						</ul>
-					</div>-->
-					<!-- //discounts -->
-					<!-- reviews -->
-					<!-- <div class="customer-rev left-side">
-						<h3 class="agileits-sear-head">Customer Review</h3>
-						<ul>
-							<li>
-								<a href="#">
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<span>5.0</span>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star-o" aria-hidden="true"></i>
-									<span>4.0</span>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star-half-o" aria-hidden="true"></i>
-									<i class="fa fa-star-o" aria-hidden="true"></i>
-									<span>3.5</span>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star-o" aria-hidden="true"></i>
-									<i class="fa fa-star-o" aria-hidden="true"></i>
-									<span>3.0</span>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star-half-o" aria-hidden="true"></i>
-									<i class="fa fa-star-o" aria-hidden="true"></i>
-									<i class="fa fa-star-o" aria-hidden="true"></i>
-									<span>2.5</span>
-								</a>
-							</li>
-						</ul>
-					</div>-->
-					<!-- //reviews -->
-
-					<!-- deals -->
-					<div class="deal-leftmk left-side">
-						<!-- <h3 class="agileits-sear-head">Special Deals</h3>
-						<div class="special-sec1">
-							<div class="col-xs-4 img-deals">
-								<img src="../images/d2.jpg" alt />
-							</div>
-							<div class="col-xs-8 img-deal1">
-								<h3>Lay's Potato Chips</h3>
-								<a href="single.html">$18.00</a>
-							</div>
-							<div class="clearfix"></div>
-						</div>-->
-						<!-- <div class="special-sec1">
-							<div class="col-xs-4 img-deals">
-								<img src="../images/d1.jpg" alt />
-							</div>
-							<div class="col-xs-8 img-deal1">
-								<h3>Bingo Mad Angles</h3>
-								<a href="single.html">$9.00</a>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-						<div class="special-sec1">
-							<div class="col-xs-4 img-deals">
-								<img src="../images/d4.jpg" alt />
-							</div>
-							<div class="col-xs-8 img-deal1">
-								<h3>Tata Salt</h3>
-								<a href="single.html">$15.00</a>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-						<div class="special-sec1">
-							<div class="col-xs-4 img-deals">
-								<img src="../images/d5.jpg" alt />
-							</div>
-							<div class="col-xs-8 img-deal1">
-								<h3>Gujarat Dry Fruit</h3>
-								<a href="single.html">$525.00</a>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-						<div class="special-sec1">
-							<div class="col-xs-4 img-deals">
-								<img src="../images/d3.jpg" alt />
-							</div>
-							<div class="col-xs-8 img-deal1">
-								<h3>Cadbury Dairy Milk</h3>
-								<a href="single.html">$149.00</a>
-							</div>
-							<div class="clearfix"></div>
-						</div>-->
-					</div>
-					<!-- //deals -->
-				</div>
-				<!-- //product left -->
-				<!-- product right -->
-				<div class="agileinfo-ads-display col-md-9">
-					<div class="wrapper">
-						<!-- first section (nuts) -->
-						<div class="product-sec1" v-for="item in StoreGoodsList" :key="item.storeId">
-							<h3 class="heading-tittle">{{item.storeName}}</h3>
-							<div class="col-md-4 product-men" v-for="goods in item.storeGoods" :key="goods.goodId">
-								<div class="men-pro-item simpleCart_shelfItem">
-									<div class="men-thumb-item">
-										<!-- <img :src="goods.imgAddr.split(',')[0]" alt /> -->
-										<img :src="goods.imgAddr.split(',')[0]" style="width:130px;height:130px;" />
-										<div class="men-cart-pro">
-											<div class="inner-men-cart-pro">
-												<a @click="toGoodDetail(goods.goodId)" class="link-product-add-cart">详情</a>
-											</div>
-										</div>
-										<span class="product-new-top">New</span>
-									</div>
-									<div class="item-info-product">
-										<h4>
-											<a href="single.html">{{goods.goodName}}</a>
-										</h4>
-										<div class="info-product-price">
-											<span class="item_price">${{goods.price}}</span>
-											<del>$280.00</del>
-										</div>
-										<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-											<input
-												type="submit"
-												data-toggle="modal"
-												data-target="#myModal5"
-												@click="addCart(goods.goodId)"
-												value="加入购物车"
-												class="button"
-											/>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<div class="clearfix"></div>
-						</div>
-						<!-- //first section (nuts) -->
-						<!-- second section (nuts special) -->
-						<!-- <div class="product-sec1 product-sec2">
-							<div class="col-xs-7 effect-bg">
-								<h3 class>Pure Energy</h3>
-								<h6>Enjoy our all healthy Products</h6>
-								<p>Get Extra 10% Off</p>
-							</div>
-							<h3 class="w3l-nut-middle">Nuts & Dry Fruits</h3>
-							<div class="col-xs-5 bg-right-nut">
-								<img src="../images/nut1.png" alt />
-							</div>
-							<div class="clearfix"></div>
-						</div>-->
-						<!-- //second section (nuts special) -->
-						<!-- third section (oils) -->
-						<!-- <div class="product-sec1">
-							<h3 class="heading-tittle">第二个店铺</h3>
-							<div class="col-md-4 product-men">
-								<div class="men-pro-item simpleCart_shelfItem">
-									<div class="men-thumb-item">
-										<img src="../images/mk4.jpg" alt />
-										<div class="men-cart-pro">
-											<div class="inner-men-cart-pro">
-												<a href="single.html" class="link-product-add-cart">Quick View</a>
-											</div>
-										</div>
-										<span class="product-new-top">New</span>
-									</div>
-									<div class="item-info-product">
-										<h4>
-											<a href="single.html">Freedom Oil, 1L</a>
-										</h4>
-										<div class="info-product-price">
-											<span class="item_price">$78.00</span>
-											<del>$110.00</del>
-										</div>
-										<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-											<form action="#" method="post">
-												<fieldset>
-													<input type="hidden" name="cmd" value="_cart" />
-													<input type="hidden" name="add" value="1" />
-													<input type="hidden" name="business" value=" " />
-													<input type="hidden" name="item_name" value="Freedom Sunflower Oil, 1L" />
-													<input type="hidden" name="amount" value="78.00" />
-													<input type="hidden" name="discount_amount" value="1.00" />
-													<input type="hidden" name="currency_code" value="USD" />
-													<input type="hidden" name="return" value=" " />
-													<input type="hidden" name="cancel_return" value=" " />
-													<input type="submit" name="submit" value="Add to cart" class="button" />
-												</fieldset>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-4 product-men">
-								<div class="men-pro-item simpleCart_shelfItem">
-									<div class="men-thumb-item">
-										<img src="../images/mk5.jpg" alt />
-										<div class="men-cart-pro">
-											<div class="inner-men-cart-pro">
-												<a href="single.html" class="link-product-add-cart">Quick View</a>
-											</div>
-										</div>
-										<span class="product-new-top">New</span>
-									</div>
-									<div class="item-info-product">
-										<h4>
-											<a href="single.html">Saffola Gold, 1L</a>
-										</h4>
-										<div class="info-product-price">
-											<span class="item_price">$130.00</span>
-											<del>$150.00</del>
-										</div>
-										<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-											<form action="#" method="post">
-												<fieldset>
-													<input type="hidden" name="cmd" value="_cart" />
-													<input type="hidden" name="add" value="1" />
-													<input type="hidden" name="business" value=" " />
-													<input type="hidden" name="item_name" value="Saffola Gold, 1L" />
-													<input type="hidden" name="amount" value="130.00" />
-													<input type="hidden" name="discount_amount" value="1.00" />
-													<input type="hidden" name="currency_code" value="USD" />
-													<input type="hidden" name="return" value=" " />
-													<input type="hidden" name="cancel_return" value=" " />
-													<input type="submit" name="submit" value="Add to cart" class="button" />
-												</fieldset>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-4 product-men">
-								<div class="men-pro-item simpleCart_shelfItem">
-									<div class="men-thumb-item">
-										<img src="../images/mk6.jpg" alt />
-										<div class="men-cart-pro">
-											<div class="inner-men-cart-pro">
-												<a href="single.html" class="link-product-add-cart">Quick View</a>
-											</div>
-										</div>
-										<span class="product-new-top">New</span>
-									</div>
-									<div class="item-info-product">
-										<h4>
-											<a href="single.html">Fortune Oil, 5L</a>
-										</h4>
-										<div class="info-product-price">
-											<span class="item_price">$399.99</span>
-											<del>$500.00</del>
-										</div>
-										<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-											<form action="#" method="post">
-												<fieldset>
-													<input type="hidden" name="cmd" value="_cart" />
-													<input type="hidden" name="add" value="1" />
-													<input type="hidden" name="business" value=" " />
-													<input type="hidden" name="item_name" value="Fortune Oil, 5L" />
-													<input type="hidden" name="amount" value="399.99" />
-													<input type="hidden" name="discount_amount" value="1.00" />
-													<input type="hidden" name="currency_code" value="USD" />
-													<input type="hidden" name="return" value=" " />
-													<input type="hidden" name="cancel_return" value=" " />
-													<input type="submit" name="submit" value="Add to cart" class="button" />
-												</fieldset>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="clearfix"></div>
-						</div>-->
-						<!-- //third section (oils) -->
-						<!-- fourth section (noodles) -->
-						<!-- <div class="product-sec1">
-							<h3 class="heading-tittle">Pasta & Noodles</h3>
-							<div class="col-md-4 product-men">
-								<div class="men-pro-item simpleCart_shelfItem">
-									<div class="men-thumb-item">
-										<img src="../images/mk7.jpg" alt />
-										<div class="men-cart-pro">
-											<div class="inner-men-cart-pro">
-												<a href="single.html" class="link-product-add-cart">Quick View</a>
-											</div>
-										</div>
-									</div>
-									<div class="item-info-product">
-										<h4>
-											<a href="single.html">Yippee Noodles, 65g</a>
-										</h4>
-										<div class="info-product-price">
-											<span class="item_price">$15.00</span>
-											<del>$25.00</del>
-										</div>
-										<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-											<form action="#" method="post">
-												<fieldset>
-													<input type="hidden" name="cmd" value="_cart" />
-													<input type="hidden" name="add" value="1" />
-													<input type="hidden" name="business" value=" " />
-													<input type="hidden" name="item_name" value="YiPPee Noodles, 65g" />
-													<input type="hidden" name="amount" value="15.00" />
-													<input type="hidden" name="discount_amount" value="1.00" />
-													<input type="hidden" name="currency_code" value="USD" />
-													<input type="hidden" name="return" value=" " />
-													<input type="hidden" name="cancel_return" value=" " />
-													<input type="submit" name="submit" value="Add to cart" class="button" />
-												</fieldset>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-4 product-men">
-								<div class="men-pro-item simpleCart_shelfItem">
-									<div class="men-thumb-item">
-										<img src="../images/mk8.jpg" alt />
-										<div class="men-cart-pro">
-											<div class="inner-men-cart-pro">
-												<a href="single.html" class="link-product-add-cart">Quick View</a>
-											</div>
-										</div>
-										<span class="product-new-top">New</span>
-									</div>
-									<div class="item-info-product">
-										<h4>
-											<a href="single.html">Wheat Pasta, 500g</a>
-										</h4>
-										<div class="info-product-price">
-											<span class="item_price">$98.00</span>
-											<del>$120.00</del>
-										</div>
-										<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-											<form action="#" method="post">
-												<fieldset>
-													<input type="hidden" name="cmd" value="_cart" />
-													<input type="hidden" name="add" value="1" />
-													<input type="hidden" name="business" value=" " />
-													<input type="hidden" name="item_name" value="Wheat Pasta, 500g" />
-													<input type="hidden" name="amount" value="98.00" />
-													<input type="hidden" name="discount_amount" value="1.00" />
-													<input type="hidden" name="currency_code" value="USD" />
-													<input type="hidden" name="return" value=" " />
-													<input type="hidden" name="cancel_return" value=" " />
-													<input type="submit" name="submit" value="Add to cart" class="button" />
-												</fieldset>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-4 product-men">
-								<div class="men-pro-item simpleCart_shelfItem">
-									<div class="men-thumb-item">
-										<img src="../images/mk9.jpg" alt />
-										<div class="men-cart-pro">
-											<div class="inner-men-cart-pro">
-												<a href="single.html" class="link-product-add-cart">Quick View</a>
-											</div>
-										</div>
-										<span class="product-new-top">New</span>
-									</div>
-									<div class="item-info-product">
-										<h4>
-											<a href="single.html">Chinese Noodles, 68g</a>
-										</h4>
-										<div class="info-product-price">
-											<span class="item_price">$11.99</span>
-											<del>$15.00</del>
-										</div>
-										<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-											<form action="#" method="post">
-												<fieldset>
-													<input type="hidden" name="cmd" value="_cart" />
-													<input type="hidden" name="add" value="1" />
-													<input type="hidden" name="business" value=" " />
-													<input type="hidden" name="item_name" value="Chinese Noodles, 68g" />
-													<input type="hidden" name="amount" value="11.99" />
-													<input type="hidden" name="discount_amount" value="1.00" />
-													<input type="hidden" name="currency_code" value="USD" />
-													<input type="hidden" name="return" value=" " />
-													<input type="hidden" name="cancel_return" value=" " />
-													<input type="submit" name="submit" value="Add to cart" class="button" />
-												</fieldset>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="clearfix"></div>
-						</div>-->
-						<!-- //fourth section (noodles) -->
-					</div>
-				</div>
-				<!-- //product right -->
-			</div>
+		<!-- footer -->
+		<div v-if="address.length == 0">
+			<address-edit @click="getAddress" ref="insert"></address-edit>
 		</div>
-		<!-- //top products -->
-		<!-- special offers -->
-		<div class="featured-section" id="projects">
-			<div class="container">
-				<!-- tittle heading -->
-				<h3 class="tittle-w3l">
-					推荐商品
-					<span class="heading-style">
-						<i></i>
-						<i></i>
-						<i></i>
-					</span>
-				</h3>
-				<!-- //tittle heading -->
-				<div class="content-bottom-in">
-					<ul id="flexiselDemo1">
-						<li>
-							<div class="w3l-specilamk">
-								<div class="speioffer-agile">
-									<a href="single.html">
-										<img src="../images/s1.jpg" alt />
-									</a>
-								</div>
-								<div class="product-name-w3l">
-									<h4>
-										<a href="single.html">菠萝干, 5g</a>
-									</h4>
-									<div class="w3l-pricehkj">
-										<h6>$220.00</h6>
-										<p>减 $40.00</p>
-									</div>
-									<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-										<input type="submit" name="submit" value="加入购物车" class="button" />
-									</div>
-								</div>
-							</div>
-						</li>
-						<li>
-							<div class="w3l-specilamk">
-								<div class="speioffer-agile">
-									<a href="single.html">
-										<img src="../images/s4.jpg" alt />
-									</a>
-								</div>
-								<div class="product-name-w3l">
-									<h4>
-										<a href="single.html">西红柿干, 950g</a>
-									</h4>
-									<div class="w3l-pricehkj">
-										<h6>$99.00</h6>
-										<p>减少 $20.00</p>
-									</div>
-									<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-										<input type="submit" name="submit" value="加入购物车" class="button" />
-									</div>
-								</div>
-							</div>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<!-- //special offers -->
+		<!-- <div class="address">
+			<el-table :data="address" style="width: 100%;margin: 10px" v-if="address.length > 0">
+				<el-table-column prop="id" label="编号" width="80"></el-table-column>
+				<el-table-column prop="phone" label="收获人电话" width="180"></el-table-column>
+				<el-table-column prop="province" label="省" width="120"></el-table-column>
+				<el-table-column prop="city" label="县" width="80"></el-table-column>
+				<el-table-column prop="county" label="市" width="80"></el-table-column>
+				<el-table-column prop="specAddr" label="具体地址" width="250"></el-table-column>
+				<el-table-column prop="consignee" label="收货人" width="180"></el-table-column>
+				<el-table-column label="操作" width="180">
+					<template slot-scope="scope">
+						<el-button size="mini" @click="editAddress(scope.row)">编辑</el-button>
+						<el-button size="mini" type="danger" @click="AddressDelete(scope.row.id)">删除</el-button>
+					</template>
+				</el-table-column>
+				<el-table-column width="180" label="操作">
+					<address-edit @click="getAddress" ref="insert"></address-edit>
+				</el-table-column>
+			</el-table>
+		</div>-->
+
+		<el-table :data="hisOrder" style="width: 100%">
+			<el-table-column type="expand">
+				<template slot-scope="props">
+					<el-form label-position="left" inline class="demo-table-expand">
+						<el-form-item label="地址:">
+							<span>{{ props.row.addressVO.province+"---" + props.row.addressVO.city+ "---" +props.row.addressVO.county+ "---" +props.row.addressVO.specAddr }}</span>
+						</el-form-item>
+						<el-form-item label="收获人:">
+							<span>{{ props.row.addressVO.consignee }}</span>
+						</el-form-item>
+						<el-form-item label="联系电话:">
+							<span>{{ props.row.addressVO.phone }}</span>
+						</el-form-item>
+						<div style="box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);width:550px;">
+							<el-table :data=" props.row.orderDetailVOList" stripe style="width: 100%">
+								<el-table-column prop="goodsVO.goodName" label="商品名称" width="100"></el-table-column>
+								<el-table-column prop="price" label="单价" width="100"></el-table-column>
+								<el-table-column prop="quantity" label="数量" width="100"></el-table-column>
+								<el-table-column prop="totalPrice" label="单个商品总价" width="100"></el-table-column>
+								<el-table-column
+									prop="storePhoto"
+									label="商品图片"
+									align="center"
+									width="150px"
+									padding="0px"
+									:show-overflow-tooltip="true"
+								>
+									<template slot-scope="scope">
+										<a @click="toGoodDetail(scope.row.goodId)">
+											<img :src="scope.row.goodsVO.imgAddr.split(',')[0]" alt style="width: 36px;height:36px" />
+										</a>
+									</template>
+								</el-table-column>
+							</el-table>
+						</div>
+					</el-form>
+				</template>
+			</el-table-column>
+			<el-table-column label="订单 ID" prop="orderId"></el-table-column>
+			<el-table-column label="总价" prop="totalPrice"></el-table-column>
+			<el-table-column label="付款时间" prop="orderTime"></el-table-column>
+		</el-table>
+
+		<!-- footer -->
 
 		<!-- footer -->
 		<footer>
@@ -1234,7 +670,7 @@
 				<!-- //footer fourth section (text) -->
 			</div>
 		</footer>
-		<!-- //footer -->
+		<!-- footer -->
 		<!-- copyright -->
 		<div class="copy-right">
 			<div class="container">
@@ -1246,7 +682,9 @@
 </template>
 
 <script>
+import AddressEdit from './AddressEdit'
 export default {
+	components: { AddressEdit },
 	data() {
 		return {
 			TypeList: [],
@@ -1281,7 +719,9 @@ export default {
 				storeName: '',
 				storeDesc: '',
 				storeCate: ''
-			}
+			},
+			address: {},
+			hisOrder: {}
 		}
 	},
 	mounted: function() {
@@ -1290,28 +730,32 @@ export default {
 			_this.layer = layui.layer
 		})
 		//钩子函数页面加载后获取用户 分类 店铺商品信息
-		_this.getStoreGoodsList()
 		_this.getUser()
 		_this.getCate()
+		_this.getHisOrder()
 	},
 	methods: {
-		toOrderMng(){
-			this.$router.push({
-				path: '/orderMng',
-				query: { userId: this.User.userId }
-			})
+		//获取历史账单
+		getHisOrder() {
+			var _this = this
+			_this.$axios
+				.get('/api/order/getPay?userId=' + this.$route.query.userId, {
+					emulateJSON: true,
+					withCredentials: true
+				})
+				.then(res => {
+					console.log(res.data)
+					_this.hisOrder = res.data
+				})
+				.catch(err => {
+					console.log(err.data)
+				})
 		},
 		//去用户详情页面
 		toUserDetail() {
 			this.$router.push({
 				path: '/userDetail',
-				query: { userId: this.User.userId }
-			})
-		},
-		//管理员界面
-		toAdmin() {
-			this.$router.push({
-				path: '/admin'
+				query: { userId: this.$route.query.userId }
 			})
 		},
 		//去商品详情
@@ -1360,6 +804,78 @@ export default {
 				query: { userId: this.User.id }
 			})
 		},
+		//删除地址
+		AddressDelete(id) {
+			console.log(id)
+			var _this = this
+			let formData = new FormData()
+			formData.append('id', id)
+			_this
+				.$axios({
+					url: '/api/address/address', //****: 你的ip地址
+					data: formData,
+					method: 'delete',
+					headers: {
+						'Content-Type': 'multipart/form-data'
+					}
+				})
+				.then(res => {
+					this.$message({
+						type: 'success',
+						message: '删除成功!'
+					})
+					_this.getAddress()
+				}) // 发送请求
+		},
+		//修改地址
+		editAddress(item) {
+			this.$refs.insert.addressFormVisible = true
+			this.$refs.insert.addressForm = {
+				city: item.city,
+				consignee: item.consignee,
+				county: item.county,
+				id: item.id,
+				phone: item.phone,
+				province: item.province,
+				specAddr: item.specAddr,
+				flag: -1
+			}
+			var _this = this
+			_this.getAddress()
+		},
+		//获取地址信息
+		getAddress() {
+			var _this = this
+			_this.$axios
+				.get(
+					'/api/address/addressMng?userId=' +
+						this.$route.query.userId,
+					{
+						emulateJSON: true,
+						withCredentials: true
+					}
+				)
+				.then(res => {
+					_this.address = res.data
+				})
+				.catch(err => {
+					console.log(err.data)
+				})
+		},
+		//去结账页面
+		toCheckout() {
+			this.$router.push({
+				path: '/checkout',
+				query: { userId: this.User.id }
+			})
+		},
+		//去店铺管理页面
+		toMyStore() {
+			this.$router.push({
+				path: '/myStore',
+				query: { userId: this.User.id }
+			})
+		},
 		//数据格式化只显示小数点后两位
 		numFilter(value) {
 			let realVal = ''
@@ -1373,20 +889,9 @@ export default {
 		},
 		//登录接口
 		login() {
+			// this.User = this.$qs.stringify(this.User);
+			// console.log(this.User);
 			var _this = this
-			var account = function(str) {
-				var patrn = /^[0-9]{1,30}$/
-				var bool = true
-				if (!patrn.exec(str)) {
-					bool = false
-				}
-				return bool
-			}
-			if(_this.Login.userAccount == '' || _this.Login.userAccount == ' ') {
-				layer.msg('账号不能为空');
-				_this.$refs.login.click()
-				return ;
-			}
 			var loading = _this.layer.load(0, {
 				shade: false,
 				time: 30 * 1000
@@ -1427,7 +932,6 @@ export default {
 				})
 				.then(res => {
 					_this.User = res.data
-					console.log(_this.User);
 				})
 				.catch(err => {
 					console.log(err.data)
@@ -1458,7 +962,6 @@ export default {
 				})
 				.then(res => {
 					_this.StoreGoodsList = res.data
-					console.log(_this.StoreGoodsList)
 				})
 				.catch(err => {
 					console.log(err.data)
@@ -1477,7 +980,7 @@ export default {
 				time: 30 * 1000
 			})
 			_this.$axios
-				.get('/api/cart/getAllCartGood?userId=' + _this.User.id, {
+				.get('/api/cart/getAllCartGood?userId=' + _this.User.userId, {
 					emulateJSON: true,
 					withCredentials: true
 				})
@@ -1510,7 +1013,7 @@ export default {
 			}
 			if (_this.User.userPlanSpent == 0) {
 				_this.layer.msg('加入失败,请先完善信息设置消费额度')
-				//console.log(_this.$refs.login.click())
+				//console.log(_this.$refs.update.click())
 				return
 			}
 			var loading = _this.layer.load(0, {
@@ -1856,5 +1359,20 @@ export default {
 	width: 100px;
 	line-height: 34px;
 	font-size: 15px;
+}
+.address {
+	margin: 0 auto;
+}
+.demo-table-expand {
+	font-size: 0;
+}
+.demo-table-expand label {
+	width: 90px;
+	color: #99a9bf;
+}
+.demo-table-expand .el-form-item {
+	margin-right: 0;
+	margin-bottom: 0;
+	width: 50%;
 }
 </style>
