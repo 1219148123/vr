@@ -365,115 +365,22 @@
 							<div class="collapse navbar-collapse menu--shylock" id="bs-example-navbar-collapse-1">
 								<ul class="nav navbar-nav menu__list">
 									<li class="active">
-										<a class="nav-stylehead" href="index.html">
+										<a class="nav-stylehead" @click="toIndex()">
 											首页
 											<span class="sr-only">(current)</span>
 										</a>
 									</li>
 									<li class>
-										<a class="nav-stylehead" href="about.html">关于我们</a>
-									</li>
-									<li class="dropdown">
-										<a
-											href="#"
-											class="dropdown-toggle nav-stylehead"
-											data-toggle="dropdown"
-											role="button"
-											aria-haspopup="true"
-											aria-expanded="false"
-										>
-											我的
-											<span class="caret"></span>
-										</a>
-										<ul class="dropdown-menu multi-column columns-3">
-											<div class="agile_inner_drop_nav_info">
-												<div class="col-sm-4 multi-gd-img">
-													<ul class="multi-column-dropdown">
-														<li>
-															<a href="product.html">Bakery</a>
-														</li>
-														<li>
-															<a href="product.html">Baking Supplies</a>
-														</li>
-														<li>
-															<a href="product.html">Coffee, Tea & Beverages</a>
-														</li>
-													</ul>
-												</div>
-												<div class="col-sm-4 multi-gd-img">
-													<ul class="multi-column-dropdown">
-														<li>
-															<a href="product.html">Pickles</a>
-														</li>
-														<li>
-															<a href="product.html">Pasta & Noodles</a>
-														</li>
-														<li>
-															<a href="product.html">Rice, Flour & Pulses</a>
-														</li>
-													</ul>
-												</div>
-												<div class="col-sm-4 multi-gd-img">
-													<img src="../images/nav.png" alt />
-												</div>
-												<div class="clearfix"></div>
-											</div>
-										</ul>
-									</li>
-									<li class="dropdown">
-										<a
-											href="#"
-											class="dropdown-toggle nav-stylehead"
-											data-toggle="dropdown"
-											role="button"
-											aria-haspopup="true"
-											aria-expanded="false"
-										>
-											购物车
-											<span class="caret"></span>
-										</a>
-										<ul class="dropdown-menu multi-column columns-3">
-											<div class="agile_inner_drop_nav_info">
-												<div class="col-sm-6 multi-gd-img">
-													<ul class="multi-column-dropdown">
-														<li>
-															<a href="product2.html">Kitchen & Dining</a>
-														</li>
-														<li>
-															<a href="product2.html">Detergents</a>
-														</li>
-													</ul>
-												</div>
-												<div class="col-sm-6 multi-gd-img">
-													<ul class="multi-column-dropdown">
-														<li>
-															<a href="product2.html">Pet Care</a>
-														</li>
-														<li>
-															<a href="product2.html">Cleaning Accessories</a>
-														</li>
-													</ul>
-												</div>
-												<div class="clearfix"></div>
-											</div>
-										</ul>
+										<a class="nav-stylehead" @click="toAddressMng()">地址管理</a>
 									</li>
 									<li class>
-										<a class="nav-stylehead" href="faqs.html">论坛</a>
+										<a class="nav-stylehead" href="about.html">信息管理</a>
 									</li>
-									<li class="dropdown">
-										<a class="nav-stylehead dropdown-toggle" href="#" data-toggle="dropdown">
-											Pages
-											<b class="caret"></b>
-										</a>
-										<ul class="dropdown-menu agile_short_dropdown">
-											<li>
-												<a href="icons.html">Web Icons</a>
-											</li>
-											<li>
-												<a href="typography.html">Typography</a>
-											</li>
-										</ul>
+									<li class>
+										<a class="nav-stylehead" @click="toPublish()">发表帖子</a>
+									</li>
+									<li class>
+										<a class="nav-stylehead" @click="toDiscuss()">论坛</a>
 									</li>
 									<li class>
 										<a class="nav-stylehead" href="contact.html">联系我们</a>
@@ -537,7 +444,7 @@
 									<td class="invert">{{index +1}}</td>
 									<td class="invert-image">
 										<a href="single2.html">
-											<img src="../images/a7.jpg" alt=" " class="img-responsive" />
+											<img :src="item.goodsVO.imgAddr.split(',')[0]" alt=" " class="img-responsive" />
 										</a>
 									</td>
 									<td class="invert">
@@ -581,10 +488,10 @@
 								:value="item.id"
 							>{{item.province+','+item.city+','+item.county+','+item.consignee+','+item.phone}}</option>
 						</select>
-						<button class="submit check_out">+</button>
+						<!-- <button class="submit check_out">+</button> -->
 						<div class="checkout-right-basket">
 							<a @click="insertOrder()">
-								查看未付款订单
+								去付款
 								<span class="fa fa-hand-o-right" aria-hidden="true"></span>
 							</a>
 						</div>
@@ -823,6 +730,38 @@ export default {
 		_this.getAddress()
 	},
 	methods: {
+		//去商品详情
+		toGoodDetail(id) {
+			this.$router.push({
+				path: '/goodDetail',
+				query: { goodId: id }
+			})
+		},
+		//去发布
+		toPublish() {
+			this.$router.push({
+				path: '/publish'
+			})
+		},
+		//去首页
+		toIndex() {
+			this.$router.push({
+				path: '/'
+			})
+		},
+		//去论坛了列表
+		toDiscuss() {
+			this.$router.push({
+				path: '/discuss'
+			})
+		},
+		//去地址管理页面
+		toAddressMng() {
+			this.$router.push({
+				path: '/addressMng',
+				query: { userId: this.User.id }
+			})
+		},
 		numFilter(value) {
 			let realVal = ''
 			if (!isNaN(value) && value !== '') {

@@ -60,14 +60,14 @@
 					</ul>
 					<!-- //header lists -->
 					<!-- 顶部搜索栏 -->
-					<div class="agileits_search">
+					<!-- <div class="agileits_search">
 						<form action="#" method="post">
 							<input name="Search" type="search" placeholder="今天您想买些什么?" required />
 							<button type="submit" class="btn btn-default" aria-label="Left Align">
 								<span class="fa fa-search" aria-hidden="true"></span>
 							</button>
 						</form>
-					</div>
+					</div> -->
 					<!-- //顶部搜索栏 -->
 					<!-- cart details -->
 					<div class="top_nav_right">
@@ -365,115 +365,22 @@
 							<div class="collapse navbar-collapse menu--shylock" id="bs-example-navbar-collapse-1">
 								<ul class="nav navbar-nav menu__list">
 									<li class="active">
-										<a class="nav-stylehead" href="index.html">
+										<a class="nav-stylehead" @click="toIndex()">
 											首页
 											<span class="sr-only">(current)</span>
 										</a>
 									</li>
 									<li class>
-										<a class="nav-stylehead" href="about.html">关于我们</a>
-									</li>
-									<li class="dropdown">
-										<a
-											href="#"
-											class="dropdown-toggle nav-stylehead"
-											data-toggle="dropdown"
-											role="button"
-											aria-haspopup="true"
-											aria-expanded="false"
-										>
-											我的
-											<span class="caret"></span>
-										</a>
-										<ul class="dropdown-menu multi-column columns-3">
-											<div class="agile_inner_drop_nav_info">
-												<div class="col-sm-4 multi-gd-img">
-													<ul class="multi-column-dropdown">
-														<li>
-															<a href="product.html">Bakery</a>
-														</li>
-														<li>
-															<a href="product.html">Baking Supplies</a>
-														</li>
-														<li>
-															<a href="product.html">Coffee, Tea & Beverages</a>
-														</li>
-													</ul>
-												</div>
-												<div class="col-sm-4 multi-gd-img">
-													<ul class="multi-column-dropdown">
-														<li>
-															<a href="product.html">Pickles</a>
-														</li>
-														<li>
-															<a href="product.html">Pasta & Noodles</a>
-														</li>
-														<li>
-															<a href="product.html">Rice, Flour & Pulses</a>
-														</li>
-													</ul>
-												</div>
-												<div class="col-sm-4 multi-gd-img">
-													<img src="../images/nav.png" alt />
-												</div>
-												<div class="clearfix"></div>
-											</div>
-										</ul>
-									</li>
-									<li class="dropdown">
-										<a
-											href="#"
-											class="dropdown-toggle nav-stylehead"
-											data-toggle="dropdown"
-											role="button"
-											aria-haspopup="true"
-											aria-expanded="false"
-										>
-											购物车
-											<span class="caret"></span>
-										</a>
-										<ul class="dropdown-menu multi-column columns-3">
-											<div class="agile_inner_drop_nav_info">
-												<div class="col-sm-6 multi-gd-img">
-													<ul class="multi-column-dropdown">
-														<li>
-															<a href="product2.html">Kitchen & Dining</a>
-														</li>
-														<li>
-															<a href="product2.html">Detergents</a>
-														</li>
-													</ul>
-												</div>
-												<div class="col-sm-6 multi-gd-img">
-													<ul class="multi-column-dropdown">
-														<li>
-															<a href="product2.html">Pet Care</a>
-														</li>
-														<li>
-															<a href="product2.html">Cleaning Accessories</a>
-														</li>
-													</ul>
-												</div>
-												<div class="clearfix"></div>
-											</div>
-										</ul>
+										<a class="nav-stylehead" @click="toAddressMng()">地址管理</a>
 									</li>
 									<li class>
-										<a class="nav-stylehead" href="faqs.html">论坛</a>
+										<a class="nav-stylehead" href="about.html">信息管理</a>
 									</li>
-									<li class="dropdown">
-										<a class="nav-stylehead dropdown-toggle" href="#" data-toggle="dropdown">
-											Pages
-											<b class="caret"></b>
-										</a>
-										<ul class="dropdown-menu agile_short_dropdown">
-											<li>
-												<a href="icons.html">Web Icons</a>
-											</li>
-											<li>
-												<a href="typography.html">Typography</a>
-											</li>
-										</ul>
+									<li class>
+										<a class="nav-stylehead" @click="toPublish()">发表帖子</a>
+									</li>
+									<li class>
+										<a class="nav-stylehead" @click="toDiscuss()">论坛</a>
 									</li>
 									<li class>
 										<a class="nav-stylehead" href="contact.html">联系我们</a>
@@ -486,87 +393,7 @@
 			</div>
 		</div>
 		<!-- //navigation -->
-		<!-- banner -->
-		<div id="myCarousel" class="carousel slide" data-ride="carousel">
-			<!-- Indicators-->
-			<ol class="carousel-indicators">
-				<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-				<li data-target="#myCarousel" data-slide-to="1" class></li>
-				<li data-target="#myCarousel" data-slide-to="2" class></li>
-				<li data-target="#myCarousel" data-slide-to="3" class></li>
-			</ol>
-			<div class="carousel-inner" role="listbox">
-				<div class="item active">
-					<div class="container">
-						<div class="carousel-caption">
-							<h3>
-								大
-								<span>甩卖</span>
-							</h3>
-							<p>
-								Get flat
-								<span>10%</span> Cashback
-							</p>
-							<a class="button2" href="product.html">Shop Now</a>
-						</div>
-					</div>
-				</div>
-				<div class="item item2">
-					<div class="container">
-						<div class="carousel-caption">
-							<h3>
-								Healthy
-								<span>Saving</span>
-							</h3>
-							<p>
-								Get Upto
-								<span>30%</span> Off
-							</p>
-							<a class="button2" href="product.html">Shop Now</a>
-						</div>
-					</div>
-				</div>
-				<div class="item item3">
-					<div class="container">
-						<div class="carousel-caption">
-							<h3>
-								Big
-								<span>Deal</span>
-							</h3>
-							<p>
-								Get Best Offer Upto
-								<span>20%</span>
-							</p>
-							<a class="button2" href="product.html">Shop Now</a>
-						</div>
-					</div>
-				</div>
-				<div class="item item4">
-					<div class="container">
-						<div class="carousel-caption">
-							<h3>
-								Today
-								<span>Discount</span>
-							</h3>
-							<p>
-								Get Now
-								<span>40%</span> Discount
-							</p>
-							<a class="button2" href="product.html">Shop Now</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-				<span class="sr-only">Previous</span>
-			</a>
-			<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-				<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-				<span class="sr-only">Next</span>
-			</a>
-		</div>
-		<!-- //banner -->
+		
 
 
 		<!-- special offers -->
@@ -574,7 +401,7 @@
 			<div class="container">
 				<!-- tittle heading -->
 				<h3 class="tittle-w3l">
-					推荐商品
+					店铺商品
 					<span class="heading-style">
 						<i></i>
 						<i></i>
@@ -841,6 +668,52 @@ export default {
 		_this.getStoreGood()
 	},
 	methods: {
+		//去商品详情
+		toGoodDetail(id) {
+			this.$router.push({
+				path: '/goodDetail',
+				query: { goodId: id }
+			})
+		},
+		//去发布
+		toPublish() {
+			this.$router.push({
+				path: '/publish'
+			})
+		},
+		//去首页
+		toIndex() {
+			this.$router.push({
+				path: '/'
+			})
+		},
+		//去论坛了列表
+		toDiscuss() {
+			this.$router.push({
+				path: '/discuss'
+			})
+		},
+		//去地址管理页面
+		toAddressMng() {
+			this.$router.push({
+				path: '/addressMng',
+				query: { userId: this.User.id }
+			})
+		},
+		//去结账页面
+		toCheckout() {
+			this.$router.push({
+				path: '/checkout',
+				query: { userId: this.User.id }
+			})
+		},
+		//去店铺管理页面
+		toMyStore() {
+			this.$router.push({
+				path: '/myStore',
+				query: { userId: this.User.id }
+			})
+		},
 		//查询该店铺的商品
 		getStoreGood() {
 			var _this = this

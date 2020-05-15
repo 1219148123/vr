@@ -31,7 +31,7 @@
 							<span class="fa fa-phone" aria-hidden="true"></span> 001 234 5678
 						</li>
 						<li>
-							<a v-if="User==''" data-toggle="modal" data-target="#myModal1">
+							<a v-if="User==''" data-toggle="modal" data-target="#myModal1" ref="login">
 								<span class="fa fa-unlock-alt" aria-hidden="true"></span> 登录
 							</a>
 							<a v-else-if="User.userName==null" data-toggle="modal" data-target="#myModal3" ref="update">
@@ -413,7 +413,7 @@
 										<a class="nav-stylehead" @click="toAddressMng()">地址管理</a>
 									</li>
 									<li class>
-										<a class="nav-stylehead" href="about.html">信息管理</a>
+										<a class="nav-stylehead" @click="toUserDetail()">信息管理</a>
 									</li>
 									<li class>
 										<a class="nav-stylehead" @click="toPublish()">发表帖子</a>
@@ -450,10 +450,10 @@
 								<span>甩卖</span>
 							</h3>
 							<p>
-								Get flat
-								<span>10%</span> Cashback
+								理性消费
+								<span>10%</span> 节约
 							</p>
-							<a class="button2" href="product.html">Shop Now</a>
+							<!-- <a class="button2" href="product.html">Shop Now</a> -->
 						</div>
 					</div>
 				</div>
@@ -461,14 +461,14 @@
 					<div class="container">
 						<div class="carousel-caption">
 							<h3>
-								Healthy
-								<span>Saving</span>
+								理性
+								<span>消费</span>
 							</h3>
 							<p>
-								Get Upto
-								<span>30%</span> Off
+								节约
+								<span>30%</span> 省价
 							</p>
-							<a class="button2" href="product.html">Shop Now</a>
+							<!-- <a class="button2" href="product.html">Shop Now</a> -->
 						</div>
 					</div>
 				</div>
@@ -476,14 +476,14 @@
 					<div class="container">
 						<div class="carousel-caption">
 							<h3>
-								Big
-								<span>Deal</span>
+								大
+								<span>减价</span>
 							</h3>
 							<p>
-								Get Best Offer Upto
+								减少
 								<span>20%</span>
 							</p>
-							<a class="button2" href="product.html">Shop Now</a>
+							<!-- <a class="button2" href="product.html">Shop Now</a> -->
 						</div>
 					</div>
 				</div>
@@ -491,14 +491,14 @@
 					<div class="container">
 						<div class="carousel-caption">
 							<h3>
-								Today
-								<span>Discount</span>
+								论坛
+								<span>查折扣</span>
 							</h3>
 							<p>
-								Get Now
-								<span>40%</span> Discount
+								获取
+								<span>40%</span> 折扣
 							</p>
-							<a class="button2" href="product.html">Shop Now</a>
+							<!-- <a class="button2" href="product.html">Shop Now</a> -->
 						</div>
 					</div>
 				</div>
@@ -715,7 +715,7 @@
 										<img :src="goods.imgAddr.split(',')[0]" style="width:130px;height:130px;" />
 										<div class="men-cart-pro">
 											<div class="inner-men-cart-pro">
-												<a href="single.html" class="link-product-add-cart">详情</a>
+												<a @click="toGoodDetail(goods.goodId)" class="link-product-add-cart">详情</a>
 											</div>
 										</div>
 										<span class="product-new-top">New</span>
@@ -1295,6 +1295,26 @@ export default {
 		_this.getCate()
 	},
 	methods: {
+		//去用户详情页面
+		toUserDetail() {
+			this.$router.push({
+				path: '/userDetail',
+				query: { userId: this.User.userId }
+			})
+		},
+		//管理员界面
+		toAdmin() {
+			this.$router.push({
+				path: '/admin'
+			})
+		},
+		//去商品详情
+		toGoodDetail(id) {
+			this.$router.push({
+				path: '/goodDetail',
+				query: { goodId: id }
+			})
+		},
 		//去发布
 		toPublish() {
 			this.$router.push({
@@ -1313,7 +1333,7 @@ export default {
 				path: '/discuss'
 			})
 		},
-		//去结账页面
+		//去地址管理页面
 		toAddressMng() {
 			this.$router.push({
 				path: '/addressMng',
@@ -1347,9 +1367,20 @@ export default {
 		},
 		//登录接口
 		login() {
-			// this.User = this.$qs.stringify(this.User);
-			// console.log(this.User);
 			var _this = this
+			var account = function(str) {
+				var patrn = /^[0-9]{1,30}$/
+				var bool = true
+				if (!patrn.exec(str)) {
+					bool = false
+				}
+				return bool
+			}
+			if(_this.Login.userAccount == '' || _this.Login.userAccount == ' ') {
+				layer.msg('账号不能为空');
+				_this.$refs.login.click()
+				return ;
+			}
 			var loading = _this.layer.load(0, {
 				shade: false,
 				time: 30 * 1000
@@ -1390,6 +1421,7 @@ export default {
 				})
 				.then(res => {
 					_this.User = res.data
+					console.log(_this.User);
 				})
 				.catch(err => {
 					console.log(err.data)
@@ -1472,7 +1504,7 @@ export default {
 			}
 			if (_this.User.userPlanSpent == 0) {
 				_this.layer.msg('加入失败,请先完善信息设置消费额度')
-				//console.log(_this.$refs.update.click())
+				//console.log(_this.$refs.login.click())
 				return
 			}
 			var loading = _this.layer.load(0, {

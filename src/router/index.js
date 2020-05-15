@@ -116,6 +116,18 @@ const routes = [{
             import ( /* webpackChunkName: "about" */ '../views/AddressEdit.vue')
     },
     {
+        path: '/userDetail',
+        name: 'UserDetail',
+        component: () =>
+            import ( /* webpackChunkName: "about" */ '../views/UserDetail.vue')
+    },
+    {
+        path: '/goodDetail',
+        name: 'GoodDetail',
+        component: () =>
+            import ( /* webpackChunkName: "about" */ '../views/GoodDetail.vue')
+    },
+    {
         path: '/test',
         name: 'Test',
         component: () =>

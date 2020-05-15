@@ -23,7 +23,7 @@
 					<!-- header lists -->
 					<ul>
 						<li>
-							<a href="#" data-toggle="modal" data-target="#myModal1">
+							<a @click="toCheckout()">
 								<span class="fa fa-truck" aria-hidden="true"></span>订单
 							</a>
 						</li>
@@ -34,12 +34,16 @@
 							<a v-if="User==''" data-toggle="modal" data-target="#myModal1">
 								<span class="fa fa-unlock-alt" aria-hidden="true"></span> 登录
 							</a>
-							<a
-								v-else-if="User.userName==''||User.userPlanSpent==0"
-								data-toggle="modal"
-								data-target="#myModal3"
-							>
+							<a v-else-if="User.userName==null" data-toggle="modal" data-target="#myModal3" ref="update">
 								<span class="fa fa-grav" aria-hidden="true"></span> 点击完善信息
+							</a>
+							<a
+								v-else-if="User.userPlanSpent==0"
+								data-toggle="modal"
+								data-target="#myModal6"
+								ref="update"
+							>
+								<span class="fa fa-grav" aria-hidden="true"></span> 设置本月消费额度
 							</a>
 							<a v-else data-toggle="modal" data-target="#myModal4">
 								<span class="fa fa-address-book-o" aria-hidden="true"></span>
@@ -50,23 +54,27 @@
 							<a v-if="User==''" data-toggle="modal" data-target="#myModal2">
 								<span class="fa fa-pencil-square-o" aria-hidden="true"></span> 注册
 							</a>
-							<a v-else-if="User!='' && User.openStore==1" data-toggle="modal" data-target="#myModal4">
+							<a
+								v-else-if="User!='' && User.openStore==0 && User.userName!=null"
+								data-toggle="modal"
+								data-target="#myModal4"
+							>
 								<span class="fa fa-pencil-square-o" aria-hidden="true"></span> 点击开店
 							</a>
-							<!-- <a v-else-if="User!='' && User.openStore==1" data-toggle="modal" data-target="#myModal4">
-								<span class="fa fa-pencil-square-o" aria-hidden="true"></span> 新增商品
-							</a>-->
+							<a v-else-if="User!='' && User.openStore==1" @click="toMyStore()">
+								<span class="fa fa-pencil-square-o" aria-hidden="true"></span> 店铺管理
+							</a>
 						</li>
 					</ul>
 					<!-- //header lists -->
 					<!-- 顶部搜索栏 -->
 					<div class="agileits_search">
-						<form action="#" method="post">
+						<!-- <form action="#" method="post">
 							<input name="Search" type="search" placeholder="今天您想买些什么?" required />
 							<button type="submit" class="btn btn-default" aria-label="Left Align">
 								<span class="fa fa-search" aria-hidden="true"></span>
 							</button>
-						</form>
+						</form>-->
 					</div>
 					<!-- //顶部搜索栏 -->
 					<!-- cart details -->
@@ -239,15 +247,18 @@
 									required
 								/>
 							</div>
-							<label for="type">类型选择</label>
-							<select class="form-control" id="type" v-model="OpenStore.storeCate" placeholder="店铺类型">
-								<option
-									selected
-									v-for="TypeList in TypeList"
-									:key="TypeList.cateId"
-									:value="TypeList.cateId"
-								>{{TypeList.cateName}}</option>
-							</select>
+							<div class="box">
+								<label for="type">类型选择:</label>
+								<select class="form-control" id="type" v-model="OpenStore.storeCate" placeholder="店铺类型">
+									<option
+										selected
+										v-for="TypeList in TypeList"
+										:key="TypeList.cateId"
+										:value="TypeList.cateId"
+									>{{TypeList.cateName}}</option>
+								</select>
+							</div>
+
 							<div class="styled-input">
 								<input type="file" placeholder="上传图片" id="file" v-on:change="uploadFile" />
 							</div>
@@ -267,7 +278,7 @@
 				<!-- Modal content-->
 				<div class="modal-content">
 					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<a class="close" ref="banca" data-dismiss="modal">&times;</a>
 					</div>
 					<div class="modal-body modal-body-sub_agile">
 						<div class="main-mailposi">
@@ -336,7 +347,7 @@
 									</table>
 								</div>
 							</div>
-							<input type="submit" value="提交" @click="openStore()" data-dismiss="modal" />
+							<input type="submit" value="下单" @click="toCheckout()" data-dismiss="modal" />
 						</div>
 					</div>
 				</div>
@@ -344,6 +355,34 @@
 			</div>
 		</div>
 		<!-- //Modal5 -->
+
+		<!-- Modal6 -->
+		<div class="modal fade" id="myModal6" tabindex="-1" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body modal-body-sub_agile">
+						<div class="main-mailposi">
+							<span class="fa fa-envelope-o" aria-hidden="true"></span>
+						</div>
+						<div class="modal_body_left modal_body_left1">
+							<h3 class="agileinfo_sign">完善信息,规划本月计划消费额度</h3>
+							<p>欢迎加入hzs在线商城!</p>
+							<div class="styled-input">
+								<input type="text" placeholder="本月消费额度$" v-model="Update.userPlanSpent" required />
+							</div>
+							<br />
+							<input type="submit" value="提交" @click="updateSpent()" data-dismiss="modal" />
+						</div>
+					</div>
+				</div>
+				<!-- //Modal content-->
+			</div>
+		</div>
+		<!-- //Modal6 -->
 
 		<!-- navigation -->
 		<div class="ban-top">
@@ -393,7 +432,6 @@
 			</div>
 		</div>
 		<!-- //navigation -->
-
 		<!-- page -->
 		<div class="services-breadcrumb">
 			<div class="agile_inner_breadcrumb">
@@ -403,75 +441,87 @@
 							<a href="index.html">首页</a>
 							<i>|</i>
 						</li>
-						<li>下单</li>
+						<li>商品详情</li>
 					</ul>
 				</div>
 			</div>
 		</div>
-		<!-- 订单-->
-		<!--列表渲染-->
-		<div class="table-responsive" v-for="item in OrderInpayList" :key="item.orderId">
-			<h4>订单编号{{item.orderId}}</h4>
-			<table class="timetable_sub" v-for="goods in item.orderDetailVOList" :key="goods.id">
-				<thead>
-					<tr>
-						<th>商品</th>
-						<th>数量</th>
-						<th>商品名称</th>
-						<th>价格</th>
-						<th>总价</th>
-						<th>地址信息</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr class="rem1">
-						<td class="invert-image">
-							<a href="single2.html">
-								<img
-									:src="goods.goodsVO.imgAddr.split(',')[0]"
-									alt=" "
-									class="img-responsive"
-									style="width:130px;height:130px;"
-								/>
-							</a>
-						</td>
-						<td class="invert">
-							<div class="quantity">
-								<div class="quantity-select">
-									<div class="entry value">
-										<span>{{goods.quantity}}</span>
-									</div>
-								</div>
-							</div>
-						</td>
-						<td class="invert">{{goods.goodsVO.goodName}}</td>
-						<td class="invert">${{goods.price}}</td>
-						<td class="invert">${{goods.totalPrice}}</td>
-						<td class="invert">
-							<div class="rem">
-								<span>收获人信息:</span>
-								<!-- 折扣 -->
-								<span>{{item.addressVO.consignee+','+item.addressVO.phone}}</span>
-								<span>收获地址:</span>
-								<!-- 税费 -->
-								<span>{{item.addressVO.province+','+item.addressVO.city+','+item.addressVO.specAddr}}</span>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			<!-- 订单总金额 -->
-			<h4 style="color:red;float:right;">总价$:{{item.totalPrice}}</h4>
-			<div class="checkout-right-basket">
-				<a @click="pay(item.orderId,item.totalPrice)">
-					付款
-					<span class="fa fa-hand-o-right" aria-hidden="true"></span>
-				</a>
-			</div>
-			<hr />
-		</div>
+		<!-- //page -->
+		<!-- Single Page -->
+		<div class="banner-bootom-w3-agileits">
+			<div class="container">
+				<!-- tittle heading -->
+				<h3 class="tittle-w3l">
+					详情
+					<span class="heading-style">
+						<i></i>
+						<i></i>
+						<i></i>
+					</span>
+				</h3>
+				<!-- //tittle heading -->
+				<div class="col-md-5 single-right-left">
+					<div class="grid images_3_of_2">
+						<div class="flexslider">
+							<ul class="slides">
+								<!-- <img src="../images/si.jpg" alt /> -->
 
-		<!-- //订单 -->
+								<div class="demo-image__lazy">
+									<el-image v-for="url in GoodsDetail.imgAddr.split(',')" :key="url" :src="url" lazy></el-image>
+								</div>
+							</ul>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-7 single-right-left simpleCart_shelfItem">
+					<h3>商品描述</h3>
+					<p>
+						<span>{{GoodsDetail.goodName}}</span>
+						<span class="item_price">${{GoodsDetail.price}}</span>
+						<label>免邮费</label>
+					</p>
+					<div class="single-infoagile">
+						<ul>
+							<li>{{GoodsDetail.description}}</li>
+							<li>支持货到付款。</li>
+							<li>发货速度到交货。</li>
+							<li>
+								库存
+								<span class="item_price">{{GoodsDetail.num}}</span>
+							</li>
+						</ul>
+					</div>
+					<div class="product-single-w3l">
+						<p>
+							<i class="fa fa-hand-o-right" aria-hidden="true"></i>是否
+							<label>消费额</label> 达到?
+						</p>
+						<ul>
+							<li>理性消费.</li>
+						</ul>
+						<p>
+							<i class="fa fa-refresh" aria-hidden="true"></i>按照月额度
+							<label>理性消费</label>
+						</p>
+					</div>
+					<div class="occasion-cart">
+						<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+							<input
+								type="submit"
+								data-toggle="modal"
+								data-target="#myModal5"
+								@click="addCart(GoodsDetail.goodId)"
+								value="添加到购物车"
+								class="button"
+							/>
+						</div>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+		<!-- //Single Page -->
 
 		<!-- footer -->
 		<footer>
@@ -656,6 +706,8 @@ export default {
 	data() {
 		return {
 			TypeList: [],
+			imgAddr:
+				'https://hzsfile.oss-cn-beijing.aliyuncs.com/images/2020/04/09/15864355211077425.jpg',
 			User: {},
 			Update: {
 				sex: '',
@@ -665,14 +717,10 @@ export default {
 				userPhone: '',
 				userPlanSpent: 0
 			},
-			OrderInpayList: {},
 			layer: {},
 			isAllChecked: 0,
 			totalPrice: 0,
-			selectedTotalPrice: 0, //下单时候的总价
-			address: {},
 			Cart: {},
-			Checkout: {},
 			Login: {
 				userAccount: '',
 				userPassword: ''
@@ -689,7 +737,8 @@ export default {
 				storeName: '',
 				storeDesc: '',
 				storeCate: ''
-			}
+			},
+			GoodsDetail: {}
 		}
 	},
 	mounted: function() {
@@ -697,16 +746,28 @@ export default {
 		layui.use('layer', function() {
 			_this.layer = layui.layer
 		})
+		//钩子函数页面加载后获取用户 分类 店铺商品信息
+		_this.getStoreGoodsList()
 		_this.getUser()
-		_this.getInpay()
+		_this.getCate()
+		_this.getGoodDetail()
 	},
 	methods: {
-		//去商品详情
-		toGoodDetail(id) {
-			this.$router.push({
-				path: '/goodDetail',
-				query: { goodId: id }
-			})
+		//获取用户详情
+		getGoodDetail() {
+			var _this = this
+			_this.$axios
+				.get('/api/good/get?goodId=' + this.$route.query.goodId, {
+					emulateJSON: true,
+					withCredentials: true
+				})
+				.then(res => {
+					_this.GoodsDetail = res.data
+					console.log(_this.GoodsDetail)
+				})
+				.catch(err => {
+					console.log(err.data)
+				})
 		},
 		//去发布
 		toPublish() {
@@ -726,13 +787,28 @@ export default {
 				path: '/discuss'
 			})
 		},
-		//去地址管理页面
+		//去结账页面
 		toAddressMng() {
 			this.$router.push({
 				path: '/addressMng',
 				query: { userId: this.User.id }
 			})
 		},
+		//去结账页面
+		toCheckout() {
+			this.$router.push({
+				path: '/checkout',
+				query: { userId: this.User.id }
+			})
+		},
+		//去店铺管理页面
+		toMyStore() {
+			this.$router.push({
+				path: '/myStore',
+				query: { userId: this.User.id }
+			})
+		},
+		//数据格式化只显示小数点后两位
 		numFilter(value) {
 			let realVal = ''
 			if (!isNaN(value) && value !== '') {
@@ -743,85 +819,7 @@ export default {
 			}
 			return realVal
 		},
-		pay(orderId, orderSpent) {
-			var _this = this
-			if (
-				_this.User.userCurrentSpent + orderSpent >
-				_this.User.userPlanSpent
-			) {
-				_this.$confirm('本月消费额度已经到了,建议克制消费?', '警告', {
-					confirmButtonText: '确定',
-					cancelButtonText: '取消',
-					type: 'warning'
-				}).then(() => {
-					
-					// if (
-					// 	_this.User.userCurrentSpent + orderSpent >
-					// 	_this.User.userPlanSpent
-					// ) {
-					// 	_this.layer.msg('本月消费额度已经到了,建议克制消费')
-					// }
-
-					let formData = new FormData()
-					formData.append('orderId', orderId)
-					formData.append('userId', _this.User.id)
-					formData.append(
-						'spent',
-						_this.User.userCurrentSpent + orderSpent
-					)
-					var loading = _this.layer.load(0, {
-						shade: false,
-						time: 30 * 1000
-					})
-					_this
-						.$axios({
-							url: '/api/order/updatePayStatus', //****: 你的ip地址
-							data: formData,
-							method: 'post',
-							headers: {
-								'Content-Type': 'multipart/form-data'
-							}
-						})
-						.then(res => {
-							_this.layer.close(loading)
-							_this.layer.msg('付款成功')
-							_this.getUser()
-							_this.getCart()
-							_this.getInpay()
-							_this.getSelectedGoods()
-						}) // 发送请求
-				})
-			}else {
-					let formData = new FormData()
-					formData.append('orderId', orderId)
-					formData.append('userId', _this.User.id)
-					formData.append(
-						'spent',
-						_this.User.userCurrentSpent + orderSpent
-					)
-					var loading = _this.layer.load(0, {
-						shade: false,
-						time: 30 * 1000
-					})
-					_this
-						.$axios({
-							url: '/api/order/updatePayStatus', //****: 你的ip地址
-							data: formData,
-							method: 'post',
-							headers: {
-								'Content-Type': 'multipart/form-data'
-							}
-						})
-						.then(res => {
-							_this.layer.close(loading)
-							_this.layer.msg('付款成功')
-							_this.getUser()
-							_this.getCart()
-							_this.getInpay()
-							_this.getSelectedGoods()
-						}) // 发送请求
-			}
-		},
+		//登录接口
 		login() {
 			// this.User = this.$qs.stringify(this.User);
 			// console.log(this.User);
@@ -843,15 +841,20 @@ export default {
 					} else if (res.data == 0) {
 						_this.layer.close(loading)
 						_this.layer.msg('账号不存在!')
+					} else if (res.data == -2) {
+						_this.layer.close(loading)
+						_this.layer.msg('账号已经失效!')
 					} else {
 						_this.layer.close(loading)
 						_this.layer.msg('密码错误!')
 					}
+					_this.Login = {}
 				})
 				.catch(err => {
 					console.log(err.data)
 				})
 		},
+		//获取用户
 		getUser() {
 			var _this = this
 			_this.$axios
@@ -861,12 +864,12 @@ export default {
 				})
 				.then(res => {
 					_this.User = res.data
-					console.log(_this.User)
 				})
 				.catch(err => {
 					console.log(err.data)
 				})
 		},
+		//获取分类
 		getCate() {
 			var _this = this
 			_this.$axios
@@ -881,48 +884,7 @@ export default {
 					console.log(err.data)
 				})
 		},
-		insertOrder() {
-			var _this = this
-			var loading = _this.layer.load(0, {
-				shade: false,
-				time: 30 * 1000
-			})
-			var OrderDTO = {
-				addressId: _this.address.id,
-				userId: _this.User.id
-			}
-			_this
-				.$axios({
-					url: '/api/order/insert', //****: 你的ip地址
-					data: OrderDTO,
-					method: 'post'
-				})
-				.then(res => {
-					_this.layer.close(loading)
-					_this.layer.msg('订单生成,请付款')
-					_this.getCart()
-					_this.getSelectedGoods()
-				}) // 发送请求
-		},
-		getAddress() {
-			var _this = this
-			_this.$axios
-				.get(
-					'/api/address/addressMng?userId=' +
-						this.$route.query.userId,
-					{
-						emulateJSON: true,
-						withCredentials: true
-					}
-				)
-				.then(res => {
-					console.log(res)
-					_this.address = res.data
-				})
-				.catch(err => {
-					console.log(err.data)
-				})
-		},
+		//获取店铺商品列表
 		getStoreGoodsList() {
 			var _this = this
 			_this.$axios
@@ -932,11 +894,13 @@ export default {
 				})
 				.then(res => {
 					_this.StoreGoodsList = res.data
+					console.log(_this.StoreGoodsList)
 				})
 				.catch(err => {
 					console.log(err.data)
 				})
 		},
+		//购物车列表获取
 		getCart() {
 			// this.User = this.$qs.stringify(this.User);
 			var _this = this
@@ -973,58 +937,18 @@ export default {
 					console.log(err.data)
 				})
 		},
-		getSelectedGoods() {
-			// this.User = this.$qs.stringify(this.User);
-			var _this = this
-			if (_this.User == '') {
-				_this.layer.msg('请先登录')
-				return
-			}
-			_this.$axios
-				.get(
-					'/api/cart/getAllCheckedCartGood?userId=' +
-						this.$route.query.userId,
-					{
-						emulateJSON: true,
-						withCredentials: true
-					}
-				)
-				.then(res => {
-					var allPrice = 0
-					for (let index = 0; index < res.data.length; index++) {
-						allPrice +=
-							res.data[index].quantity *
-							res.data[index].goodsVO.price
-					}
-					_this.selectedTotalPrice = allPrice
-					_this.Checkout = res.data
-				})
-				.catch(err => {
-					console.log(err.data)
-				})
-		},
-		getInpay() {
-			// this.User = this.$qs.stringify(this.User);
-			var _this = this
-			if (_this.User == '') {
-				_this.layer.msg('请先登录')
-				return
-			}
-			_this.$axios
-				.get('/api/order/getInpay?userId=' + this.$route.query.userId, {
-					emulateJSON: true,
-					withCredentials: true
-				})
-				.then(res => {
-					_this.OrderInpayList = res.data
-					console.log(_this.OrderInpayList)
-				})
-				.catch(err => {
-					console.log(err.data)
-				})
-		},
+		//加入购物车
 		addCart(goodId) {
 			var _this = this
+			if (_this.User == '') {
+				_this.layer.msg('加入失败，请先登录')
+				return
+			}
+			if (_this.User.userPlanSpent == 0) {
+				_this.layer.msg('加入失败,请先完善信息设置消费额度')
+				//console.log(_this.$refs.update.click())
+				return
+			}
 			var loading = _this.layer.load(0, {
 				shade: false,
 				time: 30 * 1000
@@ -1040,6 +964,9 @@ export default {
 					url: '/api/cart/insert', //****: 你的ip地址
 					data: addCart,
 					method: 'post'
+					// headers: {
+					// 	'Content-Type': 'multipart/form-data'
+					// }
 				})
 				.then(res => {
 					_this.layer.close(loading)
@@ -1047,6 +974,7 @@ export default {
 					_this.getCart()
 				}) // 发送请求
 		},
+		//购物车商品全选
 		checkAll() {
 			var _this = this
 			let formData = new FormData()
@@ -1069,7 +997,6 @@ export default {
 						_this.layer.close(loading)
 						_this.layer.msg('全选')
 						_this.getCart()
-						_this.getSelectedGoods()
 					}) // 发送请求
 			} else {
 				_this
@@ -1085,10 +1012,10 @@ export default {
 						_this.layer.close(loading)
 						_this.layer.msg('全不选')
 						_this.getCart()
-						_this.getSelectedGoods()
 					}) // 发送请求
 			}
 		},
+		//购物车商品选中一个
 		checkOne(cartId, isChecked) {
 			var _this = this
 			let formData = new FormData()
@@ -1112,7 +1039,6 @@ export default {
 						_this.layer.close(loading)
 						_this.layer.msg('成功选择')
 						_this.getCart()
-						_this.getSelectedGoods()
 					}) // 发送请求
 			} else {
 				_this
@@ -1128,10 +1054,10 @@ export default {
 						_this.layer.close(loading)
 						_this.layer.msg('取消选择')
 						_this.getCart()
-						_this.getSelectedGoods()
 					}) // 发送请求
 			}
 		},
+		//购物车数量-1
 		handleReduce(id, num) {
 			var _this = this
 			var loading = _this.layer.load(0, {
@@ -1140,7 +1066,6 @@ export default {
 			})
 			if (num == 1) {
 				_this.layer.msg('已经为1了减什么减?')
-				_this.layer.close(loading)
 			} else {
 				let formData = new FormData()
 				formData.append('id', id)
@@ -1158,10 +1083,10 @@ export default {
 						_this.layer.close(loading)
 						_this.layer.msg('数量减一')
 						_this.getCart()
-						_this.getSelectedGoods()
 					}) // 发送请求
 			}
 		},
+		//购物车数量+1
 		handleAdd(id, num) {
 			var _this = this
 			var loading = _this.layer.load(0, {
@@ -1184,9 +1109,9 @@ export default {
 					_this.layer.close(loading)
 					_this.layer.msg('数量加一')
 					_this.getCart()
-					_this.getSelectedGoods()
 				}) // 发送请求
 		},
+		//购物车商品删除
 		handleRemove(id) {
 			var _this = this
 			var loading = _this.layer.load(0, {
@@ -1208,10 +1133,9 @@ export default {
 					_this.layer.close(loading)
 					_this.layer.msg('移除成功')
 					_this.getCart()
-					_this.getSelectedGoods()
 				}) // 发送请求
 		},
-
+		//用户注册接口
 		register() {
 			var _this = this
 			var loading = _this.layer.load(0, {
@@ -1221,8 +1145,8 @@ export default {
 			if (_this.Register.userPassword != _this.Register.userRePassword) {
 				_this.layer.msg('两次密码不匹配')
 				_this.layer.close(loading)
-				;(_this.Register.userPassword = ''),
-					(_this.Register.userRePassword = '')
+				_this.Register.userPassword = ''
+				_this.Register.userRePassword = ''
 			} else {
 				_this.$axios
 					.post('/api/user/userSignUp', _this.Register, {
@@ -1230,11 +1154,17 @@ export default {
 						withCredentials: true
 					})
 					.then(res => {
-						console.log(res)
 						if (res.data == 1) {
 							_this.Register = {}
 							_this.layer.close(loading)
 							_this.layer.msg('注册成功!,快登录享受购物吧')
+						} else if (res.data == -2) {
+							_this.Register = {}
+							_this.layer.close(loading)
+							this.$message({
+								message: '注册失败，账号已经被使用',
+								type: 'warning'
+							})
 						}
 					})
 					.catch(err => {
@@ -1242,6 +1172,7 @@ export default {
 					})
 			}
 		},
+		//开店接口
 		openStore() {
 			var _this = this
 			_this.OpenStore.ownerId = _this.User.id
@@ -1292,14 +1223,37 @@ export default {
 		},
 		update() {
 			var _this = this
-			_this.Update.userId = _this.User.id
-			console.log(_this.Update)
+			_this.Update.userId = _this.User.userId
 			var loading = _this.layer.load(0, {
 				shade: false,
 				time: 30 * 1000
 			})
 			_this.$axios
 				.post('/api/user/updateUser', _this.Update, {
+					emulateJSON: true,
+					withCredentials: true
+				})
+				.then(res => {
+					console.log(res)
+					if (res.statusText == 'OK') {
+						_this.layer.close(loading)
+						_this.layer.msg('修改成功!')
+						_this.getUser()
+					}
+				})
+				.catch(err => {
+					console.log(err.data)
+				})
+		},
+		updateSpent() {
+			var _this = this
+			_this.Update.userId = _this.User.userId
+			var loading = _this.layer.load(0, {
+				shade: false,
+				time: 30 * 1000
+			})
+			_this.$axios
+				.post('/api/user/updateUserSpent', _this.Update, {
 					emulateJSON: true,
 					withCredentials: true
 				})
@@ -1330,4 +1284,13 @@ export default {
 @import '../css/popuo-box.css';
 @import '../css/style.css';
 @import '../css/table.css';
+.box {
+	display: flex;
+	justify-content: space-around;
+}
+.box label {
+	width: 100px;
+	line-height: 34px;
+	font-size: 15px;
+}
 </style>

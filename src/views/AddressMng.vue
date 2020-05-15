@@ -404,22 +404,22 @@
 							<div class="collapse navbar-collapse menu--shylock" id="bs-example-navbar-collapse-1">
 								<ul class="nav navbar-nav menu__list">
 									<li class="active">
-										<a class="nav-stylehead" href="index.html">
+										<a class="nav-stylehead" @click="toIndex()">
 											首页
 											<span class="sr-only">(current)</span>
 										</a>
 									</li>
 									<li class>
-										<a class="nav-stylehead" href="AddressMng.html">地址管理</a>
+										<a class="nav-stylehead" @click="toAddressMng()">地址管理</a>
 									</li>
 									<li class>
 										<a class="nav-stylehead" href="about.html">信息管理</a>
 									</li>
 									<li class>
-										<a class="nav-stylehead" href="about.html">个人帖子</a>
+										<a class="nav-stylehead" @click="toPublish()">发表帖子</a>
 									</li>
 									<li class>
-										<a class="nav-stylehead" href="faqs.html">论坛</a>
+										<a class="nav-stylehead" @click="toDiscuss()">论坛</a>
 									</li>
 									<li class>
 										<a class="nav-stylehead" href="contact.html">联系我们</a>
@@ -434,6 +434,9 @@
 		<!-- //navigation -->
 
 		<!-- footer -->
+		<div v-if="address.length == 0">
+				<address-edit @click="getAddress" ref="insert"></address-edit>
+		</div>
 		<div class="address">
 			<el-table :data="address" style="width: 100%;margin: 10px" v-if="address.length > 0">
 				<el-table-column prop="id" label="编号" width="80"></el-table-column>
@@ -688,6 +691,52 @@ export default {
 		_this.getAddress()
 	},
 	methods: {
+		//去商品详情
+		toGoodDetail(id) {
+			this.$router.push({
+				path: '/goodDetail',
+				query: { goodId: id }
+			})
+		},
+		//去发布
+		toPublish() {
+			this.$router.push({
+				path: '/publish'
+			})
+		},
+		//去首页
+		toIndex() {
+			this.$router.push({
+				path: '/'
+			})
+		},
+		//去论坛了列表
+		toDiscuss() {
+			this.$router.push({
+				path: '/discuss'
+			})
+		},
+		//去地址管理页面
+		toAddressMng() {
+			this.$router.push({
+				path: '/addressMng',
+				query: { userId: this.User.id }
+			})
+		},
+		//去结账页面
+		toCheckout() {
+			this.$router.push({
+				path: '/checkout',
+				query: { userId: this.User.id }
+			})
+		},
+		//去店铺管理页面
+		toMyStore() {
+			this.$router.push({
+				path: '/myStore',
+				query: { userId: this.User.id }
+			})
+		},
 		//删除地址
 		AddressDelete(id) {
 			console.log(id)

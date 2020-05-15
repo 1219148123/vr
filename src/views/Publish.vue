@@ -60,14 +60,14 @@
 					</ul>
 					<!-- //header lists -->
 					<!-- 顶部搜索栏 -->
-					<div class="agileits_search">
+					<!-- <div class="agileits_search">
 						<form action="#" method="post">
 							<input name="Search" type="search" placeholder="今天您想买些什么?" required />
 							<button type="submit" class="btn btn-default" aria-label="Left Align">
 								<span class="fa fa-search" aria-hidden="true"></span>
 							</button>
 						</form>
-					</div>
+					</div> -->
 					<!-- //顶部搜索栏 -->
 					<!-- cart details -->
 					<div class="top_nav_right">
@@ -429,115 +429,22 @@
 							<div class="collapse navbar-collapse menu--shylock" id="bs-example-navbar-collapse-1">
 								<ul class="nav navbar-nav menu__list">
 									<li class="active">
-										<a class="nav-stylehead" href="index.html">
+										<a class="nav-stylehead" @click="toIndex()">
 											首页
 											<span class="sr-only">(current)</span>
 										</a>
 									</li>
 									<li class>
-										<a class="nav-stylehead" href="about.html">关于我们</a>
-									</li>
-									<li class="dropdown">
-										<a
-											href="#"
-											class="dropdown-toggle nav-stylehead"
-											data-toggle="dropdown"
-											role="button"
-											aria-haspopup="true"
-											aria-expanded="false"
-										>
-											我的
-											<span class="caret"></span>
-										</a>
-										<ul class="dropdown-menu multi-column columns-3">
-											<div class="agile_inner_drop_nav_info">
-												<div class="col-sm-4 multi-gd-img">
-													<ul class="multi-column-dropdown">
-														<li>
-															<a href="product.html">Bakery</a>
-														</li>
-														<li>
-															<a href="product.html">Baking Supplies</a>
-														</li>
-														<li>
-															<a href="product.html">Coffee, Tea & Beverages</a>
-														</li>
-													</ul>
-												</div>
-												<div class="col-sm-4 multi-gd-img">
-													<ul class="multi-column-dropdown">
-														<li>
-															<a href="product.html">Pickles</a>
-														</li>
-														<li>
-															<a href="product.html">Pasta & Noodles</a>
-														</li>
-														<li>
-															<a href="product.html">Rice, Flour & Pulses</a>
-														</li>
-													</ul>
-												</div>
-												<div class="col-sm-4 multi-gd-img">
-													<img src="../images/nav.png" alt />
-												</div>
-												<div class="clearfix"></div>
-											</div>
-										</ul>
-									</li>
-									<li class="dropdown">
-										<a
-											href="#"
-											class="dropdown-toggle nav-stylehead"
-											data-toggle="dropdown"
-											role="button"
-											aria-haspopup="true"
-											aria-expanded="false"
-										>
-											购物车
-											<span class="caret"></span>
-										</a>
-										<ul class="dropdown-menu multi-column columns-3">
-											<div class="agile_inner_drop_nav_info">
-												<div class="col-sm-6 multi-gd-img">
-													<ul class="multi-column-dropdown">
-														<li>
-															<a href="product2.html">Kitchen & Dining</a>
-														</li>
-														<li>
-															<a href="product2.html">Detergents</a>
-														</li>
-													</ul>
-												</div>
-												<div class="col-sm-6 multi-gd-img">
-													<ul class="multi-column-dropdown">
-														<li>
-															<a href="product2.html">Pet Care</a>
-														</li>
-														<li>
-															<a href="product2.html">Cleaning Accessories</a>
-														</li>
-													</ul>
-												</div>
-												<div class="clearfix"></div>
-											</div>
-										</ul>
+										<a class="nav-stylehead" @click="toAddressMng()">地址管理</a>
 									</li>
 									<li class>
-										<a class="nav-stylehead" href="faqs.html">论坛</a>
+										<a class="nav-stylehead" href="about.html">信息管理</a>
 									</li>
-									<li class="dropdown">
-										<a class="nav-stylehead dropdown-toggle" href="#" data-toggle="dropdown">
-											Pages
-											<b class="caret"></b>
-										</a>
-										<ul class="dropdown-menu agile_short_dropdown">
-											<li>
-												<a href="icons.html">Web Icons</a>
-											</li>
-											<li>
-												<a href="typography.html">Typography</a>
-											</li>
-										</ul>
+									<li class>
+										<a class="nav-stylehead" @click="toPublish()">发表帖子</a>
+									</li>
+									<li class>
+										<a class="nav-stylehead" @click="toDiscuss()">论坛</a>
 									</li>
 									<li class>
 										<a class="nav-stylehead" href="contact.html">联系我们</a>
@@ -862,6 +769,52 @@ export default {
 		_this.getCate()
 	},
 	methods: {
+		//去商品详情
+		toGoodDetail(id) {
+			this.$router.push({
+				path: '/goodDetail',
+				query: { goodId: id }
+			})
+		},
+		//去发布
+		toPublish() {
+			this.$router.push({
+				path: '/publish'
+			})
+		},
+		//去首页
+		toIndex() {
+			this.$router.push({
+				path: '/'
+			})
+		},
+		//去论坛了列表
+		toDiscuss() {
+			this.$router.push({
+				path: '/discuss'
+			})
+		},
+		//去地址管理页面
+		toAddressMng() {
+			this.$router.push({
+				path: '/addressMng',
+				query: { userId: this.User.id }
+			})
+		},
+		//去结账页面
+		toCheckout() {
+			this.$router.push({
+				path: '/checkout',
+				query: { userId: this.User.id }
+			})
+		},
+		//去店铺管理页面
+		toMyStore() {
+			this.$router.push({
+				path: '/myStore',
+				query: { userId: this.User.id }
+			})
+		},
 		publish() {
 			var _this = this
 			_this.Publish.author = _this.User.id

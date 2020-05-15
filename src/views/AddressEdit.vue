@@ -103,6 +103,7 @@ export default {
 						console.log(err.data)
 					})
 			} else if (_this.addressForm.flag == 1) {
+				_this.addressForm.id = this.$route.query.userId
 				_this.$axios
 					.post('/api/address/addAddress', _this.addressForm, {
 						emulateJSON: true,
