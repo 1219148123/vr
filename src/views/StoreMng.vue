@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<el-table :data="StoreList" style="width: 100%;margin: 10px" v-if="StoreList.length > 0">
+		<el-table :data="StoreList.slice((currentPage-1)*pagesize,currentPage*pagesize)" style="width: 100%;margin: 10px" v-if="StoreList.length > 0">
 			<el-table-column prop="storeId" label="店铺编号" width="80"></el-table-column>
 			<el-table-column prop="ownerId" label="店主编号" width="80"></el-table-column>
 			<el-table-column prop="storeName" label="店铺名字" width="120"></el-table-column>
@@ -33,6 +33,12 @@
 				</template>
 			</el-table-column>
 		</el-table>
+		<el-pagination
+			@current-change="handleCurrentChange"
+			:current-page="currentPage"
+			:page-size="pagesize"
+			:total="StoreList.length"
+		></el-pagination>
 	</div>
 </template>
 
@@ -41,7 +47,10 @@ export default {
 	name: 'DiscussMng',
 	data() {
 		return {
-			StoreList: {}
+			StoreList: {},
+			total: 0,
+			pagesize: 5,
+			currentPage: 1
 		}
 	},
 	mounted: function() {
@@ -49,6 +58,11 @@ export default {
 		_this.getStoreList()
 	},
 	methods: {
+		toContact() {
+			this.$router.push({
+				path: '/contact'
+			})
+		},
 		getStoreList() {
 			var _this = this
 			_this.$axios
@@ -57,7 +71,6 @@ export default {
 					withCredentials: true
 				})
 				.then(res => {
-					console.log(res)
 					_this.StoreList = res.data
 				})
 				.catch(err => {
@@ -65,7 +78,6 @@ export default {
 				})
 		},
 		handleDelete(id) {
-			console.log(id)
 			var _this = this
 			let formData = new FormData()
 			formData.append('id', id)
@@ -87,7 +99,6 @@ export default {
 				}) // 发送请求
         },
         handleActive(id) {
-			console.log(id)
 			var _this = this
 			let formData = new FormData()
 			formData.append('id', id)
@@ -109,7 +120,9 @@ export default {
 				}) // 发送请求
 		},
 		editDiscuss(row) {
-			console.log(row)
+		},
+		handleCurrentChange: function(currentPage) {
+			this.currentPage = currentPage
 		}
 	}
 }

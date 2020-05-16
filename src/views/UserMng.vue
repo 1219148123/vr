@@ -1,10 +1,10 @@
 <template>
 	<div>
-		<el-table :data="UserList" style="width: 100%;margin: 10px" v-if="UserList.length > 0">
+		<el-table :data="UserList.slice((currentPage-1)*pagesize,currentPage*pagesize)" style="width: 100%;margin: 10px" v-if="UserList.length > 0">
 			<el-table-column prop="userId" label="编号" width="80"></el-table-column>
 			<el-table-column prop="userName" label="姓名" width="120"></el-table-column>
 			<el-table-column prop="sex" label="性别" width="80"></el-table-column>
-			<el-table-column prop="userEmail" label="邮箱" width="200" ></el-table-column>
+			<el-table-column prop="userEmail" label="邮箱" width="200"></el-table-column>
 			<el-table-column prop="userPhone" label="电话" width="130"></el-table-column>
 			<el-table-column prop="userPlanSpent" label="计划消费" width="100"></el-table-column>
 			<el-table-column prop="userCurrentSpent" label="当前消费" width="100"></el-table-column>
@@ -15,20 +15,36 @@
 					<p v-if="UserList[scope.$index].openStore==0">否</p>
 				</template>
 			</el-table-column>
-            <el-table-column prop="stateCode" label="是否注销" width="100">
+			<el-table-column prop="stateCode" label="是否注销" width="100">
 				<template slot-scope="scope">
 					<p v-if="UserList[scope.$index].stateCode==1001">是</p>
 					<p v-if="UserList[scope.$index].stateCode==1000">否</p>
 				</template>
 			</el-table-column>
-            <el-table-column label="操作" width="180">
+			<el-table-column label="操作" width="180">
 				<template slot-scope="scope">
 					<!-- <el-button size="mini" @click="editDiscuss(scope.row)">编辑</el-button> -->
-					<el-button v-if="UserList[scope.$index].stateCode==1000" size="mini" type="danger" @click="handleDelete(scope.row.userId)">注销</el-button>
-					<el-button v-if="UserList[scope.$index].stateCode==1001" size="mini" type="success" @click="handleActive(scope.row.userId)">激活</el-button>
+					<el-button
+						v-if="UserList[scope.$index].stateCode==1000"
+						size="mini"
+						type="danger"
+						@click="handleDelete(scope.row.userId)"
+					>注销</el-button>
+					<el-button
+						v-if="UserList[scope.$index].stateCode==1001"
+						size="mini"
+						type="success"
+						@click="handleActive(scope.row.userId)"
+					>激活</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
+		<el-pagination
+			@current-change="handleCurrentChange"
+			:current-page="currentPage"
+			:page-size="pagesize"
+			:total="UserList.length"
+		></el-pagination>
 	</div>
 </template>
 
@@ -37,7 +53,10 @@ export default {
 	name: 'DiscussMng',
 	data() {
 		return {
-			UserList: {}
+			UserList: {},
+			total: 0,
+			pagesize: 5,
+			currentPage: 1
 		}
 	},
 	mounted: function() {
@@ -53,7 +72,6 @@ export default {
 					withCredentials: true
 				})
 				.then(res => {
-					console.log(res)
 					_this.UserList = res.data
 				})
 				.catch(err => {
@@ -61,7 +79,6 @@ export default {
 				})
 		},
 		handleDelete(id) {
-			console.log(id)
 			var _this = this
 			let formData = new FormData()
 			formData.append('userId', id)
@@ -81,9 +98,9 @@ export default {
 					})
 					_this.getUserList()
 				}) // 发送请求
-        },
-        handleActive(id){
-console.log(id)
+		},
+		handleActive(id) {
+			console.log(id)
 			var _this = this
 			let formData = new FormData()
 			formData.append('userId', id)
@@ -103,9 +120,11 @@ console.log(id)
 					})
 					_this.getUserList()
 				}) // 发送请求
-        },
+		},
 		editDiscuss(row) {
-			console.log(row)
+		},
+		handleCurrentChange: function(currentPage) {
+			this.currentPage = currentPage
 		}
 	}
 }

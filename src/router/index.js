@@ -140,6 +140,12 @@ const routes = [{
             import ( /* webpackChunkName: "about" */ '../views/Contact.vue')
     },
     {
+        path: '/discussEdit',
+        name: 'DiscussEdit',
+        component: () =>
+            import ( /* webpackChunkName: "about" */ '../views/DiscussEdit.vue')
+    },
+    {
         path: '/test',
         name: 'Test',
         component: () =>

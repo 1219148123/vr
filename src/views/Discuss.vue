@@ -23,7 +23,7 @@
 					<!-- header lists -->
 					<ul>
 						<li>
-							<a href="#" data-toggle="modal" data-target="#myModal1">
+							<a @click="toOrderMng()">
 								<span class="fa fa-truck" aria-hidden="true"></span>订单
 							</a>
 						</li>
@@ -31,15 +31,19 @@
 							<span class="fa fa-phone" aria-hidden="true"></span> 001 234 5678
 						</li>
 						<li>
-							<a v-if="User==''" data-toggle="modal" data-target="#myModal1">
+							<a v-if="User==''" data-toggle="modal" data-target="#myModal1" ref="login">
 								<span class="fa fa-unlock-alt" aria-hidden="true"></span> 登录
 							</a>
-							<a
-								v-else-if="User.userName==''||User.userPlanSpent==0"
-								data-toggle="modal"
-								data-target="#myModal3"
-							>
+							<a v-else-if="User.userName==null" data-toggle="modal" data-target="#myModal3" ref="update">
 								<span class="fa fa-grav" aria-hidden="true"></span> 点击完善信息
+							</a>
+							<a
+								v-else-if="User.userPlanSpent==0"
+								data-toggle="modal"
+								data-target="#myModal6"
+								ref="update"
+							>
+								<span class="fa fa-grav" aria-hidden="true"></span> 设置本月消费额度
 							</a>
 							<a v-else data-toggle="modal" data-target="#myModal4">
 								<span class="fa fa-address-book-o" aria-hidden="true"></span>
@@ -50,24 +54,28 @@
 							<a v-if="User==''" data-toggle="modal" data-target="#myModal2">
 								<span class="fa fa-pencil-square-o" aria-hidden="true"></span> 注册
 							</a>
-							<a v-else-if="User!='' && User.openStore==0" data-toggle="modal" data-target="#myModal4">
+							<a
+								v-else-if="User!='' && User.openStore==0 && User.userName!=null"
+								data-toggle="modal"
+								data-target="#myModal4"
+							>
 								<span class="fa fa-pencil-square-o" aria-hidden="true"></span> 点击开店
 							</a>
-							<!-- <a v-else-if="User!='' && User.openStore==1" data-toggle="modal" data-target="#myModal4">
-								<span class="fa fa-pencil-square-o" aria-hidden="true"></span> 新增商品
-							</a>-->
+							<a v-else-if="User!='' && User.openStore==1" @click="toMyStore()">
+								<span class="fa fa-pencil-square-o" aria-hidden="true"></span> 店铺管理
+							</a>
 						</li>
 					</ul>
 					<!-- //header lists -->
 					<!-- 顶部搜索栏 -->
-					<!-- <div class="agileits_search">
-						<form action="#" method="post">
+					<div class="agileits_search">
+						<!-- <form action="#" method="post">
 							<input name="Search" type="search" placeholder="今天您想买些什么?" required />
 							<button type="submit" class="btn btn-default" aria-label="Left Align">
 								<span class="fa fa-search" aria-hidden="true"></span>
 							</button>
-						</form>
-					</div>-->
+						</form>-->
+					</div>
 					<!-- //顶部搜索栏 -->
 					<!-- cart details -->
 					<div class="top_nav_right">
@@ -413,14 +421,14 @@
 		<div class="ban-top">
 			<div class="container">
 				<div class="agileits-navi_search">
-					<form action="#" method="post">
-						<select id="agileinfo-nav_search" name="agileinfo_search" required>
-							<option value>所有类别</option>
-							<option value="Kitchen">服装</option>
-							<option value="Household">食品</option>
-							<option value="Snacks &amp; Beverages">器材</option>
-						</select>
-					</form>
+					<select class="form-control" v-model="hzsType" @change="getStoreGoodsList">
+						<option
+							selected
+							v-for="TypeList in TypeList"
+							:key="TypeList.cateId"
+							:value="TypeList.cateId"
+						>{{TypeList.cateName}}</option>
+					</select>
 				</div>
 				<div class="top_nav_left">
 					<nav class="navbar navbar-default">
@@ -429,7 +437,10 @@
 							<div class="collapse navbar-collapse menu--shylock" id="bs-example-navbar-collapse-1">
 								<ul class="nav navbar-nav menu__list">
 									<li class="active">
-										<a class="nav-stylehead" @click="toIndex()">首页</a>
+										<a class="nav-stylehead" @click="toIndex()">
+											首页
+											<span class="sr-only">(current)</span>
+										</a>
 									</li>
 									<li class>
 										<a class="nav-stylehead" @click="toAddressMng()">地址管理</a>
@@ -441,13 +452,10 @@
 										<a class="nav-stylehead" @click="toPublish()">发表帖子</a>
 									</li>
 									<li class>
-										<a class="nav-stylehead" @click="toDiscuss1()">
-											论坛
-											<span class="sr-only">(current)</span>
-										</a>
+										<a class="nav-stylehead" @click="toDiscuss()">论坛</a>
 									</li>
 									<li class>
-										<a class="nav-stylehead" href="contact.html">联系我们</a>
+										<a class="nav-stylehead" @click="toContact()">联系我们</a>
 									</li>
 								</ul>
 							</div>
@@ -492,6 +500,9 @@
 								<span>{{item.viewCount}}</span> 次浏览 •
 								<span>{{item.gmtCreate}}</span> •
 							</span>
+							<a class="community-menu" v-if="User.userId == item.userDetail.userId">
+								<span class="glyphicon " aria-hidden="true" @click="handleDelete(item.id)">删除</span>
+							</a>
 						</div>
 					</div>
 					<nav aria-label="Page navigation">
@@ -585,47 +596,48 @@
 					<!-- footer categories -->
 					<div class="col-sm-5 address-right">
 						<div class="col-xs-6 footer-grids">
-							<h3>店铺</h3>
+							<h3>著名品牌</h3>
 							<ul>
 								<li>
-									<a href="product.html">361</a>
+									<a>361</a>
 								</li>
 								<li>
-									<a href="product.html">安踏</a>
+									<a>安踏</a>
 								</li>
 								<li>
-									<a href="product.html">李宁</a>
+									<a>李宁</a>
 								</li>
 								<li>
-									<a href="product2.html">万斯</a>
+									<a>万斯</a>
 								</li>
 								<li>
-									<a href="product.html">匡威</a>
+									<a>匡威</a>
 								</li>
 								<li>
-									<a href="product2.html">天猫超市</a>
+									<a>天猫超市</a>
 								</li>
 							</ul>
 						</div>
-						<div class="col-xs-6 footer-grids agile-secomk">
+						<div class="col-xs-6 footer-grids">
+							<h3>理性消费</h3>
 							<ul>
 								<li>
-									<a href="product.html">Snacks & Beverages</a>
+									<a>淘宝</a>
 								</li>
 								<li>
-									<a href="product.html">Bread & Bakery</a>
+									<a>京东</a>
 								</li>
 								<li>
-									<a href="product.html">Sweets</a>
+									<a>拍拍</a>
 								</li>
 								<li>
-									<a href="product.html">Chocolates & Biscuits</a>
+									<a>拼多多</a>
 								</li>
 								<li>
-									<a href="product2.html">Personal Care</a>
+									<a>聚美优品</a>
 								</li>
 								<li>
-									<a href="product.html">Dried Fruits & Nuts</a>
+									<a>天猫超市</a>
 								</li>
 							</ul>
 						</div>
@@ -635,25 +647,13 @@
 					<!-- quick links -->
 					<div class="col-sm-5 address-right">
 						<div class="col-xs-6 footer-grids">
-							<h3>Quick Links</h3>
+							<h3>源码导航</h3>
 							<ul>
 								<li>
-									<a href="about.html">About Us</a>
+									<a href="https://github.com/1219148123/rational">github</a>
 								</li>
 								<li>
-									<a href="contact.html">Contact Us</a>
-								</li>
-								<li>
-									<a href="help.html">Help</a>
-								</li>
-								<li>
-									<a href="faqs.html">Faqs</a>
-								</li>
-								<li>
-									<a href="terms.html">Terms of use</a>
-								</li>
-								<li>
-									<a href="privacy.html">Privacy Policy</a>
+									<a href="https://mp.csdn.net/console/article">csdn</a>
 								</li>
 							</ul>
 						</div>
@@ -798,6 +798,38 @@ export default {
 		_this.getDiscussList(1, 5)
 	},
 	methods: {
+		toOrderMng() {
+			this.$router.push({
+				path: '/orderMng',
+				query: { userId: this.User.userId }
+			})
+		},
+		toContact() {
+			this.$router.push({
+				path: '/contact'
+			})
+		},
+		handleDelete(id) {
+			var _this = this
+			let formData = new FormData()
+			formData.append('id', id)
+			_this
+				.$axios({
+					url: '/api/admin/deleteDiscuss', //****: 你的ip地址
+					data: formData,
+					method: 'delete',
+					headers: {
+						'Content-Type': 'multipart/form-data'
+					}
+				})
+				.then(res => {
+					this.$message({
+						type: 'success',
+						message: '删除成功!'
+					})
+					_this.getDiscussList(1, 5)
+				}) // 发送请求
+		},
 		toUserDetail() {
 			this.$router.push({
 				path: '/userDetail',

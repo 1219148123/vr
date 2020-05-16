@@ -23,7 +23,7 @@
 					<!-- header lists -->
 					<ul>
 						<li>
-							<a href="#" data-toggle="modal" data-target="#myModal1">
+							<a @click="toOrderMng()">
 								<span class="fa fa-truck" aria-hidden="true"></span>订单
 							</a>
 						</li>
@@ -31,15 +31,19 @@
 							<span class="fa fa-phone" aria-hidden="true"></span> 001 234 5678
 						</li>
 						<li>
-							<a v-if="User==''" data-toggle="modal" data-target="#myModal1">
+							<a v-if="User==''" data-toggle="modal" data-target="#myModal1" ref="login">
 								<span class="fa fa-unlock-alt" aria-hidden="true"></span> 登录
 							</a>
-							<a
-								v-else-if="User.userName==''||User.userPlanSpent==0"
-								data-toggle="modal"
-								data-target="#myModal3"
-							>
+							<a v-else-if="User.userName==null" data-toggle="modal" data-target="#myModal3" ref="update">
 								<span class="fa fa-grav" aria-hidden="true"></span> 点击完善信息
+							</a>
+							<a
+								v-else-if="User.userPlanSpent==0"
+								data-toggle="modal"
+								data-target="#myModal6"
+								ref="update"
+							>
+								<span class="fa fa-grav" aria-hidden="true"></span> 设置本月消费额度
 							</a>
 							<a v-else data-toggle="modal" data-target="#myModal4">
 								<span class="fa fa-address-book-o" aria-hidden="true"></span>
@@ -50,24 +54,28 @@
 							<a v-if="User==''" data-toggle="modal" data-target="#myModal2">
 								<span class="fa fa-pencil-square-o" aria-hidden="true"></span> 注册
 							</a>
-							<a v-else-if="User!='' && User.openStore==0" data-toggle="modal" data-target="#myModal4">
+							<a
+								v-else-if="User!='' && User.openStore==0 && User.userName!=null"
+								data-toggle="modal"
+								data-target="#myModal4"
+							>
 								<span class="fa fa-pencil-square-o" aria-hidden="true"></span> 点击开店
 							</a>
-							<!-- <a v-else-if="User!='' && User.openStore==1" data-toggle="modal" data-target="#myModal4">
-								<span class="fa fa-pencil-square-o" aria-hidden="true"></span> 新增商品
-							</a>-->
+							<a v-else-if="User!='' && User.openStore==1" @click="toMyStore()">
+								<span class="fa fa-pencil-square-o" aria-hidden="true"></span> 店铺管理
+							</a>
 						</li>
 					</ul>
 					<!-- //header lists -->
 					<!-- 顶部搜索栏 -->
-					<!-- <div class="agileits_search">
-						<form action="#" method="post">
+					<div class="agileits_search">
+						<!-- <form action="#" method="post">
 							<input name="Search" type="search" placeholder="今天您想买些什么?" required />
 							<button type="submit" class="btn btn-default" aria-label="Left Align">
 								<span class="fa fa-search" aria-hidden="true"></span>
 							</button>
-						</form>
-					</div> -->
+						</form>-->
+					</div>
 					<!-- //顶部搜索栏 -->
 					<!-- cart details -->
 					<div class="top_nav_right">
@@ -261,13 +269,62 @@
 		</div>
 		<!-- //Modal4 -->
 
+		<!-- Modal8 -->
+		<div class="modal fade" id="myModal8" tabindex="-1" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body modal-body-sub_agile">
+						<div class="main-mailposi">
+							<span class="fa fa-envelope-o" aria-hidden="true"></span>
+						</div>
+						<div class="modal_body_left modal_body_left1">
+							<h3 class="agileinfo_sign">修改店铺</h3>
+							<p>输入店铺信息</p>
+							<div class="styled-input agile-styled-input-top">
+								<input type="text" placeholder="店铺名" v-model="OpenStore.storeName" required />
+							</div>
+							<div class="styled-input">
+								<textarea
+									class="form-control"
+									rows="3"
+									placeholder="店铺描述"
+									v-model="OpenStore.storeDesc"
+									required
+								/>
+							</div>
+							<label for="type">类型选择</label>
+							<select class="form-control" id="type" v-model="OpenStore.storeCate" placeholder="店铺类型">
+								<option
+									selected
+									v-for="TypeList in TypeList"
+									:key="TypeList.cateId"
+									:value="TypeList.cateId"
+								>{{TypeList.cateName}}</option>
+							</select>
+							<div class="styled-input">
+								<input type="file" placeholder="上传图片" id="file" v-on:change="uploadFile" />
+							</div>
+							<br />
+							<input type="submit" value="提交" @click="updateStore()" data-dismiss="modal" />
+						</div>
+					</div>
+				</div>
+				<!-- //Modal content-->
+			</div>
+		</div>
+		<!-- //Modal8 -->
+
 		<!-- Modal5 -->
 		<div class="modal fade" id="myModal5" tabindex="-1" role="dialog">
 			<div class="modal-dialog">
 				<!-- Modal content-->
 				<div class="modal-content">
 					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<a class="close" ref="banca" data-dismiss="modal">&times;</a>
 					</div>
 					<div class="modal-body modal-body-sub_agile">
 						<div class="main-mailposi">
@@ -336,7 +393,7 @@
 									</table>
 								</div>
 							</div>
-							<input type="submit" value="提交" @click="openStore()" data-dismiss="modal" />
+							<input type="submit" value="下单" @click="toCheckout()" data-dismiss="modal" />
 						</div>
 					</div>
 				</div>
@@ -358,7 +415,7 @@
 							<span class="fa fa-envelope-o" aria-hidden="true"></span>
 						</div>
 						<div class="modal_body_left modal_body_left1">
-							<h3 class="agileinfo_sign">	新增商品</h3>
+							<h3 class="agileinfo_sign">新增商品</h3>
 							<p>输入店铺信息</p>
 							<div class="styled-input agile-styled-input-top">
 								<input type="text" placeholder="商品名" v-model="Good.goodName" required />
@@ -413,14 +470,14 @@
 		<div class="ban-top">
 			<div class="container">
 				<div class="agileits-navi_search">
-					<form action="#" method="post">
-						<select id="agileinfo-nav_search" name="agileinfo_search" required>
-							<option value>所有类别</option>
-							<option value="Kitchen">服装</option>
-							<option value="Household">食品</option>
-							<option value="Snacks &amp; Beverages">器材</option>
-						</select>
-					</form>
+					<select class="form-control" v-model="hzsType" @change="getStoreGoodsList">
+						<option
+							selected
+							v-for="TypeList in TypeList"
+							:key="TypeList.cateId"
+							:value="TypeList.cateId"
+						>{{TypeList.cateName}}</option>
+					</select>
 				</div>
 				<div class="top_nav_left">
 					<nav class="navbar navbar-default">
@@ -438,7 +495,7 @@
 										<a class="nav-stylehead" @click="toAddressMng()">地址管理</a>
 									</li>
 									<li class>
-										<a class="nav-stylehead" href="about.html">信息管理</a>
+										<a class="nav-stylehead" @click="toUserDetail()">信息管理</a>
 									</li>
 									<li class>
 										<a class="nav-stylehead" @click="toPublish()">发表帖子</a>
@@ -447,7 +504,7 @@
 										<a class="nav-stylehead" @click="toDiscuss()">论坛</a>
 									</li>
 									<li class>
-										<a class="nav-stylehead" href="contact.html">联系我们</a>
+										<a class="nav-stylehead" @click="toContact()">联系我们</a>
 									</li>
 								</ul>
 							</div>
@@ -467,19 +524,21 @@
 							<a href="index.html">首页</a>
 							<i>|</i>
 						</li>
-						<li>您的店铺:</li>
+						<li>
+							<a data-toggle="modal" data-target="#myModal4">
+								<span class="fa fa-pencil-square-o" aria-hidden="true"></span> 点击开店
+							</a>
+						</li>
 					</ul>
 				</div>
 			</div>
 		</div>
-		<!-- 店铺展示-->
+		<!-- 店铺已经上线的店铺展示-->
 		<div class="row">
+			<h3>已经上线的店铺</h3>
 			<div class="col-sm-6 col-md-4" v-for="(item, index) in Store" :key="item.storeId">
 				<div class="thumbnail">
-					<img
-						src="https://hzsfile.oss-cn-beijing.aliyuncs.com/images/2020/05/04/15885621341534735.jpg"
-						alt="..."
-					/>
+					<img :src="item.storePhoto" alt="..." style="width:100px;height:100px;" />
 					<div class="caption">
 						<h3>{{index+1 + ":" + item.storeName}}</h3>
 						<p>{{item.storeDesc}}</p>
@@ -492,8 +551,16 @@
 								data-target="#myModal6"
 								@click="setStoreId(item.storeId)"
 							>新增商品</a>
-							
+
 							<a class="btn btn-default" @click="toStoreGood(item.storeId)">详情查看</a>
+							<a
+								href="#"
+								class="btn btn-primary"
+								role="button"
+								data-toggle="modal"
+								data-target="#myModal8"
+								@click="updateStoreData(item)"
+							>修改</a>
 						</p>
 					</div>
 				</div>
@@ -501,7 +568,43 @@
 		</div>
 
 		<!-- //店铺展示 -->
+		<el-divider></el-divider>
+		<!-- 未来上线的店铺展示-->
 
+		<div class="row">
+			<h3>未上线的店铺</h3>
+			<div class="col-sm-6 col-md-4" v-for="(item, index) in InvalidStore" :key="item.storeId">
+				<div class="thumbnail">
+					<img :src="item.storePhoto" alt="..." style="width:100px;height:100px;" />
+					<div class="caption">
+						<h3>{{index+1 + ":" + item.storeName}}</h3>
+						<p>{{item.storeDesc}}</p>
+						<p>
+							<a
+								href="#"
+								class="btn btn-primary"
+								role="button"
+								data-toggle="modal"
+								data-target="#myModal6"
+								@click="setStoreId(item.storeId)"
+							>新增商品</a>
+
+							<a class="btn btn-default" @click="toStoreGood(item.storeId)">详情查看</a>
+							<a
+								href="#"
+								class="btn btn-primary"
+								role="button"
+								data-toggle="modal"
+								data-target="#myModal8"
+								@click="updateStoreData(item)"
+							>修改</a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- //店铺展示 -->
 		<!-- footer -->
 		<footer>
 			<div class="container">
@@ -547,47 +650,48 @@
 					<!-- footer categories -->
 					<div class="col-sm-5 address-right">
 						<div class="col-xs-6 footer-grids">
-							<h3>店铺</h3>
+							<h3>著名品牌</h3>
 							<ul>
 								<li>
-									<a href="product.html">361</a>
+									<a>361</a>
 								</li>
 								<li>
-									<a href="product.html">安踏</a>
+									<a>安踏</a>
 								</li>
 								<li>
-									<a href="product.html">李宁</a>
+									<a>李宁</a>
 								</li>
 								<li>
-									<a href="product2.html">万斯</a>
+									<a>万斯</a>
 								</li>
 								<li>
-									<a href="product.html">匡威</a>
+									<a>匡威</a>
 								</li>
 								<li>
-									<a href="product2.html">天猫超市</a>
+									<a>天猫超市</a>
 								</li>
 							</ul>
 						</div>
-						<div class="col-xs-6 footer-grids agile-secomk">
+						<div class="col-xs-6 footer-grids">
+							<h3>理性消费</h3>
 							<ul>
 								<li>
-									<a href="product.html">Snacks & Beverages</a>
+									<a>淘宝</a>
 								</li>
 								<li>
-									<a href="product.html">Bread & Bakery</a>
+									<a>京东</a>
 								</li>
 								<li>
-									<a href="product.html">Sweets</a>
+									<a>拍拍</a>
 								</li>
 								<li>
-									<a href="product.html">Chocolates & Biscuits</a>
+									<a>拼多多</a>
 								</li>
 								<li>
-									<a href="product2.html">Personal Care</a>
+									<a>聚美优品</a>
 								</li>
 								<li>
-									<a href="product.html">Dried Fruits & Nuts</a>
+									<a>天猫超市</a>
 								</li>
 							</ul>
 						</div>
@@ -597,25 +701,13 @@
 					<!-- quick links -->
 					<div class="col-sm-5 address-right">
 						<div class="col-xs-6 footer-grids">
-							<h3>Quick Links</h3>
+							<h3>源码导航</h3>
 							<ul>
 								<li>
-									<a href="about.html">About Us</a>
+									<a href="https://github.com/1219148123/rational">github</a>
 								</li>
 								<li>
-									<a href="contact.html">Contact Us</a>
-								</li>
-								<li>
-									<a href="help.html">Help</a>
-								</li>
-								<li>
-									<a href="faqs.html">Faqs</a>
-								</li>
-								<li>
-									<a href="terms.html">Terms of use</a>
-								</li>
-								<li>
-									<a href="privacy.html">Privacy Policy</a>
+									<a href="https://mp.csdn.net/console/article">csdn</a>
 								</li>
 							</ul>
 						</div>
@@ -730,17 +822,26 @@ export default {
 				storeDesc: ''
 			},
 			storeId: '',
-			Good:{
-				goodId:'',
-				storeId:'',
-				goodName:'',
-				price:'',
-				num:'',
-				category:'',
-				description:'',
-				priority:'',
+			Good: {
+				goodId: '',
+				storeId: '',
+				goodName: '',
+				price: '',
+				num: '',
+				category: '',
+				description: '',
+				priority: ''
 			},
-
+			InvalidStore: {
+				storeId: '',
+				ownerId: '',
+				createTime: '',
+				stateCode: '',
+				storeCate: '',
+				storeName: '',
+				storePhoto: '',
+				storeDesc: ''
+			}
 		}
 	},
 	mounted: function() {
@@ -750,9 +851,78 @@ export default {
 		})
 		_this.getUser()
 		_this.storeList()
+		_this.getInvaliStore()
 		_this.getCate()
 	},
 	methods: {
+		toContact() {
+			this.$router.push({
+				path: '/contact'
+			})
+		},
+		getInvaliStore() {
+			var _this = this
+			let formData = new FormData()
+			_this.$axios
+				.get(
+					'/api/sto/getInvalidStoreList?userId=' +
+						this.$route.query.userId,
+					{
+						emulateJSON: true,
+						withCredentials: true
+					}
+				)
+				.then(res => {
+					_this.InvalidStore = res.data
+					console.log(_this.InvalidStore)
+				})
+				.catch(err => {
+					console.log(err.data)
+				})
+		},
+		updateStore() {
+			var _this = this
+			// _this.OpenStore = this.$qs.stringify(_this.OpenStore)
+			var loading = _this.layer.load(0, {
+				shade: false,
+				time: 30 * 1000
+			})
+			console.log(_this.OpenStore)
+			_this.$axios
+				.post('/api/sto/updateStore', _this.OpenStore, {
+					emulateJSON: true,
+					withCredentials: true
+				})
+				.then(res => {
+					_this.layer.close(loading)
+					console.log(res)
+					_this.OpenStore = {
+						ownerId: '',
+						storeId: '',
+						storeName: '',
+						storeDesc: '',
+						storeCate: ''
+					}
+					_this.storeList()
+					_this.getInvaliStore()
+				})
+				.catch(err => {
+					_this.layer.close(loading)
+					console.log(err.data)
+				})
+		},
+		//updateStore
+		updateStoreData(item) {
+			var _this = this
+			_this.OpenStore = {
+				ownerId: item.ownerId,
+				storeId: item.storeId,
+				storeName: item.storeName,
+				storeDesc: item.storeDesc,
+				storeCate: item.storeCate
+			}
+			console.log(_this.OpenStore)
+		},
 		//去商品详情
 		toGoodDetail(id) {
 			this.$router.push({
@@ -806,8 +976,8 @@ export default {
 			})
 		},
 		setStoreId(id) {
-			var _this = this;
-			_this.storeId = id;
+			var _this = this
+			_this.storeId = id
 		},
 		addGoods() {
 			var _this = this
@@ -1027,14 +1197,10 @@ export default {
 				time: 30 * 1000
 			})
 			_this.$axios
-				.get(
-					'/api/cart/getAllCartGood?userId=' +
-						_this.User.id,
-					{
-						emulateJSON: true,
-						withCredentials: true
-					}
-				)
+				.get('/api/cart/getAllCartGood?userId=' + _this.User.id, {
+					emulateJSON: true,
+					withCredentials: true
+				})
 				.then(res => {
 					_this.layer.close(loading)
 					var sum = 0
@@ -1093,14 +1259,10 @@ export default {
 				return
 			}
 			_this.$axios
-				.get(
-					'/api/order/getInpay?userId=' +
-						this.$route.query.userId,
-					{
-						emulateJSON: true,
-						withCredentials: true
-					}
-				)
+				.get('/api/order/getInpay?userId=' + this.$route.query.userId, {
+					emulateJSON: true,
+					withCredentials: true
+				})
 				.then(res => {
 					_this.OrderInpayList = res.data
 				})
@@ -1310,14 +1472,10 @@ export default {
 					(_this.Register.userRePassword = '')
 			} else {
 				_this.$axios
-					.post(
-						'/api/user/userSignUp',
-						_this.Register,
-						{
-							emulateJSON: true,
-							withCredentials: true
-						}
-					)
+					.post('/api/user/userSignUp', _this.Register, {
+						emulateJSON: true,
+						withCredentials: true
+					})
 					.then(res => {
 						console.log(res)
 						if (res.data == 1) {
@@ -1348,11 +1506,13 @@ export default {
 				.then(res => {
 					_this.layer.close(loading)
 					console.log(res)
+					_this.getInvaliStore()
 				})
 				.catch(err => {
 					console.log(err.data)
 				})
 		},
+
 		//上传点击事件
 		uploadFile: function() {
 			var _this = this
@@ -1388,14 +1548,10 @@ export default {
 				time: 30 * 1000
 			})
 			_this.$axios
-				.post(
-					'/api/user/updateUser',
-					_this.Update,
-					{
-						emulateJSON: true,
-						withCredentials: true
-					}
-				)
+				.post('/api/user/updateUser', _this.Update, {
+					emulateJSON: true,
+					withCredentials: true
+				})
 				.then(res => {
 					console.log(res)
 					if (res.statusText == 'OK') {
@@ -1411,25 +1567,19 @@ export default {
 		storeList() {
 			var _this = this
 			let formData = new FormData()
-			var loading = _this.layer.load(0, {
-				shade: false,
-				time: 30 * 1000
-			})
 			_this.$axios
 				.get(
-					'/api/sto/getStoreList?userId=' +
-						this.$route.query.userId,
+					'/api/sto/getStoreList?userId=' + this.$route.query.userId,
 					{
 						emulateJSON: true,
 						withCredentials: true
 					}
 				)
 				.then(res => {
-					_this.layer.close(loading)
 					_this.Store = res.data
+					console.log(_this.Store)
 				})
 				.catch(err => {
-					_this.layer.close(loading)
 					console.log(err.data)
 				})
 		}

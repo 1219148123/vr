@@ -1,6 +1,10 @@
 <template>
 	<div>
-		<el-table :data="DiscussList" style="width: 100%;margin: 10px" v-if="DiscussList.length > 0">
+		<el-table
+			:data="DiscussList.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+			style="width: 100%;margin: 10px"
+			v-if="DiscussList.length > 0"
+		>
 			<el-table-column prop="id" label="编号" width="160"></el-table-column>
 			<el-table-column prop="title" label="标题" width="120"></el-table-column>
 			<el-table-column prop="tag" label="标签" width="180"></el-table-column>
@@ -20,6 +24,12 @@
 				</template>
 			</el-table-column>
 		</el-table>
+		<el-pagination
+			@current-change="handleCurrentChange"
+			:current-page="currentPage"
+			:page-size="pagesize"
+			:total="DiscussList.length"
+		></el-pagination>
 	</div>
 </template>
 
@@ -28,7 +38,10 @@ export default {
 	name: 'DiscussMng',
 	data() {
 		return {
-			DiscussList: {}
+			DiscussList: {},
+			total: 0,
+			pagesize: 5,
+			currentPage: 1
 		}
 	},
 	mounted: function() {
@@ -44,7 +57,6 @@ export default {
 					withCredentials: true
 				})
 				.then(res => {
-					console.log(res)
 					_this.DiscussList = res.data
 				})
 				.catch(err => {
@@ -74,7 +86,9 @@ export default {
 				}) // 发送请求
 		},
 		editDiscuss(row) {
-			console.log(row)
+		},
+		handleCurrentChange: function(currentPage) {
+			this.currentPage = currentPage
 		}
 	}
 }

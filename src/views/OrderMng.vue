@@ -388,14 +388,14 @@
 		<div class="ban-top">
 			<div class="container">
 				<div class="agileits-navi_search">
-					<form action="#" method="post">
-						<select id="agileinfo-nav_search" name="agileinfo_search" required>
-							<option value>所有类别</option>
-							<option value="Kitchen">服装</option>
-							<option value="Household">食品</option>
-							<option value="Snacks &amp; Beverages">器材</option>
-						</select>
-					</form>
+					<select class="form-control" v-model="hzsType" @change="getStoreGoodsList">
+						<option
+							selected
+							v-for="TypeList in TypeList"
+							:key="TypeList.cateId"
+							:value="TypeList.cateId"
+						>{{TypeList.cateName}}</option>
+					</select>
 				</div>
 				<div class="top_nav_left">
 					<nav class="navbar navbar-default">
@@ -422,7 +422,7 @@
 										<a class="nav-stylehead" @click="toDiscuss()">论坛</a>
 									</li>
 									<li class>
-										<a class="nav-stylehead" href="contact.html">联系我们</a>
+										<a class="nav-stylehead" @click="toContact()">联系我们</a>
 									</li>
 								</ul>
 							</div>
@@ -458,7 +458,7 @@
 			</el-table>
 		</div>-->
 
-		<el-table :data="hisOrder" style="width: 100%">
+		<el-table :data="hisOrder.slice((currentPage-1)*pagesize,currentPage*pagesize)" style="width: 100%">
 			<el-table-column type="expand">
 				<template slot-scope="props">
 					<el-form label-position="left" inline class="demo-table-expand">
@@ -500,7 +500,12 @@
 			<el-table-column label="总价" prop="totalPrice"></el-table-column>
 			<el-table-column label="付款时间" prop="orderTime"></el-table-column>
 		</el-table>
-
+		<el-pagination
+			@current-change="handleCurrentChange"
+			:current-page="currentPage"
+			:page-size="pagesize"
+			:total="hisOrder.length"
+		></el-pagination>
 		<!-- footer -->
 
 		<!-- footer -->
@@ -548,47 +553,48 @@
 					<!-- footer categories -->
 					<div class="col-sm-5 address-right">
 						<div class="col-xs-6 footer-grids">
-							<h3>店铺</h3>
+							<h3>著名品牌</h3>
 							<ul>
 								<li>
-									<a href="product.html">361</a>
+									<a>361</a>
 								</li>
 								<li>
-									<a href="product.html">安踏</a>
+									<a>安踏</a>
 								</li>
 								<li>
-									<a href="product.html">李宁</a>
+									<a>李宁</a>
 								</li>
 								<li>
-									<a href="product2.html">万斯</a>
+									<a>万斯</a>
 								</li>
 								<li>
-									<a href="product.html">匡威</a>
+									<a>匡威</a>
 								</li>
 								<li>
-									<a href="product2.html">天猫超市</a>
+									<a>天猫超市</a>
 								</li>
 							</ul>
 						</div>
-						<div class="col-xs-6 footer-grids agile-secomk">
+						<div class="col-xs-6 footer-grids">
+							<h3>理性消费</h3>
 							<ul>
 								<li>
-									<a href="product.html">Snacks & Beverages</a>
+									<a>淘宝</a>
 								</li>
 								<li>
-									<a href="product.html">Bread & Bakery</a>
+									<a>京东</a>
 								</li>
 								<li>
-									<a href="product.html">Sweets</a>
+									<a>拍拍</a>
 								</li>
 								<li>
-									<a href="product.html">Chocolates & Biscuits</a>
+									<a>拼多多</a>
 								</li>
 								<li>
-									<a href="product2.html">Personal Care</a>
+									<a>聚美优品</a>
 								</li>
 								<li>
-									<a href="product.html">Dried Fruits & Nuts</a>
+									<a>天猫超市</a>
 								</li>
 							</ul>
 						</div>
@@ -598,25 +604,13 @@
 					<!-- quick links -->
 					<div class="col-sm-5 address-right">
 						<div class="col-xs-6 footer-grids">
-							<h3>Quick Links</h3>
+							<h3>源码导航</h3>
 							<ul>
 								<li>
-									<a href="about.html">About Us</a>
+									<a href="https://github.com/1219148123/rational">github</a>
 								</li>
 								<li>
-									<a href="contact.html">Contact Us</a>
-								</li>
-								<li>
-									<a href="help.html">Help</a>
-								</li>
-								<li>
-									<a href="faqs.html">Faqs</a>
-								</li>
-								<li>
-									<a href="terms.html">Terms of use</a>
-								</li>
-								<li>
-									<a href="privacy.html">Privacy Policy</a>
+									<a href="https://mp.csdn.net/console/article">csdn</a>
 								</li>
 							</ul>
 						</div>
@@ -721,7 +715,11 @@ export default {
 				storeCate: ''
 			},
 			address: {},
-			hisOrder: {}
+			hisOrder: {},
+			hzsType: 0,
+			total: 0,
+			pagesize: 5,
+			currentPage: 1
 		}
 	},
 	mounted: function() {
@@ -735,6 +733,17 @@ export default {
 		_this.getHisOrder()
 	},
 	methods: {
+		toOrderMng() {
+			this.$router.push({
+				path: '/orderMng',
+				query: { userId: this.User.userId }
+			})
+		},
+		toContact() {
+			this.$router.push({
+				path: '/contact'
+			})
+		},
 		//获取历史账单
 		getHisOrder() {
 			var _this = this
@@ -1335,6 +1344,9 @@ export default {
 				.catch(err => {
 					console.log(err.data)
 				})
+		},
+		handleCurrentChange: function(currentPage) {
+			this.currentPage = currentPage
 		}
 	}
 }

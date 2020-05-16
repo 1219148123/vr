@@ -388,14 +388,14 @@
 		<div class="ban-top">
 			<div class="container">
 				<div class="agileits-navi_search">
-					<form action="#" method="post">
-						<select id="agileinfo-nav_search" name="agileinfo_search" required>
-							<option value>所有类别</option>
-							<option value="Kitchen">服装</option>
-							<option value="Household">食品</option>
-							<option value="Snacks &amp; Beverages">器材</option>
-						</select>
-					</form>
+					<select class="form-control" v-model="hzsType" @change="getStoreGoodsList">
+						<option
+							selected
+							v-for="TypeList in TypeList"
+							:key="TypeList.cateId"
+							:value="TypeList.cateId"
+						>{{TypeList.cateName}}</option>
+					</select>
 				</div>
 				<div class="top_nav_left">
 					<nav class="navbar navbar-default">
@@ -413,7 +413,7 @@
 										<a class="nav-stylehead" @click="toAddressMng()">地址管理</a>
 									</li>
 									<li class>
-										<a class="nav-stylehead" href="about.html">信息管理</a>
+										<a class="nav-stylehead" @click="toUserDetail()">信息管理</a>
 									</li>
 									<li class>
 										<a class="nav-stylehead" @click="toPublish()">发表帖子</a>
@@ -422,7 +422,7 @@
 										<a class="nav-stylehead" @click="toDiscuss()">论坛</a>
 									</li>
 									<li class>
-										<a class="nav-stylehead" href="contact.html">联系我们</a>
+										<a class="nav-stylehead" @click="toContact()">联系我们</a>
 									</li>
 								</ul>
 							</div>
@@ -505,47 +505,48 @@
 					<!-- footer categories -->
 					<div class="col-sm-5 address-right">
 						<div class="col-xs-6 footer-grids">
-							<h3>店铺</h3>
+							<h3>著名品牌</h3>
 							<ul>
 								<li>
-									<a href="product.html">361</a>
+									<a>361</a>
 								</li>
 								<li>
-									<a href="product.html">安踏</a>
+									<a>安踏</a>
 								</li>
 								<li>
-									<a href="product.html">李宁</a>
+									<a>李宁</a>
 								</li>
 								<li>
-									<a href="product2.html">万斯</a>
+									<a>万斯</a>
 								</li>
 								<li>
-									<a href="product.html">匡威</a>
+									<a>匡威</a>
 								</li>
 								<li>
-									<a href="product2.html">天猫超市</a>
+									<a>天猫超市</a>
 								</li>
 							</ul>
 						</div>
-						<div class="col-xs-6 footer-grids agile-secomk">
+						<div class="col-xs-6 footer-grids">
+							<h3>理性消费</h3>
 							<ul>
 								<li>
-									<a href="product.html">Snacks & Beverages</a>
+									<a>淘宝</a>
 								</li>
 								<li>
-									<a href="product.html">Bread & Bakery</a>
+									<a>京东</a>
 								</li>
 								<li>
-									<a href="product.html">Sweets</a>
+									<a>拍拍</a>
 								</li>
 								<li>
-									<a href="product.html">Chocolates & Biscuits</a>
+									<a>拼多多</a>
 								</li>
 								<li>
-									<a href="product2.html">Personal Care</a>
+									<a>聚美优品</a>
 								</li>
 								<li>
-									<a href="product.html">Dried Fruits & Nuts</a>
+									<a>天猫超市</a>
 								</li>
 							</ul>
 						</div>
@@ -555,25 +556,13 @@
 					<!-- quick links -->
 					<div class="col-sm-5 address-right">
 						<div class="col-xs-6 footer-grids">
-							<h3>Quick Links</h3>
+							<h3>源码导航</h3>
 							<ul>
 								<li>
-									<a href="about.html">About Us</a>
+									<a href="https://github.com/1219148123/rational">github</a>
 								</li>
 								<li>
-									<a href="contact.html">Contact Us</a>
-								</li>
-								<li>
-									<a href="help.html">Help</a>
-								</li>
-								<li>
-									<a href="faqs.html">Faqs</a>
-								</li>
-								<li>
-									<a href="terms.html">Terms of use</a>
-								</li>
-								<li>
-									<a href="privacy.html">Privacy Policy</a>
+									<a href="https://mp.csdn.net/console/article">csdn</a>
 								</li>
 							</ul>
 						</div>
@@ -691,6 +680,11 @@ export default {
 		_this.getAddress()
 	},
 	methods: {
+		toContact() {
+			this.$router.push({
+				path: '/contact'
+			})
+		},
 		//去商品详情
 		toGoodDetail(id) {
 			this.$router.push({

@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<el-table :data="GoodsList" style="width: 100%;margin: 10px" v-if="GoodsList.length > 0">
+		<el-table :data="GoodsList.slice((currentPage-1)*pagesize,currentPage*pagesize)" style="width: 100%;margin: 10px" v-if="GoodsList.length > 0">
 			<el-table-column prop="goodId" label="商品编号" width="80"></el-table-column>
 			<el-table-column prop="storeId" label="所属店铺编号" width="80"></el-table-column>
 			<el-table-column prop="goodName" label="商品名称" width="120"></el-table-column>
@@ -46,6 +46,12 @@
 				</template>
 			</el-table-column>
 		</el-table>
+		<el-pagination
+			@current-change="handleCurrentChange"
+			:current-page="currentPage"
+			:page-size="pagesize"
+			:total="GoodsList.length"
+		></el-pagination>
 	</div>
 </template>
 
@@ -54,7 +60,10 @@ export default {
 	name: 'DiscussMng',
 	data() {
 		return {
-			GoodsList: {}
+			GoodsList: {},
+			total: 0,
+			pagesize: 5,
+			currentPage: 1
 		}
 	},
 	mounted: function() {
@@ -62,6 +71,11 @@ export default {
 		_this.getGoodsList()
 	},
 	methods: {
+		toContact() {
+			this.$router.push({
+				path: '/contact'
+			})
+		},
 		getGoodsList() {
 			var _this = this
 			_this.$axios
@@ -101,6 +115,9 @@ export default {
 		},
 		editDiscuss(row) {
 			console.log(row)
+		},
+		handleCurrentChange: function(currentPage) {
+			this.currentPage = currentPage
 		}
 	}
 }

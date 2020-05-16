@@ -344,7 +344,7 @@
 									</table>
 								</div>
 							</div>
-							<input type="submit" value="下单" @click="toCheckout()" data-dismiss="modal" />
+							<input type="submit" value="提交" @click="openStore()" data-dismiss="modal" />
 						</div>
 					</div>
 				</div>
@@ -366,7 +366,7 @@
 							<span class="fa fa-envelope-o" aria-hidden="true"></span>
 						</div>
 						<div class="modal_body_left modal_body_left1">
-							<h3 class="agileinfo_sign">修改商品</h3>
+							<h3 class="agileinfo_sign">新增商品</h3>
 							<p>输入店铺信息</p>
 							<div class="styled-input agile-styled-input-top">
 								<input type="text" placeholder="商品名" v-model="Good.goodName" required />
@@ -408,7 +408,7 @@
 								<input type="file" placeholder="上传图片3" id="file" v-on:change="uploadGoodFile" />
 							</div>
 							<br />
-							<input type="submit" value="提交" @click="updateGood()" data-dismiss="modal" />
+							<input type="submit" value="提交" @click="addGoods()" data-dismiss="modal" />
 						</div>
 					</div>
 				</div>
@@ -466,111 +466,60 @@
 		</div>
 		<!-- //navigation -->
 
-		<!-- special offers -->
-		<div class="featured-section" id="projects">
-			<div class="container">
-				<!-- tittle heading -->
-				<h3 class="tittle-w3l">
-					在线商品
-					<span class="heading-style">
-						<i></i>
-						<i></i>
-						<i></i>
-					</span>
-				</h3>
-				<!-- //tittle heading -->
-				<div class="content-bottom-in">
-					<ul id="flexiselDemo1">
-						<li v-for="item in StoreGood" :key="item.goodId">
-							<div class="w3l-specilamk">
-								<div class="speioffer-agile">
-									<a @click="toGoodDetail(item.goodId)">
-										<img :src="item.imgAddr.split(',')[0]" style="width:100px;height:100px;" />
-									</a>
-								</div>
-								<div class="product-name-w3l">
-									<h4>
-										<a @click="toGoodDetail(item.goodId)">{{item.goodName}}</a>
-									</h4>
-									<div class="w3l-pricehkj">
-										<h6>${{item.price}}</h6>
-										<a
-											href="#"
-											class="btn btn-primary"
-											role="button"
-											data-toggle="modal"
-											data-target="#myModal6"
-											@click="updateGoodData(item)"
-										>修改</a>
-									</div>
-									<el-button
-										size="mini"
-										type="danger"
-										@click="handleDelete(item.goodId)"
-									>下架</el-button>
-									<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out"></div>
-								</div>
-							</div>
+		<!-- page -->
+		<div class="services-breadcrumb">
+			<div class="agile_inner_breadcrumb">
+				<div class="container">
+					<ul class="w3_short">
+						<li>
+							<a @click="toIndex()">首页</a>
+							<i>|</i>
 						</li>
+						<li>修改帖子:</li>
 					</ul>
 				</div>
 			</div>
 		</div>
-		<!-- //special offers -->
 
-		<el-divider></el-divider>
+		<!-- 修改帖子-->
 
-		<!-- 已经下架的商品 -->
-		<div class="featured-section" id="projects">
-			<div class="container">
-				<!-- tittle heading -->
-				<h3 class="tittle-w3l">
-					下架的商品
-					<span class="heading-style">
-						<i></i>
-						<i></i>
-						<i></i>
-					</span>
-				</h3>
-				<!-- //tittle heading -->
-				<div class="content-bottom-in">
-					<ul id="flexiselDemo1">
-						<li v-for="item in InvalidStoreGood" :key="item.goodId">
-							<div class="w3l-specilamk">
-								<div class="speioffer-agile">
-									<a @click="toGoodDetail(item.goodId)">
-										<img :src="item.imgAddr.split(',')[0]" style="width:100px;height:100px;" />
-									</a>
-								</div>
-								<div class="product-name-w3l">
-									<h4>
-										<a @click="toGoodDetail(item.goodId)">{{item.goodName}}</a>
-									</h4>
-									<div class="w3l-pricehkj">
-										<h6>${{item.price}}</h6>
-										<a
-											href="#"
-											class="btn btn-primary"
-											role="button"
-											data-toggle="modal"
-											data-target="#myModal6"
-											@click="updateGoodData(item)"
-										>修改</a>
-									</div>
-									<el-button
-										size="mini"
-										type="success"
-										@click="handleActive(item.goodId)"
-									>激活</el-button>
-									<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out"></div>
-								</div>
-							</div>
-						</li>
-					</ul>
+		<div class="container-fluid main">
+			<div class="row">
+				<div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 problem">
+					<h2>
+						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发帖
+					</h2>
+					<hr />
+					<div class="form-group">
+						<label for="title">帖子标题（简单扼要）:</label>
+						<input type="text" class="form-control" v-model="Publish.title" placeholder="帖子标题..." />
+					</div>
+					<div class="form-group">
+						<label for="description">帖子内容 (必填，请参照右侧提示):</label>
+						<textarea class="form-control" v-model="Publish.description" cols="30" rows="10"></textarea>
+					</div>
+					<div class="form-group">
+						<label for="tag">添加标签 :</label>
+						<input type="text" class="form-control" v-model="Publish.tag" placeholder="输入标签,以逗号,分隔..." />
+					</div>
+					<button type="submit" class="btn btn-success btn-publish" @click="updateDiscuss()">修改</button>
+				</div>
+				<div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+					<h3>帖子发表指南</h3>
+					<p>
+						• 帖子标题: 请用
+						<b style="color:red">精简</b> 的语言描述您发布的帖子，不超过25字
+					</p>
+					<p>• 帖子内容: 详细补充您的帖子内容，并确保帖子描述清晰直观, 并提供一些相关的资料：</p>
+					<p>
+						• 选择标签: 选择一个或者多个合适的标签，用逗号
+						<b style="color:red">','</b>隔开,每个标签不超过
+						<b style="color:red">10</b>个字
+					</p>
 				</div>
 			</div>
 		</div>
-		<!-- //special offers -->
+		<!-- //发表帖子 -->
 
 		<!-- footer -->
 		<footer>
@@ -744,8 +693,6 @@ export default {
 	data() {
 		return {
 			TypeList: [],
-			imgAddr:
-				'https://hzsfile.oss-cn-beijing.aliyuncs.com/images/2020/04/09/15864355211077425.jpg',
 			User: {},
 			Update: {
 				sex: '',
@@ -755,10 +702,14 @@ export default {
 				userPhone: '',
 				userPlanSpent: 0
 			},
+			OrderInpayList: {},
 			layer: {},
 			isAllChecked: 0,
 			totalPrice: 0,
+			selectedTotalPrice: 0, //下单时候的总价
+			address: {},
 			Cart: {},
+			Checkout: {},
 			Login: {
 				userAccount: '',
 				userPassword: ''
@@ -776,9 +727,17 @@ export default {
 				storeDesc: '',
 				storeCate: ''
 			},
-			StoreGood: {},
-			InvalidStoreGood: {},
-			hzsType: 0,
+			Store: {
+				storeId: '',
+				ownerId: '',
+				createTime: '',
+				stateCode: '',
+				storeCate: '',
+				storeName: '',
+				storePhoto: '',
+				storeDesc: ''
+			},
+			storeId: '',
 			Good: {
 				goodId: '',
 				storeId: '',
@@ -788,6 +747,13 @@ export default {
 				category: '',
 				description: '',
 				priority: ''
+			},
+			Publish: {
+				id: '',
+				author: '',
+				title: '',
+				tag: '',
+				description: ''
 			}
 		}
 	},
@@ -796,11 +762,9 @@ export default {
 		layui.use('layer', function() {
 			_this.layer = layui.layer
 		})
-		//钩子函数页面加载后获取用户 分类 店铺商品信息
 		_this.getUser()
 		_this.getCate()
-		_this.getStoreGood()
-		_this.getInvalidStoreGood()
+		_this.getDiscussDetail()
 	},
 	methods: {
 		toContact() {
@@ -808,109 +772,44 @@ export default {
 				path: '/contact'
 			})
 		},
-		handleActive(id){
-			var _this = this
-			let formData = new FormData()
-			formData.append('goodId', id)
-			_this
-				.$axios({
-					url: '/api/good/active', //****: 你的ip地址
-					data: formData,
-					method: 'post',
-					headers: {
-						'Content-Type': 'multipart/form-data'
-					}
-				})
-				.then(res => {
-					this.$message({
-						type: 'success',
-						message: '商品已经激活!'
-					})
-					_this.getStoreGood()
-					_this.getInvalidStoreGood()
-				}) // 发送请求
-		},
-		handleDelete(id) {
-			var _this = this
-			let formData = new FormData()
-			formData.append('goodId', id)
-			_this
-				.$axios({
-					url: '/api/admin/deleteGood', //****: 你的ip地址
-					data: formData,
-					method: 'delete',
-					headers: {
-						'Content-Type': 'multipart/form-data'
-					}
-				})
-				.then(res => {
-					this.$message({
-						type: 'success',
-						message: '商品已经下架!'
-					})
-					_this.getStoreGood()
-					_this.getInvalidStoreGood()
-				}) // 发送请求
-		},
-		//查询该店铺的商品
-		getInvalidStoreGood() {
-			var _this = this
-			_this.$axios
-				.get(
-					'/api/good/getInvalidList?storeId=' +
-						this.$route.query.storeId,
-					{
-						emulateJSON: true,
-						withCredentials: true
-					}
-				)
-				.then(res => {
-					console.log(res)
-					_this.InvalidStoreGood = res.data
-				})
-				.catch(err => {
-					console.log(err.data)
-				})
-		},
-		updateGood() {
+		//updateDiscuss
+		updateDiscuss() {
 			var _this = this
 			var loading = _this.layer.load(0, {
 				shade: false,
 				time: 30 * 1000
 			})
 			_this.$axios
-				.post('/api/good/update', _this.Good, {
+				.post('/api/discuss/update', _this.Publish, {
 					emulateJSON: true,
 					withCredentials: true
 				})
 				.then(res => {
 					_this.layer.close(loading)
-					_this.getStoreGood()
-					console.log(res)
+					_this.layer.msg('修改成功')
+					this.$router.push({
+						path: '/discussDetail',
+						query: { id: _this.Publish.id }
+					})
 				})
 				.catch(err => {
 					console.log(err.data)
 				})
 		},
-		updateGoodData(item) {
+		//获取帖子内容
+		getDiscussDetail() {
 			var _this = this
-			_this.Good = {
-				goodId: item.goodId,
-				storeId: item.storeId,
-				goodName: item.goodName,
-				price: item.price,
-				num: item.num,
-				category: item.category,
-				description: item.description,
-				priority: item.priority
-			}
-		},
-		//去商品详情
-		toGoodDetail(id) {
-			this.$router.push({
-				path: '/goodDetail',
-				query: { goodId: id }
-			})
+			_this.$axios
+				.get('/api/discuss/select?id=' + this.$route.query.id, {
+					emulateJSON: true,
+					withCredentials: true
+				})
+				.then(res => {
+					_this.Publish = res.data
+				})
+				.catch(err => {
+					console.log(err.data)
+				})
 		},
 		//去用户详情页面
 		toUserDetail() {
@@ -965,23 +864,78 @@ export default {
 				query: { userId: this.User.id }
 			})
 		},
-		//查询该店铺的商品
-		getStoreGood() {
+		publish() {
 			var _this = this
+			_this.Publish.author = _this.User.id
+			console.log(_this.Publish)
+			var loading = _this.layer.load(0, {
+				shade: false,
+				time: 30 * 1000
+			})
 			_this.$axios
-				.get('/api/good/getList?storeId=' + this.$route.query.storeId, {
+				.post('/api/discuss/insert', _this.Publish, {
 					emulateJSON: true,
 					withCredentials: true
 				})
 				.then(res => {
-					console.log(res)
-					_this.StoreGood = res.data
+					_this.layer.close(loading)
+					_this.Publish = {}
+					_this.layer.msg('帖子发表成功')
 				})
 				.catch(err => {
 					console.log(err.data)
 				})
 		},
-		//数据格式化只显示小数点后两位
+		setStoreId(id) {
+			var _this = this
+			_this.storeId = id
+		},
+		addGoods() {
+			var _this = this
+			_this.Good.storeId = _this.storeId
+			console.log(_this.Good)
+			var loading = _this.layer.load(0, {
+				shade: false,
+				time: 30 * 1000
+			})
+			_this.$axios
+				.post('/api/good/add', _this.Good, {
+					emulateJSON: true,
+					withCredentials: true
+				})
+				.then(res => {
+					_this.layer.close(loading)
+					console.log(res)
+				})
+				.catch(err => {
+					console.log(err.data)
+				})
+		},
+		uploadGoodFile: function() {
+			var _this = this
+			let files = event.target.files
+			let formData = new FormData()
+			formData.append('file', files[0])
+			//'userfile'是formData这个对象的键名
+			var loading = _this.layer.load(0, {
+				shade: false,
+				time: 30 * 1000
+			})
+			_this
+				.$axios({
+					url: '/api/good/test', //****: 你的ip地址
+					data: formData,
+					method: 'post',
+					headers: {
+						'Content-Type': 'multipart/form-data'
+					}
+				})
+				.then(res => {
+					console.log(res.data)
+					_this.layer.close(loading)
+					_this.layer.msg('图片上传成功')
+				}) // 发送请求
+		},
 		numFilter(value) {
 			let realVal = ''
 			if (!isNaN(value) && value !== '') {
@@ -992,7 +946,41 @@ export default {
 			}
 			return realVal
 		},
-		//登录接口
+		pay(orderId, orderSpent) {
+			var _this = this
+			if (
+				_this.User.userCurrentSpent + orderSpent >
+				_this.User.userPlanSpent
+			) {
+				_this.layer.msg('本月消费额度已经到了,建议克制消费')
+			}
+
+			let formData = new FormData()
+			formData.append('orderId', orderId)
+			formData.append('userId', _this.User.id)
+			formData.append('spent', _this.User.userCurrentSpent + orderSpent)
+			var loading = _this.layer.load(0, {
+				shade: false,
+				time: 30 * 1000
+			})
+			_this
+				.$axios({
+					url: '/api/order/updatePayStatus', //****: 你的ip地址
+					data: formData,
+					method: 'post',
+					headers: {
+						'Content-Type': 'multipart/form-data'
+					}
+				})
+				.then(res => {
+					_this.layer.close(loading)
+					_this.layer.msg('付款成功')
+					_this.getUser()
+					_this.getCart()
+					_this.getInpay()
+					_this.getSelectedGoods()
+				}) // 发送请求
+		},
 		login() {
 			// this.User = this.$qs.stringify(this.User);
 			// console.log(this.User);
@@ -1023,7 +1011,6 @@ export default {
 					console.log(err.data)
 				})
 		},
-		//获取用户
 		getUser() {
 			var _this = this
 			_this.$axios
@@ -1038,7 +1025,6 @@ export default {
 					console.log(err.data)
 				})
 		},
-		//获取分类
 		getCate() {
 			var _this = this
 			_this.$axios
@@ -1053,7 +1039,48 @@ export default {
 					console.log(err.data)
 				})
 		},
-		//获取店铺商品列表
+		insertOrder() {
+			var _this = this
+			var loading = _this.layer.load(0, {
+				shade: false,
+				time: 30 * 1000
+			})
+			var OrderDTO = {
+				addressId: _this.address.id,
+				userId: _this.User.id
+			}
+			_this
+				.$axios({
+					url: '/api/order/insert', //****: 你的ip地址
+					data: OrderDTO,
+					method: 'post'
+				})
+				.then(res => {
+					_this.layer.close(loading)
+					_this.layer.msg('订单生成,请付款')
+					_this.getCart()
+					_this.getSelectedGoods()
+				}) // 发送请求
+		},
+		getAddress() {
+			var _this = this
+			_this.$axios
+				.get(
+					'/api/address/addressMng?userId=' +
+						this.$route.query.userId,
+					{
+						emulateJSON: true,
+						withCredentials: true
+					}
+				)
+				.then(res => {
+					console.log(res)
+					_this.address = res.data
+				})
+				.catch(err => {
+					console.log(err.data)
+				})
+		},
 		getStoreGoodsList() {
 			var _this = this
 			_this.$axios
@@ -1063,12 +1090,12 @@ export default {
 				})
 				.then(res => {
 					_this.StoreGoodsList = res.data
+					console.log(_this.StoreGoodsList)
 				})
 				.catch(err => {
 					console.log(err.data)
 				})
 		},
-		//购物车列表获取
 		getCart() {
 			// this.User = this.$qs.stringify(this.User);
 			var _this = this
@@ -1105,7 +1132,55 @@ export default {
 					console.log(err.data)
 				})
 		},
-		//加入购物车
+		getSelectedGoods() {
+			// this.User = this.$qs.stringify(this.User);
+			var _this = this
+			if (_this.User == '') {
+				_this.layer.msg('请先登录')
+				return
+			}
+			_this.$axios
+				.get(
+					'/api/cart/getAllCheckedCartGood?userId=' +
+						this.$route.query.userId,
+					{
+						emulateJSON: true,
+						withCredentials: true
+					}
+				)
+				.then(res => {
+					var allPrice = 0
+					for (let index = 0; index < res.data.length; index++) {
+						allPrice +=
+							res.data[index].quantity *
+							res.data[index].goodsVO.price
+					}
+					_this.selectedTotalPrice = allPrice
+					_this.Checkout = res.data
+				})
+				.catch(err => {
+					console.log(err.data)
+				})
+		},
+		getInpay() {
+			// this.User = this.$qs.stringify(this.User);
+			var _this = this
+			if (_this.User == '') {
+				_this.layer.msg('请先登录')
+				return
+			}
+			_this.$axios
+				.get('/api/order/getInpay?userId=' + this.$route.query.userId, {
+					emulateJSON: true,
+					withCredentials: true
+				})
+				.then(res => {
+					_this.OrderInpayList = res.data
+				})
+				.catch(err => {
+					console.log(err.data)
+				})
+		},
 		addCart(goodId) {
 			var _this = this
 			var loading = _this.layer.load(0, {
@@ -1123,9 +1198,6 @@ export default {
 					url: '/api/cart/insert', //****: 你的ip地址
 					data: addCart,
 					method: 'post'
-					// headers: {
-					// 	'Content-Type': 'multipart/form-data'
-					// }
 				})
 				.then(res => {
 					_this.layer.close(loading)
@@ -1133,7 +1205,6 @@ export default {
 					_this.getCart()
 				}) // 发送请求
 		},
-		//购物车商品全选
 		checkAll() {
 			var _this = this
 			let formData = new FormData()
@@ -1156,6 +1227,7 @@ export default {
 						_this.layer.close(loading)
 						_this.layer.msg('全选')
 						_this.getCart()
+						_this.getSelectedGoods()
 					}) // 发送请求
 			} else {
 				_this
@@ -1171,10 +1243,10 @@ export default {
 						_this.layer.close(loading)
 						_this.layer.msg('全不选')
 						_this.getCart()
+						_this.getSelectedGoods()
 					}) // 发送请求
 			}
 		},
-		//购物车商品选中一个
 		checkOne(cartId, isChecked) {
 			var _this = this
 			let formData = new FormData()
@@ -1198,6 +1270,7 @@ export default {
 						_this.layer.close(loading)
 						_this.layer.msg('成功选择')
 						_this.getCart()
+						_this.getSelectedGoods()
 					}) // 发送请求
 			} else {
 				_this
@@ -1213,10 +1286,10 @@ export default {
 						_this.layer.close(loading)
 						_this.layer.msg('取消选择')
 						_this.getCart()
+						_this.getSelectedGoods()
 					}) // 发送请求
 			}
 		},
-		//购物车数量-1
 		handleReduce(id, num) {
 			var _this = this
 			var loading = _this.layer.load(0, {
@@ -1225,6 +1298,7 @@ export default {
 			})
 			if (num == 1) {
 				_this.layer.msg('已经为1了减什么减?')
+				_this.layer.close(loading)
 			} else {
 				let formData = new FormData()
 				formData.append('id', id)
@@ -1242,10 +1316,10 @@ export default {
 						_this.layer.close(loading)
 						_this.layer.msg('数量减一')
 						_this.getCart()
+						_this.getSelectedGoods()
 					}) // 发送请求
 			}
 		},
-		//购物车数量+1
 		handleAdd(id, num) {
 			var _this = this
 			var loading = _this.layer.load(0, {
@@ -1268,9 +1342,9 @@ export default {
 					_this.layer.close(loading)
 					_this.layer.msg('数量加一')
 					_this.getCart()
+					_this.getSelectedGoods()
 				}) // 发送请求
 		},
-		//购物车商品删除
 		handleRemove(id) {
 			var _this = this
 			var loading = _this.layer.load(0, {
@@ -1292,9 +1366,10 @@ export default {
 					_this.layer.close(loading)
 					_this.layer.msg('移除成功')
 					_this.getCart()
+					_this.getSelectedGoods()
 				}) // 发送请求
 		},
-		//用户注册接口
+
 		register() {
 			var _this = this
 			var loading = _this.layer.load(0, {
@@ -1325,7 +1400,6 @@ export default {
 					})
 			}
 		},
-		//开店接口
 		openStore() {
 			var _this = this
 			_this.OpenStore.ownerId = _this.User.id
@@ -1399,30 +1473,30 @@ export default {
 					console.log(err.data)
 				})
 		},
-		uploadGoodFile: function() {
+		storeList() {
 			var _this = this
-			let files = event.target.files
 			let formData = new FormData()
-			formData.append('file', files[0])
-			//'userfile'是formData这个对象的键名
 			var loading = _this.layer.load(0, {
 				shade: false,
 				time: 30 * 1000
 			})
-			_this
-				.$axios({
-					url: '/api/good/test', //****: 你的ip地址
-					data: formData,
-					method: 'post',
-					headers: {
-						'Content-Type': 'multipart/form-data'
+			_this.$axios
+				.get(
+					'/api/sto/getStoreList?userId=' + this.$route.query.userId,
+					{
+						emulateJSON: true,
+						withCredentials: true
 					}
-				})
+				)
 				.then(res => {
-					console.log(res.data)
 					_this.layer.close(loading)
-					_this.layer.msg('图片上传成功')
-				}) // 发送请求
+					_this.Store = res.data
+					console.log(_this.Store)
+				})
+				.catch(err => {
+					_this.layer.close(loading)
+					console.log(err.data)
+				})
 		}
 	}
 }

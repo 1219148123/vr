@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<el-table :data="CommentList" style="width: 100%;margin: 10px" v-if="CommentList.length > 0">
+		<el-table :data="CommentList.slice((currentPage-1)*pagesize,currentPage*pagesize)" style="width: 100%;margin: 10px" v-if="CommentList.length > 0">
 			<el-table-column prop="id" label="编号" width="160"></el-table-column>
 			<el-table-column prop="parentId" label="父类编号" width="120"></el-table-column>
 			<el-table-column prop="content" label="内容" width="180"></el-table-column>
@@ -18,6 +18,12 @@
 				</template>
 			</el-table-column>
 		</el-table>
+		<el-pagination
+			@current-change="handleCurrentChange"
+			:current-page="currentPage"
+			:page-size="pagesize"
+			:total="CommentList.length"
+		></el-pagination>
 	</div>
 </template>
 
@@ -26,7 +32,10 @@ export default {
 	name: 'CommentMng',
 	data() {
 		return {
-			CommentList: {}
+			CommentList: {},
+			total: 0,
+			pagesize: 5,
+			currentPage: 1
 		}
 	},
 	mounted: function() {
@@ -42,7 +51,6 @@ export default {
 					withCredentials: true
 				})
 				.then(res => {
-					console.log(res)
 					_this.CommentList = res.data
 				})
 				.catch(err => {
@@ -72,7 +80,9 @@ export default {
 				}) // 发送请求
 		},
 		editDiscuss(row) {
-			console.log(row)
+		},
+		handleCurrentChange: function(currentPage) {
+			this.currentPage = currentPage
 		}
 	}
 }
