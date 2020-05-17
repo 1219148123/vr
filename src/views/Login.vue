@@ -65,7 +65,7 @@ export default {
 							type: 'success'
 						})
 						this.$router.push({
-							path: '/admin',
+							path: '/admin/storeMng',
 							query: { admin: _this.Login.adminAccount }
 						})
 					} else if (res.data == 0) {

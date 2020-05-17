@@ -438,7 +438,7 @@
 				<div class="container">
 					<ul class="w3_short">
 						<li>
-							<a href="index.html">首页</a>
+							<a @click="toIndex()">首页</a>
 							<i>|</i>
 						</li>
 						<li>商品详情</li>
@@ -466,7 +466,7 @@
 							<ul class="slides">
 								<!-- <img src="../images/si.jpg" alt /> -->
 
-								<div class="demo-image__lazy">
+								<div class="demo-image__lazy" style="width:140px;height:140px;">
 									<el-image v-for="url in GoodsDetail.imgAddr.split(',')" :key="url" :src="url" lazy></el-image>
 								</div>
 							</ul>
@@ -727,7 +727,8 @@ export default {
 				storeDesc: '',
 				storeCate: ''
 			},
-			GoodsDetail: {}
+			GoodsDetail: {},
+			hzsType:0
 		}
 	},
 	mounted: function() {
@@ -736,7 +737,6 @@ export default {
 			_this.layer = layui.layer
 		})
 		//钩子函数页面加载后获取用户 分类 店铺商品信息
-		_this.getStoreGoodsList()
 		_this.getUser()
 		_this.getCate()
 		_this.getGoodDetail()

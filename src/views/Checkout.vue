@@ -706,7 +706,8 @@ export default {
 				storeName: '',
 				storeDesc: '',
 				storeCate: ''
-			}
+			},
+			hzsType:0
 		}
 	},
 	mounted: function() {

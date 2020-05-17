@@ -839,9 +839,12 @@ export default {
 					withCredentials: true
 				})
 				.then(res => {
-                    _this.layer.close(loading)
-                    _this.Publish = {}
-                    _this.layer.msg('帖子发表成功');
+					_this.layer.close(loading)
+					_this.Publish = {}
+					_this.layer.msg('帖子发表成功')
+					this.$router.push({
+						path: '/discuss'
+					})
 				})
 				.catch(err => {
 					console.log(err.data)
@@ -1069,14 +1072,10 @@ export default {
 				time: 30 * 1000
 			})
 			_this.$axios
-				.get(
-					'/api/cart/getAllCartGood?userId=' +
-						_this.User.id,
-					{
-						emulateJSON: true,
-						withCredentials: true
-					}
-				)
+				.get('/api/cart/getAllCartGood?userId=' + _this.User.id, {
+					emulateJSON: true,
+					withCredentials: true
+				})
 				.then(res => {
 					_this.layer.close(loading)
 					var sum = 0
@@ -1135,14 +1134,10 @@ export default {
 				return
 			}
 			_this.$axios
-				.get(
-					'/api/order/getInpay?userId=' +
-						this.$route.query.userId,
-					{
-						emulateJSON: true,
-						withCredentials: true
-					}
-				)
+				.get('/api/order/getInpay?userId=' + this.$route.query.userId, {
+					emulateJSON: true,
+					withCredentials: true
+				})
 				.then(res => {
 					_this.OrderInpayList = res.data
 				})
@@ -1352,14 +1347,10 @@ export default {
 					(_this.Register.userRePassword = '')
 			} else {
 				_this.$axios
-					.post(
-						'/api/user/userSignUp',
-						_this.Register,
-						{
-							emulateJSON: true,
-							withCredentials: true
-						}
-					)
+					.post('/api/user/userSignUp', _this.Register, {
+						emulateJSON: true,
+						withCredentials: true
+					})
 					.then(res => {
 						console.log(res)
 						if (res.data == 1) {
@@ -1430,14 +1421,10 @@ export default {
 				time: 30 * 1000
 			})
 			_this.$axios
-				.post(
-					'/api/user/updateUser',
-					_this.Update,
-					{
-						emulateJSON: true,
-						withCredentials: true
-					}
-				)
+				.post('/api/user/updateUser', _this.Update, {
+					emulateJSON: true,
+					withCredentials: true
+				})
 				.then(res => {
 					console.log(res)
 					if (res.statusText == 'OK') {
@@ -1459,8 +1446,7 @@ export default {
 			})
 			_this.$axios
 				.get(
-					'/api/sto/getStoreList?userId=' +
-						this.$route.query.userId,
+					'/api/sto/getStoreList?userId=' + this.$route.query.userId,
 					{
 						emulateJSON: true,
 						withCredentials: true

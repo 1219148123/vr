@@ -456,10 +456,10 @@
 					<el-input v-model="UserDetail.sex"></el-input>
 				</el-form-item>
 			</el-form>
-			<a  data-toggle="modal" data-target="#myModal3" ref="update">
+			<a data-toggle="modal" data-target="#myModal3" ref="update">
 				<span class="fa fa-grav" aria-hidden="true"></span> 点击完善信息
 			</a>
-			<a  data-toggle="modal" data-target="#myModal6" ref="update">
+			<a data-toggle="modal" data-target="#myModal6" ref="update">
 				<span class="fa fa-grav" aria-hidden="true"></span> 设置本月消费额度
 			</a>
 		</div>
@@ -669,7 +669,8 @@ export default {
 				storeCate: ''
 			},
 			UserDetail: {},
-			labelPosition: 'left'
+			labelPosition: 'left',
+			hzsType: 0
 		}
 	},
 	mounted: function() {
@@ -1189,6 +1190,47 @@ export default {
 		},
 		update() {
 			var _this = this
+			console.log(_this.Update)
+			var spent = function(str) {
+				var patrn = /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/
+				var bool = true
+				if (!patrn.exec(str)) {
+					bool = false
+				}
+				return bool
+			}
+			var email = function(str) {
+				var patrn = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/
+				var bool = true
+				if (!patrn.exec(str)) {
+					bool = false
+				}
+				return bool
+			}
+			
+			var phone = function(str) {
+				var patrn = /^1[3456789]\d{9}$/
+				var bool = true
+				if (!patrn.exec(str)) {
+					bool = false
+				}
+				return bool
+			}
+			if (!spent(_this.Update.userPlanSpent) ||_this.Update.userPlanSpent=='') {
+				layer.msg('金额格式错误请!')
+				_this.Update.userPlanSpent = 0
+				return
+			}
+			if (!email(_this.Update.userEmail)|| _this.Update.userEmail == '') {
+				layer.msg('邮箱格式错误请!')
+				_this.Update.userEmail = ''
+				return
+			}
+			if (!phone(_this.Update.userPhone)|| _this.Update.userPhone == '') {
+				layer.msg('电话格式错误请!')
+				_this.Update.userPhone = ''
+				return
+			}
 			_this.Update.userId = _this.User.userId
 			var loading = _this.layer.load(0, {
 				shade: false,
@@ -1213,6 +1255,19 @@ export default {
 		},
 		updateSpent() {
 			var _this = this
+			var spent = function(str) {
+				var patrn = /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/
+				var bool = true
+				if (!patrn.exec(str)) {
+					bool = false
+				}
+				return bool
+			}
+			if (!spent(_this.Update.userPlanSpent) ||_this.Update.userPlanSpent=='') {
+				layer.msg('金额格式错误请!')
+				_this.Update.userPlanSpent = 0
+				return
+			}
 			_this.Update.userId = _this.User.userId
 			var loading = _this.layer.load(0, {
 				shade: false,

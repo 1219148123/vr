@@ -580,7 +580,7 @@
 						<h3>{{index+1 + ":" + item.storeName}}</h3>
 						<p>{{item.storeDesc}}</p>
 						<p>
-							<a
+							<!-- <a
 								href="#"
 								class="btn btn-primary"
 								role="button"
@@ -589,7 +589,7 @@
 								@click="setStoreId(item.storeId)"
 							>新增商品</a>
 
-							<a class="btn btn-default" @click="toStoreGood(item.storeId)">详情查看</a>
+							<a class="btn btn-default" @click="toStoreGood(item.storeId)">详情查看</a> -->
 							<a
 								href="#"
 								class="btn btn-primary"
@@ -841,7 +841,8 @@ export default {
 				storeName: '',
 				storePhoto: '',
 				storeDesc: ''
-			}
+			},
+			hzsType:0
 		}
 	},
 	mounted: function() {
@@ -995,6 +996,7 @@ export default {
 				.then(res => {
 					_this.layer.close(loading)
 					console.log(res)
+					_this.Good= {}
 				})
 				.catch(err => {
 					console.log(err.data)

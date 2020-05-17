@@ -785,7 +785,8 @@ export default {
 				tag: '',
 				description: ''
 			},
-			Pagination: {}
+			Pagination: {},
+			hzsType:0
 		}
 	},
 	mounted: function() {

@@ -530,7 +530,7 @@
 				<!-- 左边栏目 -->
 				<div class="side-bar col-md-3">
 					<div class="search-hotel">
-						<h3 class="agileits-sear-head">广告位</h3>
+						<h3 class="agileits-sear-head">理性</h3>
 						<!-- <form action="#" method="post">
 							<input type="search" placeholder="Product name..." name="search" required />
 							<input type="submit" value=" " />
@@ -538,23 +538,23 @@
 					</div>
 					<!-- 广告位 -->
 					<div class="range">
-						<h3 class="agileits-sear-head">广告位</h3>
+						<h3 class="agileits-sear-head">消费</h3>
 					</div>
 					<!-- //广告位 -->
 					<!-- food preference -->
-					<div class="left-side">
+					<!-- <div class="left-side">
 						<h3 class="agileits-sear-head">广告位</h3>
-						<ul>
-							<!-- <li>
+					<ul>-->
+					<!-- <li>
 								<input type="checkbox" class="checked" />
 								<span class="span">Vegetarian</span>
 							</li>
 							<li>
 								<input type="checkbox" class="checked" />
 								<span class="span">Non-Vegetarian</span>
-							</li>-->
-						</ul>
-					</div>
+					</li>-->
+					<!-- </ul>
+					</div>-->
 					<!-- //food preference -->
 					<!-- discounts -->
 					<!-- <div class="left-side">
@@ -647,57 +647,17 @@
 
 					<!-- deals -->
 					<div class="deal-leftmk left-side">
-						<!-- <h3 class="agileits-sear-head">Special Deals</h3>
-						<div class="special-sec1">
+						<h3 class="agileits-sear-head">便宜商品</h3>
+						<div class="special-sec1" v-for="item in GoodsByPriceList" :key="item.goodId">
 							<div class="col-xs-4 img-deals">
-								<img src="../images/d2.jpg" alt />
+								<img :src="item.imgAddr.split(',')[0]" style="width:100px;height:100px;" />
 							</div>
 							<div class="col-xs-8 img-deal1">
-								<h3>Lay's Potato Chips</h3>
-								<a href="single.html">$18.00</a>
-							</div>
-							<div class="clearfix"></div>
-						</div>-->
-						<!-- <div class="special-sec1">
-							<div class="col-xs-4 img-deals">
-								<img src="../images/d1.jpg" alt />
-							</div>
-							<div class="col-xs-8 img-deal1">
-								<h3>Bingo Mad Angles</h3>
-								<a href="single.html">$9.00</a>
+								<h3>{{item.goodName}}</h3>
+								<a @click="toGoodDetail(item.goodId)">${{item.price}}</a>
 							</div>
 							<div class="clearfix"></div>
 						</div>
-						<div class="special-sec1">
-							<div class="col-xs-4 img-deals">
-								<img src="../images/d4.jpg" alt />
-							</div>
-							<div class="col-xs-8 img-deal1">
-								<h3>Tata Salt</h3>
-								<a href="single.html">$15.00</a>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-						<div class="special-sec1">
-							<div class="col-xs-4 img-deals">
-								<img src="../images/d5.jpg" alt />
-							</div>
-							<div class="col-xs-8 img-deal1">
-								<h3>Gujarat Dry Fruit</h3>
-								<a href="single.html">$525.00</a>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-						<div class="special-sec1">
-							<div class="col-xs-4 img-deals">
-								<img src="../images/d3.jpg" alt />
-							</div>
-							<div class="col-xs-8 img-deal1">
-								<h3>Cadbury Dairy Milk</h3>
-								<a href="single.html">$149.00</a>
-							</div>
-							<div class="clearfix"></div>
-						</div>-->
 					</div>
 					<!-- //deals -->
 				</div>
@@ -722,11 +682,10 @@
 									</div>
 									<div class="item-info-product">
 										<h4>
-											<a href="single.html">{{goods.goodName}}</a>
+											<a @click="toGoodDetail(goods.goodId)">{{goods.goodName}}</a>
 										</h4>
 										<div class="info-product-price">
 											<span class="item_price">${{goods.price}}</span>
-											<del>$280.00</del>
 										</div>
 										<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
 											<input
@@ -1019,44 +978,29 @@
 				<!-- //tittle heading -->
 				<div class="content-bottom-in">
 					<ul id="flexiselDemo1">
-						<li>
+						<li v-for="item in GoodsByProList" :key="item.goodId">
 							<div class="w3l-specilamk">
 								<div class="speioffer-agile">
-									<a href="single.html">
-										<img src="../images/s1.jpg" alt />
+									<a @click="toGoodDetail(item.goodId)">
+										<img :src="item.imgAddr.split(',')[0]" style="width:130px;height:130px;"  />
 									</a>
 								</div>
 								<div class="product-name-w3l">
 									<h4>
-										<a href="single.html">菠萝干, 5g</a>
+										<a @click="toGoodDetail(item.goodId)">{{item.goodName}}</a>
 									</h4>
 									<div class="w3l-pricehkj">
-										<h6>$220.00</h6>
-										<p>减 $40.00</p>
+										<h6>{{item.price}}</h6>
 									</div>
 									<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-										<input type="submit" name="submit" value="加入购物车" class="button" />
-									</div>
-								</div>
-							</div>
-						</li>
-						<li>
-							<div class="w3l-specilamk">
-								<div class="speioffer-agile">
-									<a href="single.html">
-										<img src="../images/s4.jpg" alt />
-									</a>
-								</div>
-								<div class="product-name-w3l">
-									<h4>
-										<a href="single.html">西红柿干, 950g</a>
-									</h4>
-									<div class="w3l-pricehkj">
-										<h6>$99.00</h6>
-										<p>减少 $20.00</p>
-									</div>
-									<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-										<input type="submit" name="submit" value="加入购物车" class="button" />
+										<input
+											type="submit"
+											data-toggle="modal"
+											data-target="#myModal5"
+											@click="addCart(item.goodId)"
+											value="加入购物车"
+											class="button"
+										/>
 									</div>
 								</div>
 							</div>
@@ -1264,6 +1208,8 @@ export default {
 				userRePassword: ''
 			},
 			StoreGoodsList: '',
+			GoodsByPriceList: '',
+			GoodsByProList: '',
 			OpenStore: {
 				ownerId: '',
 				storeId: '',
@@ -1281,6 +1227,8 @@ export default {
 		})
 		//钩子函数页面加载后获取用户 分类 店铺商品信息
 		_this.getStoreGoodsList()
+		_this.seleteGoodsByPrice()
+		_this.seleteGoodsByPro()
 		_this.getUser()
 		_this.getCate()
 	},
@@ -1440,6 +1388,37 @@ export default {
 				})
 				.then(res => {
 					_this.TypeList = res.data
+				})
+				.catch(err => {
+					console.log(err.data)
+				})
+		},
+		//根据权重获取商品
+		seleteGoodsByPro() {
+			var _this = this
+			_this.$axios
+				.get('/api/good/seleteGoodsByPro', {
+					emulateJSON: true,
+					withCredentials: true
+				})
+				.then(res => {
+					_this.GoodsByProList = res.data
+					console.log(_this.GoodsByProList)
+				})
+				.catch(err => {
+					console.log(err.data)
+				})
+		},
+		//获取降序商品
+		seleteGoodsByPrice() {
+			var _this = this
+			_this.$axios
+				.get('/api/good/seleteGoodsByPrice', {
+					emulateJSON: true,
+					withCredentials: true
+				})
+				.then(res => {
+					_this.GoodsByPriceList = res.data
 				})
 				.catch(err => {
 					console.log(err.data)
@@ -1749,9 +1728,11 @@ export default {
 				})
 				.then(res => {
 					_this.layer.close(loading)
+					_this.getUser()
 					console.log(res)
 				})
 				.catch(err => {
+					_this.layer.close(loading)
 					console.log(err.data)
 				})
 		},
@@ -1783,6 +1764,46 @@ export default {
 		},
 		update() {
 			var _this = this
+			var spent = function(str) {
+				var patrn = /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/
+				var bool = true
+				if (!patrn.exec(str)) {
+					bool = false
+				}
+				return bool
+			}
+			var email = function(str) {
+				var patrn = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/
+				var bool = true
+				if (!patrn.exec(str)) {
+					bool = false
+				}
+				return bool
+			}
+			
+			var phone = function(str) {
+				var patrn = /^1[3456789]\d{9}$/
+				var bool = true
+				if (!patrn.exec(str)) {
+					bool = false
+				}
+				return bool
+			}
+			if (!spent(_this.Update.userPlanSpent) ||_this.Update.userPlanSpent=='') {
+				layer.msg('金额格式错误请!')
+				_this.Update.userPlanSpent = 0
+				return
+			}
+			if (!email(_this.Update.userEmail)|| _this.Update.userEmail == '') {
+				layer.msg('邮箱格式错误请!')
+				_this.Update.userEmail = ''
+				return
+			}
+			if (!phone(_this.Update.userPhone)|| _this.Update.userPhone == '') {
+				layer.msg('电话格式错误请!')
+				_this.Update.userPhone = ''
+				return
+			}
 			_this.Update.userId = _this.User.userId
 			var loading = _this.layer.load(0, {
 				shade: false,
@@ -1807,6 +1828,19 @@ export default {
 		},
 		updateSpent() {
 			var _this = this
+			var spent = function(str) {
+				var patrn = /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/
+				var bool = true
+				if (!patrn.exec(str)) {
+					bool = false
+				}
+				return bool
+			}
+			if (!spent(_this.Update.userPlanSpent) ||_this.Update.userPlanSpent=='') {
+				layer.msg('金额格式错误请!')
+				_this.Update.userPlanSpent = 0
+				return
+			}
 			_this.Update.userId = _this.User.userId
 			var loading = _this.layer.load(0, {
 				shade: false,
